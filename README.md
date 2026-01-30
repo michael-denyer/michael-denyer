@@ -12,6 +12,11 @@ Building [pyLocusZoom](https://github.com/michael-denyer/pyLocusZoom) — a Pyth
 
 <div align="center">
 
+![Python](https://img.shields.io/badge/-Python-3776AB?style=flat&logo=python&logoColor=white)
+![R](https://img.shields.io/badge/-R-276DC3?style=flat&logo=r&logoColor=white)
+![SQL](https://img.shields.io/badge/-SQL-4479A1?style=flat&logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat&logo=docker&logoColor=white)
+
 ![GitHub followers](https://img.shields.io/github/followers/michael-denyer?style=flat&logo=github)
 ![GitHub stars](https://img.shields.io/github/stars/michael-denyer?style=flat&logo=github)
 
