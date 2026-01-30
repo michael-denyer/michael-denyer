@@ -10,13 +10,10 @@ Building [pyLocusZoom](https://github.com/michael-denyer/pyLocusZoom) — a Pyth
 
 
 
-## Stats
-
 <div align="center">
 
-[![GitHub Stats](https://github-readme-stats.vercel.app/api?username=michael-denyer&show_icons=true&theme=default&hide_border=true&count_private=true)](https://github.com/anuraghazra/github-readme-stats)
-
-[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=michael-denyer&layout=compact&theme=default&hide_border=true)](https://github.com/anuraghazra/github-readme-stats)
+![GitHub followers](https://img.shields.io/github/followers/michael-denyer?style=flat&logo=github)
+![GitHub stars](https://img.shields.io/github/stars/michael-denyer?style=flat&logo=github)
 
 </div>
 
