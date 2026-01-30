@@ -14,9 +14,9 @@ Building [pyLocusZoom](https://github.com/michael-denyer/pyLocusZoom) — a Pyth
 
 <div align="center">
 
-[![GitHub Stats](https://github-readme-stats.vercel.app/api?username=michael-denyer&show_icons=true&theme=transparent&hide_border=true&count_private=true)](https://github.com/anuraghazra/github-readme-stats)
+[![GitHub Stats](https://github-readme-stats.vercel.app/api?username=michael-denyer&show_icons=true&theme=default&hide_border=true&count_private=true)](https://github.com/anuraghazra/github-readme-stats)
 
-[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=michael-denyer&layout=compact&theme=transparent&hide_border=true)](https://github.com/anuraghazra/github-readme-stats)
+[![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=michael-denyer&layout=compact&theme=default&hide_border=true)](https://github.com/anuraghazra/github-readme-stats)
 
 </div>
 
