@@ -1,12 +1,12 @@
 # Hi, I'm Michael Denyer
 
-A software engineer passionate about data, genomics, and building useful tools.
+I build tools for genomics and data engineering.
 
 ## Current Focus
 
 <!-- Update this section when your focus changes -->
 
-Building [pyLocusZoom](https://github.com/michael-denyer/pyLocusZoom) — a Python library for creating GWAS plots. Replicates the R libraries [qqman](https://github.com/stephenturner/qqman) and [locuszoomr](https://github.com/myles-lewis/locuszoomr).
+Working on [pyLocusZoom](https://github.com/michael-denyer/pyLocusZoom) — publication-ready GWAS visualizations in Python. Think [qqman](https://github.com/stephenturner/qqman) and [locuszoomr](https://github.com/myles-lewis/locuszoomr), but Pythonic.
 
 <div align="center">
 <table>
