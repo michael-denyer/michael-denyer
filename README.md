@@ -1,5 +1,5 @@
 <div align="center">
-<img src="images/dna-banner.svg" width="100%" alt="">
+<img src="images/dna-banner.png" width="100%" alt="Hi, I'm Michael Denyer">
 </div>
 
 ## Current Focus
