@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 150">
+  <defs>
+    <linearGradient id="strand1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3776AB;stop-opacity:0.15"/>
+      <stop offset="50%" style="stop-color:#276DC3;stop-opacity:0.25"/>
+      <stop offset="100%" style="stop-color:#3776AB;stop-opacity:0.15"/>
+    </linearGradient>
+    <linearGradient id="strand2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#E25A1C;stop-opacity:0.12"/>
+      <stop offset="50%" style="stop-color:#FF3621;stop-opacity:0.2"/>
+      <stop offset="100%" style="stop-color:#E25A1C;stop-opacity:0.12"/>
+    </linearGradient>
+  </defs>
+
+  <!-- DNA Helix 1 -->
+  <g opacity="0.6">
+    <!-- Backbone strand 1 -->
+    <path d="M0,75 Q50,25 100,75 T200,75 T300,75 T400,75 T500,75 T600,75 T700,75 T800,75"
+          fill="none" stroke="url(#strand1)" stroke-width="3"/>
+    <!-- Backbone strand 2 -->
+    <path d="M0,75 Q50,125 100,75 T200,75 T300,75 T400,75 T500,75 T600,75 T700,75 T800,75"
+          fill="none" stroke="url(#strand1)" stroke-width="3"/>
+    <!-- Base pairs -->
+    <g stroke="#3776AB" stroke-width="1.5" opacity="0.3">
+      <line x1="25" y1="50" x2="25" y2="100"/>
+      <line x1="75" y1="50" x2="75" y2="100"/>
+      <line x1="125" y1="50" x2="125" y2="100"/>
+      <line x1="175" y1="50" x2="175" y2="100"/>
+      <line x1="225" y1="50" x2="225" y2="100"/>
+      <line x1="275" y1="50" x2="275" y2="100"/>
+      <line x1="325" y1="50" x2="325" y2="100"/>
+      <line x1="375" y1="50" x2="375" y2="100"/>
+      <line x1="425" y1="50" x2="425" y2="100"/>
+      <line x1="475" y1="50" x2="475" y2="100"/>
+      <line x1="525" y1="50" x2="525" y2="100"/>
+      <line x1="575" y1="50" x2="575" y2="100"/>
+      <line x1="625" y1="50" x2="625" y2="100"/>
+      <line x1="675" y1="50" x2="675" y2="100"/>
+      <line x1="725" y1="50" x2="725" y2="100"/>
+      <line x1="775" y1="50" x2="775" y2="100"/>
+    </g>
+  </g>
+
+  <!-- DNA Helix 2 (offset, different color) -->
+  <g opacity="0.4" transform="translate(0, 20)">
+    <path d="M-50,60 Q0,20 50,60 T150,60 T250,60 T350,60 T450,60 T550,60 T650,60 T750,60 T850,60"
+          fill="none" stroke="url(#strand2)" stroke-width="2.5"/>
+    <path d="M-50,60 Q0,100 50,60 T150,60 T250,60 T350,60 T450,60 T550,60 T650,60 T750,60 T850,60"
+          fill="none" stroke="url(#strand2)" stroke-width="2.5"/>
+  </g>
+
+  <!-- Subtle dots representing nucleotides -->
+  <g fill="#3776AB" opacity="0.2">
+    <circle cx="25" cy="50" r="3"/>
+    <circle cx="25" cy="100" r="3"/>
+    <circle cx="125" cy="50" r="3"/>
+    <circle cx="125" cy="100" r="3"/>
+    <circle cx="225" cy="50" r="3"/>
+    <circle cx="225" cy="100" r="3"/>
+    <circle cx="325" cy="50" r="3"/>
+    <circle cx="325" cy="100" r="3"/>
+    <circle cx="425" cy="50" r="3"/>
+    <circle cx="425" cy="100" r="3"/>
+    <circle cx="525" cy="50" r="3"/>
+    <circle cx="525" cy="100" r="3"/>
+    <circle cx="625" cy="50" r="3"/>
+    <circle cx="625" cy="100" r="3"/>
+    <circle cx="725" cy="50" r="3"/>
+    <circle cx="725" cy="100" r="3"/>
+  </g>
+
+  <g fill="#E25A1C" opacity="0.15">
+    <circle cx="75" cy="50" r="2.5"/>
+    <circle cx="75" cy="100" r="2.5"/>
+    <circle cx="175" cy="50" r="2.5"/>
+    <circle cx="175" cy="100" r="2.5"/>
+    <circle cx="275" cy="50" r="2.5"/>
+    <circle cx="275" cy="100" r="2.5"/>
+    <circle cx="375" cy="50" r="2.5"/>
+    <circle cx="375" cy="100" r="2.5"/>
+    <circle cx="475" cy="50" r="2.5"/>
+    <circle cx="475" cy="100" r="2.5"/>
+    <circle cx="575" cy="50" r="2.5"/>
+    <circle cx="575" cy="100" r="2.5"/>
+    <circle cx="675" cy="50" r="2.5"/>
+    <circle cx="675" cy="100" r="2.5"/>
+    <circle cx="775" cy="50" r="2.5"/>
+    <circle cx="775" cy="100" r="2.5"/>
+  </g>
+</svg>
