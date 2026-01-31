@@ -1,24 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 120">
   <defs>
     <linearGradient id="strand1" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#3776AB;stop-opacity:0.15"/>
-      <stop offset="50%" style="stop-color:#276DC3;stop-opacity:0.25"/>
-      <stop offset="100%" style="stop-color:#3776AB;stop-opacity:0.15"/>
+      <stop offset="0%" style="stop-color:#3776AB;stop-opacity:0.35"/>
+      <stop offset="50%" style="stop-color:#276DC3;stop-opacity:0.5"/>
+      <stop offset="100%" style="stop-color:#3776AB;stop-opacity:0.35"/>
     </linearGradient>
     <linearGradient id="strand2" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" style="stop-color:#E25A1C;stop-opacity:0.12"/>
-      <stop offset="50%" style="stop-color:#FF3621;stop-opacity:0.2"/>
-      <stop offset="100%" style="stop-color:#E25A1C;stop-opacity:0.12"/>
+      <stop offset="0%" style="stop-color:#E25A1C;stop-opacity:0.25"/>
+      <stop offset="50%" style="stop-color:#FF3621;stop-opacity:0.4"/>
+      <stop offset="100%" style="stop-color:#E25A1C;stop-opacity:0.25"/>
     </linearGradient>
   </defs>
 
   <!-- DNA Helix 1 -->
-  <g opacity="0.6">
+  <g opacity="0.8">
     <path d="M0,60 Q50,20 100,60 T200,60 T300,60 T400,60 T500,60 T600,60 T700,60 T800,60"
-          fill="none" stroke="url(#strand1)" stroke-width="3"/>
+          fill="none" stroke="url(#strand1)" stroke-width="4"/>
     <path d="M0,60 Q50,100 100,60 T200,60 T300,60 T400,60 T500,60 T600,60 T700,60 T800,60"
-          fill="none" stroke="url(#strand1)" stroke-width="3"/>
-    <g stroke="#3776AB" stroke-width="1.5" opacity="0.3">
+          fill="none" stroke="url(#strand1)" stroke-width="4"/>
+    <g stroke="#3776AB" stroke-width="2" opacity="0.5">
       <line x1="25" y1="40" x2="25" y2="80"/>
       <line x1="75" y1="40" x2="75" y2="80"/>
       <line x1="125" y1="40" x2="125" y2="80"/>
@@ -39,50 +39,50 @@
   </g>
 
   <!-- DNA Helix 2 (offset, different color) -->
-  <g opacity="0.4" transform="translate(0, 10)">
+  <g opacity="0.6" transform="translate(0, 10)">
     <path d="M-50,50 Q0,15 50,50 T150,50 T250,50 T350,50 T450,50 T550,50 T650,50 T750,50 T850,50"
-          fill="none" stroke="url(#strand2)" stroke-width="2.5"/>
+          fill="none" stroke="url(#strand2)" stroke-width="3.5"/>
     <path d="M-50,50 Q0,85 50,50 T150,50 T250,50 T350,50 T450,50 T550,50 T650,50 T750,50 T850,50"
-          fill="none" stroke="url(#strand2)" stroke-width="2.5"/>
+          fill="none" stroke="url(#strand2)" stroke-width="3.5"/>
   </g>
 
-  <!-- Subtle dots -->
-  <g fill="#3776AB" opacity="0.2">
-    <circle cx="25" cy="40" r="3"/>
-    <circle cx="25" cy="80" r="3"/>
-    <circle cx="125" cy="40" r="3"/>
-    <circle cx="125" cy="80" r="3"/>
-    <circle cx="225" cy="40" r="3"/>
-    <circle cx="225" cy="80" r="3"/>
-    <circle cx="325" cy="40" r="3"/>
-    <circle cx="325" cy="80" r="3"/>
-    <circle cx="425" cy="40" r="3"/>
-    <circle cx="425" cy="80" r="3"/>
-    <circle cx="525" cy="40" r="3"/>
-    <circle cx="525" cy="80" r="3"/>
-    <circle cx="625" cy="40" r="3"/>
-    <circle cx="625" cy="80" r="3"/>
-    <circle cx="725" cy="40" r="3"/>
-    <circle cx="725" cy="80" r="3"/>
+  <!-- Dots -->
+  <g fill="#3776AB" opacity="0.4">
+    <circle cx="25" cy="40" r="4"/>
+    <circle cx="25" cy="80" r="4"/>
+    <circle cx="125" cy="40" r="4"/>
+    <circle cx="125" cy="80" r="4"/>
+    <circle cx="225" cy="40" r="4"/>
+    <circle cx="225" cy="80" r="4"/>
+    <circle cx="325" cy="40" r="4"/>
+    <circle cx="325" cy="80" r="4"/>
+    <circle cx="425" cy="40" r="4"/>
+    <circle cx="425" cy="80" r="4"/>
+    <circle cx="525" cy="40" r="4"/>
+    <circle cx="525" cy="80" r="4"/>
+    <circle cx="625" cy="40" r="4"/>
+    <circle cx="625" cy="80" r="4"/>
+    <circle cx="725" cy="40" r="4"/>
+    <circle cx="725" cy="80" r="4"/>
   </g>
 
-  <g fill="#E25A1C" opacity="0.15">
-    <circle cx="75" cy="40" r="2.5"/>
-    <circle cx="75" cy="80" r="2.5"/>
-    <circle cx="175" cy="40" r="2.5"/>
-    <circle cx="175" cy="80" r="2.5"/>
-    <circle cx="275" cy="40" r="2.5"/>
-    <circle cx="275" cy="80" r="2.5"/>
-    <circle cx="375" cy="40" r="2.5"/>
-    <circle cx="375" cy="80" r="2.5"/>
-    <circle cx="475" cy="40" r="2.5"/>
-    <circle cx="475" cy="80" r="2.5"/>
-    <circle cx="575" cy="40" r="2.5"/>
-    <circle cx="575" cy="80" r="2.5"/>
-    <circle cx="675" cy="40" r="2.5"/>
-    <circle cx="675" cy="80" r="2.5"/>
-    <circle cx="775" cy="40" r="2.5"/>
-    <circle cx="775" cy="80" r="2.5"/>
+  <g fill="#E25A1C" opacity="0.3">
+    <circle cx="75" cy="40" r="3.5"/>
+    <circle cx="75" cy="80" r="3.5"/>
+    <circle cx="175" cy="40" r="3.5"/>
+    <circle cx="175" cy="80" r="3.5"/>
+    <circle cx="275" cy="40" r="3.5"/>
+    <circle cx="275" cy="80" r="3.5"/>
+    <circle cx="375" cy="40" r="3.5"/>
+    <circle cx="375" cy="80" r="3.5"/>
+    <circle cx="475" cy="40" r="3.5"/>
+    <circle cx="475" cy="80" r="3.5"/>
+    <circle cx="575" cy="40" r="3.5"/>
+    <circle cx="575" cy="80" r="3.5"/>
+    <circle cx="675" cy="40" r="3.5"/>
+    <circle cx="675" cy="80" r="3.5"/>
+    <circle cx="775" cy="40" r="3.5"/>
+    <circle cx="775" cy="80" r="3.5"/>
   </g>
 
   <!-- Name only, centered vertically -->

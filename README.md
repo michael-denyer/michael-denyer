@@ -1,5 +1,5 @@
 <div align="center">
-<img src="images/header.png" width="100%" alt="Michael Denyer">
+<img src="images/banner.png" width="100%" alt="Michael Denyer">
 
 I build tools for genomics and data engineering.
 
