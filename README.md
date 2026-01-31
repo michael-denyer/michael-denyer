@@ -8,16 +8,17 @@ A software engineer passionate about data, genomics, and building useful tools.
 
 Building [pyLocusZoom](https://github.com/michael-denyer/pyLocusZoom) — a Python library for creating GWAS plots. Replicates the R libraries [qqman](https://github.com/stephenturner/qqman) and [locuszoomr](https://github.com/myles-lewis/locuszoomr).
 
+<div align="center">
 <table>
   <tr>
-    <td><img src="images/manhattan_plot.png" width="300" alt="Manhattan Plot"></td>
-    <td><img src="images/qq_plot.png" width="300" alt="QQ Plot"></td>
+    <td colspan="2"><img src="images/manhattan_qq_sidebyside.png" width="600" alt="Manhattan and QQ Plot"></td>
   </tr>
   <tr>
-    <td><img src="images/regional_plot.png" width="300" alt="Regional Plot"></td>
-    <td><img src="images/forest_plot.png" width="300" alt="Forest Plot"></td>
+    <td><img src="images/regional_plot_with_recomb.png" width="300" alt="Regional Plot with Recombination"></td>
+    <td><img src="images/finemapping_plot.png" width="300" alt="Fine-mapping Plot"></td>
   </tr>
 </table>
+</div>
 
 
 
