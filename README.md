@@ -1,8 +1,6 @@
+<div align="center">
 <img src="images/dna-banner.svg" width="100%" alt="">
-
-# Hi, I'm Michael Denyer
-
-I build tools for genomics and data engineering.
+</div>
 
 ## Current Focus
 
