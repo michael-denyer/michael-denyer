@@ -6,7 +6,7 @@ I build tools for genomics and data engineering.
 
 <!-- Update this section when your focus changes -->
 
-Working on [pyLocusZoom](https://github.com/michael-denyer/pyLocusZoom) — publication-ready GWAS visualizations in Python. Think [qqman](https://github.com/stephenturner/qqman) and [locuszoomr](https://github.com/myles-lewis/locuszoomr), but Pythonic.
+Working on [pyLocusZoom](https://github.com/michael-denyer/pyLocusZoom) — an open-source library for publication-ready GWAS visualizations in Python. Think [qqman](https://github.com/stephenturner/qqman) and [locuszoomr](https://github.com/myles-lewis/locuszoomr), but Pythonic.
 
 <div align="center">
 <table>
