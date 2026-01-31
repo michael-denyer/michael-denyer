@@ -1,5 +1,8 @@
 <div align="center">
-<img src="images/dna-banner.png" width="100%" alt="Hi, I'm Michael Denyer">
+<img src="images/dna-banner.png" width="100%" alt="Michael Denyer">
+
+I build tools for genomics and data engineering.
+
 </div>
 
 ## Current Focus
