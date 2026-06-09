@@ -89,5 +89,6 @@ NIGHT = {
     "cloud_opacity": "0",
     "eye_glow_opacity": "0.5",
     "firefly_opacity": "1",
-    "room_dim_opacity": "0.08",
+    "text": "#e8dcc8",
+    "room_dim_opacity": "0.14",
 }
