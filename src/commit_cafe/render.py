@@ -58,9 +58,11 @@ def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
         grp = GROUP_FOR_POSE[pose]
         slots = SLOT_GROUPS[grp]
         if taken[grp] < len(slots):
-            x, y = slots[taken[grp]]
+            seat_idx = taken[grp]
+            x, y = slots[seat_idx]
             taken[grp] += 1
         else:
+            seat_idx = overflow
             x, y = OVERFLOW_X0 + overflow * OVERFLOW_STEP, OVERFLOW_Y
             overflow += 1
         body = {
@@ -69,8 +71,9 @@ def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
             Pose.LOAF: sprites.cat_loaf,
             Pose.SLEEP: sprites.cat_sleep,
         }[pose](coat, ph, glow)
+        sign_y = y + 14 + (30 if seat_idx % 2 else 0)
         cats_svg.append(f'<g transform="translate({x} {y})">{body}</g>')
-        cats_svg.append(f'<g transform="translate({x} {y + 14})">{_sign(cat.name, palette)}</g>')
+        cats_svg.append(f'<g transform="translate({x} {sign_y})">{_sign(cat.name, palette)}</g>')
     return "".join(cats_svg), "".join(chase_svg)
 
 
@@ -115,8 +118,8 @@ def _furniture(state: CafeState, palette: dict[str, str]) -> str:
         shelf(880, 196, 330)
         + shelf(420, 300, 240)
         + counter
-        + f'<g transform="translate(1040 330)">'
-        f"{sprites.bookshelf(state.top_languages, palette)}</g>"
+        + f'<g transform="translate(1020 330)">'
+        f"{sprites.bookshelf(state.top_languages[:4], palette)}</g>"
         + f'<g transform="translate(1140 162)">{sprites.plant(0.3)}</g>'
         + f'<g transform="translate(480 0)">{sprites.lamp(palette)}</g>'
         + f'<g transform="translate(1100 0)">{sprites.lamp(palette)}</g>'
