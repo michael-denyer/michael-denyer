@@ -57,10 +57,7 @@ def _blink(open_eyes: str, closed_eyes: str, dur: float, phase: float) -> str:
         f'keyTimes="0;0.92;0.93;0.97;0.98" dur="{dur}s" begin="{begin}" '
         f'repeatCount="indefinite"/>'
     )
-    return (
-        f'<g opacity="1">{show_open}{open_eyes}</g>'
-        f'<g opacity="0">{show_closed}{closed_eyes}</g>'
-    )
+    return f'<g opacity="1">{show_open}{open_eyes}</g><g opacity="0">{show_closed}{closed_eyes}</g>'
 
 
 def _ear(x: float, y: float, s: float, color: str, tilt: float, flick_phase: float = -1) -> str:
@@ -296,8 +293,10 @@ def dog_at_door(pr_number: int | None, more_count: int, palette: dict[str, str])
         f'<path d="M-25 -332 V-344 M25 -332 V-344" stroke="{palette["sign_trim"]}" '
         f'stroke-width="2"/>'
     )
-    sign = g(name_sign(sign_text, palette["sign_board"], palette["sign_trim"],
-                       palette["sign_text"]), transform="translate(0 -358)")
+    sign = g(
+        name_sign(sign_text, palette["sign_board"], palette["sign_trim"], palette["sign_text"]),
+        transform="translate(0 -358)",
+    )
     return g(door + dog + hang + sign + extra)
 
 
@@ -335,9 +334,7 @@ def chalkboard(lines: list[str], palette: dict[str, str]) -> str:
     return g(
         f'<rect x="-160" y="0" width="320" height="{height}" fill="{palette["chalk_board"]}"/>'
         f'<rect x="-160" y="0" width="320" height="{height}" fill="none" '
-        f'stroke="{palette["window_frame"]}" stroke-width="6"/>'
-        + title
-        + rows
+        f'stroke="{palette["window_frame"]}" stroke-width="6"/>' + title + rows
     )
 
 
@@ -404,14 +401,18 @@ def window(palette: dict[str, str]) -> str:
         f'values="320 0;-100 0" dur="52s" repeatCount="indefinite"/>'
         f'<ellipse cx="40" cy="110" rx="28" ry="10" fill="#efe9dd"/></g></g>'
     )
-    stars = f'<g opacity="{palette["stars_opacity"]}">' + "".join(
-        f'<circle cx="{30 + (i * 47) % 240}" cy="{28 + (i * 31) % 100}" r="1.4" fill="#dfe6ff">'
-        f'<animate attributeName="opacity" values="0.3;1;0.3" dur="{2.4 + (i % 4) * 0.9:.1f}s" '
-        f'begin="{-(i % 5) * 0.7:.4f}s" repeatCount="indefinite"/></circle>'
-        for i in range(16)
-    ) + (
-        f'</g><circle cx="240" cy="62" r="24" fill="#f0e6cd" '
-        f'opacity="{palette["moon_opacity"]}"/>'
+    stars = (
+        f'<g opacity="{palette["stars_opacity"]}">'
+        + "".join(
+            f'<circle cx="{30 + (i * 47) % 240}" cy="{28 + (i * 31) % 100}" r="1.4" fill="#dfe6ff">'
+            f'<animate attributeName="opacity" values="0.3;1;0.3" dur="{2.4 + (i % 4) * 0.9:.1f}s" '
+            f'begin="{-(i % 5) * 0.7:.4f}s" repeatCount="indefinite"/></circle>'
+            for i in range(16)
+        )
+        + (
+            f'</g><circle cx="240" cy="62" r="24" fill="#f0e6cd" '
+            f'opacity="{palette["moon_opacity"]}"/>'
+        )
     )
     city = (
         f'<g><rect x="30" y="186" width="50" height="80" fill="{palette["city"]}"/>'
@@ -516,8 +517,7 @@ def yarn_ball(commit_hash: str, chase: Chase, palette: dict[str, str]) -> str:
     The path is absolute, so this group is NOT translated by the renderer.
     """
     motion = (
-        f'<animateMotion dur="{chase.dur_s}s" repeatCount="indefinite" '
-        f'path="{chase.ball_path}"/>'
+        f'<animateMotion dur="{chase.dur_s}s" repeatCount="indefinite" path="{chase.ball_path}"/>'
     )
     roll = (
         f'<animateTransform attributeName="transform" type="rotate" additive="sum" '

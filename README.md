@@ -44,9 +44,9 @@ Working on [pyLocusZoom](https://github.com/michael-denyer/pyLocusZoom) — an o
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/github-snake-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/github-snake.svg" />
-  <img alt="github-snake" src="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/github-snake.svg" />
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/cafe-night.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/cafe-day.svg" />
+  <img alt="The Commit Cafe — my repos as cats: poses track commit activity, the dog at the door is an open PR, the bowl is my contribution streak" src="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/cafe-day.svg" />
 </picture>
 
 </div>
