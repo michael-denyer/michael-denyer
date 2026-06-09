@@ -1,6 +1,10 @@
+from pathlib import Path
+
 from defusedxml import ElementTree as ET
 
 from commit_cafe.render import render
+
+GOLDEN = Path(__file__).parent / "golden"
 
 
 def test_renders_valid_svg_both_modes(busy_state):
@@ -84,3 +88,11 @@ def test_sleep_overflow_goes_to_floor_line(busy_state):
     svg = render(state, "day")
     assert "translate(1000 660)" in svg
     assert "translate(1115 660)" in svg
+
+
+def test_golden_day(busy_state):
+    assert render(busy_state, "day") == (GOLDEN / "cafe-day.svg").read_text()
+
+
+def test_golden_night(busy_state):
+    assert render(busy_state, "night") == (GOLDEN / "cafe-night.svg").read_text()
