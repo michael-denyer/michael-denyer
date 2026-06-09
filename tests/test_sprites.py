@@ -16,6 +16,7 @@ from commit_cafe.sprites import (
     fireflies,
     lamp,
     name_sign,
+    octocat_portrait,
     plant,
     steam,
     wall_clock,
@@ -123,3 +124,7 @@ def test_chase_cat_is_valid_and_flips():
     wrap(svg)
     assert svg.count("animateMotion") == 1
     assert 'calcMode="discrete"' in svg
+
+
+def test_octocat_portrait_is_valid():
+    wrap(octocat_portrait(DAY))

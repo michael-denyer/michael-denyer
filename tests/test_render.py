@@ -110,3 +110,13 @@ def test_golden_day(busy_state):
 
 def test_golden_night(busy_state):
     assert render(busy_state, "night") == (GOLDEN / "cafe-night.svg").read_text()
+
+
+def test_starrier_cats_render_bigger(busy_state):
+    svg = render(busy_state, "day")
+    assert "scale(1." in svg or "scale(0." in svg
+
+
+def test_broken_streak_turns_every_head(quiet_state):
+    svg = render(quiet_state, "day")
+    assert ">z<" not in svg  # nobody sleeps through a broken streak

@@ -545,7 +545,25 @@ def yarn_ball(commit_hash: str, chase: Chase, palette: dict[str, str]) -> str:
     return ball
 
 
-def cat_chase(coat: Coat, chase: Chase, eye_glow_opacity: str) -> str:
+def octocat_portrait(palette: dict[str, str]) -> str:
+    """Small framed octocat silhouette. Origin: frame top-left."""
+    return g(
+        f'<rect x="0" y="0" width="64" height="74" fill="{palette["shelf"]}"/>'
+        f'<rect x="5" y="5" width="54" height="64" fill="{palette["sign_text"]}"/>'
+        f'<g fill="{LINE}">'
+        f'<circle cx="32" cy="30" r="13"/>'
+        f'<ellipse cx="22" cy="21" rx="5" ry="6"/>'
+        f'<ellipse cx="42" cy="21" rx="5" ry="6"/>'
+        f'<path d="M16 44 Q14 54 20 56 M24 46 Q23 56 28 58 M32 46 V58'
+        f' M40 46 Q41 56 36 58 M48 44 Q50 54 44 56"'
+        f' stroke="{LINE}" stroke-width="4" fill="none" stroke-linecap="round"/>'
+        f"</g>"
+        f'<circle cx="27" cy="29" r="3" fill="{palette["sign_text"]}"/>'
+        f'<circle cx="37" cy="29" r="3" fill="{palette["sign_text"]}"/>'
+    )
+
+
+def cat_chase(coat: Coat, chase: Chase, eye_glow_opacity: str, scale: float = 1.0) -> str:
     """Running kitten that follows the chase path and flips at the turn.
 
     Built as two opposite-facing bodies whose opacity swaps discretely at the
@@ -591,7 +609,7 @@ def cat_chase(coat: Coat, chase: Chase, eye_glow_opacity: str) -> str:
     )
     return (
         f"<g>{motion}"
-        f'<g opacity="1">{flip_right}{running_body(1)}</g>'
-        f'<g opacity="0">{flip_left}{running_body(-1)}</g>'
+        f'<g opacity="1">{flip_right}{g(running_body(1), transform=f"scale({scale:.3f})")}</g>'
+        f'<g opacity="0">{flip_left}{g(running_body(-1), transform=f"scale({scale:.3f})")}</g>'
         f"</g>"
     )

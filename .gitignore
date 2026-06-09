@@ -5,3 +5,5 @@ __pycache__/
 .pytest_cache/
 .coverage
 dist/
+/cafe-*.svg
+/cafe_state_*.json
