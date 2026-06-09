@@ -1,6 +1,7 @@
 """Assemble sprites into the full 1280x720 cafe scene."""
 
 import html
+import math
 
 from commit_cafe import sprites
 from commit_cafe.choreography import plan_chase
@@ -27,6 +28,11 @@ OVERFLOW_Y = 660
 OVERFLOW_X0, OVERFLOW_STEP = 1000, 115
 
 
+def _star_scale(stars: int) -> float:
+    """Bigger-starred repos render as slightly bigger cats, capped at ±15%."""
+    return min(1.15, max(0.85, 1.0 + 0.05 * (math.log10(stars + 1) - 1)))
+
+
 def _phase(name: str) -> float:
     return (sum(name.encode()) % 100) / 100.0
 
@@ -49,7 +55,7 @@ def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
         if pose is Pose.CHASE:
             chase = plan_chase(CHASE_X1, CHASE_X2, CHASE_Y)
             chase_svg.append(sprites.yarn_ball(cat.last_commit_hash, chase, palette))
-            chase_svg.append(sprites.cat_chase(coat, chase, glow))
+            chase_svg.append(sprites.cat_chase(coat, chase, glow, scale=_star_scale(cat.stars)))
             chase_svg.append(
                 f'<g transform="translate({(CHASE_X1 + CHASE_X2) // 2} {CHASE_Y + 26})">'
                 f"{_sign(cat.name, palette)}</g>"
@@ -65,14 +71,18 @@ def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
             seat_idx = overflow
             x, y = OVERFLOW_X0 + overflow * OVERFLOW_STEP, OVERFLOW_Y
             overflow += 1
-        body = {
+        pose_fn = {
             Pose.ALERT: sprites.cat_alert,
             Pose.SIT: sprites.cat_sit,
             Pose.LOAF: sprites.cat_loaf,
             Pose.SLEEP: sprites.cat_sleep,
-        }[pose](coat, ph, glow)
+        }[pose]
+        if state.streak_days == 0:
+            pose_fn = sprites.cat_alert
+        body = pose_fn(coat, ph, glow)
+        scale = _star_scale(cat.stars)
         sign_y = y + 14 + (30 if seat_idx % 2 else 0)
-        cats_svg.append(f'<g transform="translate({x} {y})">{body}</g>')
+        cats_svg.append(f'<g transform="translate({x} {y}) scale({scale:.3f})">{body}</g>')
         cats_svg.append(f'<g transform="translate({x} {sign_y})">{_sign(cat.name, palette)}</g>')
     return "".join(cats_svg), "".join(chase_svg)
 
@@ -125,7 +135,7 @@ def _furniture(state: CafeState, palette: dict[str, str]) -> str:
         + f'<g transform="translate(1100 0)">{sprites.lamp(palette)}</g>'
         + f'<g transform="translate(460 160)">'
         f"{sprites.wall_clock(state.rendered_at.hour, state.rendered_at.minute, palette)}"
-        f"</g>"
+        f"</g>" + f'<g transform="translate(545 185)">{sprites.octocat_portrait(palette)}</g>'
     )
 
 
