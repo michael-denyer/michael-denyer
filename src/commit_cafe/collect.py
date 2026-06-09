@@ -87,6 +87,8 @@ def fetch_state(username: str, token: str) -> CafeState:
     lang_totals: dict[str, int] = {}
     for repo in roster:
         commits = _get(f"/repos/{username}/{repo['name']}/commits", token, params={"per_page": 1})
+        if not commits:
+            raise RuntimeError(f"repo {repo['name']} has no commits; cannot place it in the cafe")
         committed = datetime.fromisoformat(
             commits[0]["commit"]["committer"]["date"].replace("Z", "+00:00")
         )
