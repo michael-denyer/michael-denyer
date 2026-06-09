@@ -1,5 +1,7 @@
 """Assemble sprites into the full 1280x720 cafe scene."""
 
+import html
+
 from commit_cafe import sprites
 from commit_cafe.choreography import plan_chase
 from commit_cafe.palette import DAY, NIGHT, coat_for
@@ -9,13 +11,17 @@ W, H = 1280, 720
 FLOOR_Y = 580
 CHASE_X1, CHASE_X2, CHASE_Y = 210, 620, 652
 
-# (x, y) slots per pose; consumed in order, overflow goes to the floor line.
-SLOTS: dict[Pose, list[tuple[int, int]]] = {
-    Pose.CHASE: [(0, 0)],  # positioned by its motion path, slot is a placeholder
-    Pose.ALERT: [(950, 196), (1080, 196)],
-    Pose.SIT: [(950, 196), (1080, 196), (170, 640)],
-    Pose.LOAF: [(1000, 470), (210, 400)],
-    Pose.SLEEP: [(500, 300), (600, 300), (180, 655)],
+# Seat pools shared by poses; consumed in order, overflow goes to the floor line.
+SLOT_GROUPS: dict[str, list[tuple[int, int]]] = {
+    "shelf": [(950, 196), (1080, 196), (170, 640)],  # ALERT and SIT share these
+    "loaf": [(1000, 470), (210, 400)],                # counter, then windowsill
+    "sleep": [(500, 300), (600, 300), (180, 655)],
+}
+GROUP_FOR_POSE = {
+    Pose.ALERT: "shelf",
+    Pose.SIT: "shelf",
+    Pose.LOAF: "loaf",
+    Pose.SLEEP: "sleep",
 }
 OVERFLOW_Y = 660
 OVERFLOW_X0, OVERFLOW_STEP = 1000, 115
@@ -33,7 +39,7 @@ def _sign(name: str, palette: dict[str, str]) -> str:
 
 def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
     """Return (cats_layer, chase_layer). Chase layer uses absolute paths."""
-    taken: dict[Pose, int] = {p: 0 for p in SLOTS}
+    taken: dict[str, int] = {grp: 0 for grp in SLOT_GROUPS}
     overflow = 0
     cats_svg: list[str] = []
     chase_svg: list[str] = []
@@ -49,10 +55,11 @@ def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
                 f"{_sign(cat.name, palette)}</g>"
             )
             continue
-        slots = SLOTS[pose]
-        if taken[pose] < len(slots):
-            x, y = slots[taken[pose]]
-            taken[pose] += 1
+        grp = GROUP_FOR_POSE[pose]
+        slots = SLOT_GROUPS[grp]
+        if taken[grp] < len(slots):
+            x, y = slots[taken[grp]]
+            taken[grp] += 1
         else:
             x, y = OVERFLOW_X0 + overflow * OVERFLOW_STEP, OVERFLOW_Y
             overflow += 1
@@ -150,7 +157,7 @@ def render(state: CafeState, mode: str) -> str:
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" '
         f'width="{W}" height="{H}" role="img">'
         f"<title>The Commit Cafe</title>"
-        f"<desc>GitHub activity for {state.username} as an animated cat cafe: "
+        f"<desc>GitHub activity for {html.escape(state.username)} as an animated cat cafe: "
         f"repos are cats, poses follow commit recency, an open PR waits at the door "
         f"as a dog, and the contribution streak fills the food bowl.</desc>"
         f"{body}</svg>"

@@ -43,3 +43,44 @@ def test_empty_bowl_when_streak_broken(quiet_state):
 def test_under_250kb(busy_state):
     for mode in ("day", "night"):
         assert len(render(busy_state, mode).encode()) < 250_000
+
+
+def test_alert_and_sit_cats_do_not_share_a_seat(busy_state):
+    import re
+
+    from commit_cafe.state import RepoCat
+
+    # pyLocusZoom (2h) -> CHASE; code-review-graph (20h) -> ALERT;
+    # numpy-mkl (48h) -> SIT (digest%2==0); jamma (50h) -> SIT (digest%2==0)
+    state = busy_state.model_copy(
+        update={
+            "cats": [
+                RepoCat(name="pyLocusZoom", stars=1, last_commit_hash="aaaaaaa",
+                        last_commit_age_hours=2.0),
+                RepoCat(name="code-review-graph", stars=1, last_commit_hash="bbbbbbb",
+                        last_commit_age_hours=20.0),
+                RepoCat(name="numpy-mkl", stars=1, last_commit_hash="ccccccc",
+                        last_commit_age_hours=48.0),
+                RepoCat(name="jamma", stars=1, last_commit_hash="ddddddd",
+                        last_commit_age_hours=50.0),
+            ]
+        }
+    )
+    svg = render(state, "day")
+    pattern = r'<g transform="translate\((\d+) (196|640|300|400|470|655|660)\)">'
+    body_anchors = re.findall(pattern, svg)
+    assert len(body_anchors) == len(set(body_anchors))
+
+
+def test_sleep_overflow_goes_to_floor_line(busy_state):
+    from commit_cafe.state import RepoCat
+
+    sleepy = [
+        RepoCat(name=f"old-repo-{i}", stars=1, last_commit_hash="abc1234",
+                last_commit_age_hours=1000.0)
+        for i in range(5)
+    ]
+    state = busy_state.model_copy(update={"cats": sleepy, "open_prs": []})
+    svg = render(state, "day")
+    assert "translate(1000 660)" in svg
+    assert "translate(1115 660)" in svg
