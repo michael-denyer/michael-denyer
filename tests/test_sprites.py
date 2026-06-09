@@ -31,6 +31,12 @@ def test_name_sign_contains_text():
     assert "pyLocusZoom" in sign
 
 
+def test_name_sign_escapes_markup():
+    svg = name_sign("a&b<c", board="#8a5f3c", trim="#6e4a2e", text_color="#fff")
+    wrap(svg)
+    assert "a&amp;b&lt;c" in svg
+
+
 def test_phase_staggers_animation_timing():
     a = cat_sit(COAT, phase=0.0, eye_glow_opacity="0")
     b = cat_sit(COAT, phase=0.5, eye_glow_opacity="0")
