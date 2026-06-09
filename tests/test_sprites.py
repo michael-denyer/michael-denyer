@@ -1,10 +1,12 @@
 from defusedxml import ElementTree as ET
 
+from commit_cafe.choreography import plan_chase
 from commit_cafe.palette import DAY, NIGHT, coat_for
 from commit_cafe.sprites import (
     bookshelf,
     bowl,
     cat_alert,
+    cat_chase,
     cat_loaf,
     cat_sit,
     cat_sleep,
@@ -18,6 +20,7 @@ from commit_cafe.sprites import (
     steam,
     wall_clock,
     window,
+    yarn_ball,
 )
 
 
@@ -103,3 +106,20 @@ def test_bookshelf_spine_count_matches_languages():
 
 def test_clock_hands_reflect_time():
     assert wall_clock(3, 0, palette=DAY) != wall_clock(9, 0, palette=DAY)
+
+
+CHASE = plan_chase(x_start=210, x_end=620, floor_y=652)
+
+
+def test_yarn_ball_is_valid_and_labeled():
+    svg = yarn_ball("a3f9c21", CHASE, palette=DAY)
+    wrap(svg)
+    assert "a3f9c21" in svg
+    assert "animateMotion" in svg
+
+
+def test_chase_cat_is_valid_and_flips():
+    svg = cat_chase(COAT, CHASE, eye_glow_opacity="0")
+    wrap(svg)
+    assert svg.count("animateMotion") == 1
+    assert 'calcMode="discrete"' in svg
