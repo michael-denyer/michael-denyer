@@ -7,6 +7,7 @@ positioned by the renderer via translate. All animation is SMIL.
 import html
 import math
 
+from commit_cafe.choreography import Chase
 from commit_cafe.palette import Coat
 
 EAR_INNER = "#d98a8a"
@@ -507,3 +508,90 @@ def fireflies(palette: dict[str, str]) -> str:
         for i in range(2)
     )
     return g(f'<g opacity="{palette["firefly_opacity"]}">{flies}</g>')
+
+
+def yarn_ball(commit_hash: str, chase: Chase, palette: dict[str, str]) -> str:
+    """Ball + trailing loose strand + hash label, moving along the chase path.
+
+    The path is absolute, so this group is NOT translated by the renderer.
+    """
+    motion = (
+        f'<animateMotion dur="{chase.dur_s}s" repeatCount="indefinite" '
+        f'path="{chase.ball_path}"/>'
+    )
+    roll = (
+        f'<animateTransform attributeName="transform" type="rotate" additive="sum" '
+        f'values="0;720;0" keyTimes="0;0.5;1" dur="{chase.dur_s}s" repeatCount="indefinite"/>'
+    )
+    squash = (
+        f'<animateTransform attributeName="transform" type="scale" additive="sum" '
+        f'values="1 1;1 1;0.82 1.14;1 1;1 1;0.82 1.14;1 1" '
+        f'keyTimes="0;0.485;0.5;0.515;0.985;0.997;1" dur="{chase.dur_s}s" '
+        f'repeatCount="indefinite"/>'
+    )
+    strands = "".join(
+        f'<path d="M -10 {3 - i * 5} A 10 10 0 0 1 10 {-3 + i * 4}" stroke="#d4537e" '
+        f'stroke-width="2" fill="none"/>'
+        for i in range(3)
+    )
+    ball = (
+        f"<g>{motion}"
+        f'<text x="0" y="-26" text-anchor="middle" font-family="monospace" font-size="14" '
+        f'font-weight="500" fill="{palette["text"]}">{commit_hash}</text>'
+        f"<g>{roll}{squash}"
+        f'<circle cx="0" cy="0" r="13" fill="#ED93B1"/>{strands}</g>'
+        f"</g>"
+    )
+    return ball
+
+
+def cat_chase(coat: Coat, chase: Chase, eye_glow_opacity: str) -> str:
+    """Running kitten that follows the chase path and flips at the turn.
+
+    Built as two opposite-facing bodies whose opacity swaps discretely at the
+    path's turn keyTimes. Absolute path: renderer must not translate this.
+    """
+
+    def running_body(direction: int) -> str:
+        stride = (
+            '<animateTransform attributeName="transform" type="rotate" '
+            'values="-6 0 -16;6 0 -16;-6 0 -16" dur="0.4s" repeatCount="indefinite"/>'
+        )
+        return g(
+            f"<g>{stride}"
+            f'<path d="M{-22 * direction} -16 Q{-38 * direction} -22 {-34 * direction} -40" '
+            f'stroke="{coat.body}" stroke-width="7" fill="none" stroke-linecap="round"/>'
+            f'<ellipse cx="0" cy="-16" rx="26" ry="15" fill="{coat.body}"/>'
+            f"{_pattern_overlay(coat, 0, -16, 26, 15)}"
+            f'<ellipse cx="{-8 * direction}" cy="-2" rx="5" ry="8" fill="{coat.shade}"/>'
+            f'<ellipse cx="{14 * direction}" cy="-2" rx="5" ry="8" fill="{coat.shade}"/>'
+            f'<circle cx="{26 * direction}" cy="-22" r="14" fill="{coat.body}"/>'
+            f"{_ear(15 * direction - (10 if direction < 0 else 0), -32, 10, coat.body, 0.4)}"
+            f"{_ear(29 * direction - (10 if direction < 0 else 0), -33, 10, coat.body, 0.6)}"
+            f'<circle cx="{30 * direction}" cy="-23" r="2.4" fill="{LINE}"/>'
+            f'<circle cx="{30 * direction}" cy="-23" r="3.6" fill="{coat.eye}" '
+            f'opacity="{eye_glow_opacity}"/>'
+            f'<circle cx="{36 * direction}" cy="-18" r="1.8" fill="{NOSE}"/>'
+            f"</g>"
+        )
+
+    flip_right = (
+        f'<animate attributeName="opacity" values="1;1;0;0" '
+        f'keyTimes="{chase.flip_key_times}" calcMode="discrete" dur="{chase.dur_s}s" '
+        f'begin="{chase.kitten_begin_s:.4f}s" repeatCount="indefinite"/>'
+    )
+    flip_left = (
+        f'<animate attributeName="opacity" values="0;0;1;1" '
+        f'keyTimes="{chase.flip_key_times}" calcMode="discrete" dur="{chase.dur_s}s" '
+        f'begin="{chase.kitten_begin_s:.4f}s" repeatCount="indefinite"/>'
+    )
+    motion = (
+        f'<animateMotion dur="{chase.dur_s}s" begin="{chase.kitten_begin_s:.4f}s" '
+        f'repeatCount="indefinite" path="{chase.kitten_path}"/>'
+    )
+    return (
+        f"<g>{motion}"
+        f'<g opacity="1">{flip_right}{running_body(1)}</g>'
+        f'<g opacity="0">{flip_left}{running_body(-1)}</g>'
+        f"</g>"
+    )
