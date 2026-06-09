@@ -301,13 +301,14 @@ def dog_at_door(pr_number: int | None, more_count: int, palette: dict[str, str])
 
 
 def bowl(streak_days: int, palette: dict[str, str]) -> str:
-    kibble_count = min(14, streak_days * 14 // 30) if streak_days > 0 else 0
+    kibble_count = min(14, max(1, streak_days * 14 // 30)) if streak_days > 0 else 0
     bits = "".join(
         f'<circle cx="{-24 + (i * 13) % 50}" cy="{-10 + (i * 7) % 9}" r="3.2" '
         f'fill="{palette["kibble"]}"/>'
         for i in range(kibble_count)
     )
-    label = f"{streak_days} days of kibble" if streak_days > 0 else "bowl empty — commit!"
+    unit = "day" if streak_days == 1 else "days"
+    label = f"{streak_days} {unit} of kibble" if streak_days > 0 else "bowl empty — commit!"
     return g(
         f'<ellipse cx="0" cy="0" rx="42" ry="16" fill="{palette["bowl"]}"/>'
         f'<ellipse cx="0" cy="-6" rx="36" ry="11" fill="{palette["bowl_inner"]}"/>'
@@ -326,7 +327,7 @@ def chalkboard(lines: list[str], palette: dict[str, str]) -> str:
     )
     rows = "".join(
         f'<text x="0" y="{62 + i * 18}" text-anchor="middle" font-family="Georgia, serif" '
-        f'font-size="14" fill="{palette["chalk_text"]}">{line}</text>'
+        f'font-size="14" fill="{palette["chalk_text"]}">{html.escape(line)}</text>'
         for i, line in enumerate(lines)
     )
     height = 70 + len(lines) * 18
@@ -354,7 +355,7 @@ def bookshelf(languages: list[tuple[str, float]], palette: dict[str, str]) -> st
             f'fill="{color}" rx="2"/>'
             f'<text x="{x + w / 2:.1f}" y="{-h / 2 + 4:.0f}" text-anchor="middle" '
             f'font-family="Georgia, serif" font-size="11" fill="#f5ead2" '
-            f'transform="rotate(-90 {x + w / 2:.1f} {-h / 2:.0f})">{lang}</text></g>'
+            f'transform="rotate(-90 {x + w / 2:.1f} {-h / 2:.0f})">{html.escape(lang)}</text></g>'
         )
         x += w + 4
     board = (
