@@ -60,12 +60,22 @@ def fake_api(monkeypatch):
         raise AssertionError(f"unexpected path {path}")
 
     def fake_graphql(query, variables, token):
+        # fetch_state computes the streak against the real clock, so these
+        # calendar days must be anchored to the real today, not the fixed NOW
+        real_today = datetime.now(UTC).date()
+
+        def real_day(offset: int, count: int) -> dict:
+            return {
+                "date": (real_today - timedelta(days=offset)).isoformat(),
+                "contributionCount": count,
+            }
+
         return {
             "data": {
                 "user": {
                     "contributionsCollection": {
                         "contributionCalendar": {
-                            "weeks": [{"contributionDays": [day(1, 2), day(0, 3)]}]
+                            "weeks": [{"contributionDays": [real_day(1, 2), real_day(0, 3)]}]
                         }
                     }
                 }
@@ -86,3 +96,5 @@ def test_fetch_state_assembles_cafe_state(fake_api):
     assert state.est_year == 2015
     assert state.top_languages[0][0] == "Python"
     assert 0.79 < state.top_languages[0][1] < 0.81
+    assert state.streak_days == 2
+    assert state.commits_today == 3
