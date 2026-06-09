@@ -1,7 +1,24 @@
 from defusedxml import ElementTree as ET
 
-from commit_cafe.palette import coat_for
-from commit_cafe.sprites import cat_alert, cat_loaf, cat_sit, cat_sleep, name_sign
+from commit_cafe.palette import DAY, NIGHT, coat_for
+from commit_cafe.sprites import (
+    bookshelf,
+    bowl,
+    cat_alert,
+    cat_loaf,
+    cat_sit,
+    cat_sleep,
+    chalkboard,
+    dog_at_door,
+    dust_motes,
+    fireflies,
+    lamp,
+    name_sign,
+    plant,
+    steam,
+    wall_clock,
+    window,
+)
 
 
 def wrap(fragment: str) -> object:
@@ -41,3 +58,45 @@ def test_phase_staggers_animation_timing():
     a = cat_sit(COAT, phase=0.0, eye_glow_opacity="0")
     b = cat_sit(COAT, phase=0.5, eye_glow_opacity="0")
     assert a != b
+
+
+def test_props_are_valid_xml():
+    for fragment in (
+        dog_at_door(87, more_count=2, palette=DAY),
+        dog_at_door(None, more_count=0, palette=DAY),
+        bowl(23, palette=DAY),
+        bowl(0, palette=DAY),
+        chalkboard(["4 commits today", "412 stars", "est. 2015"], palette=DAY),
+        bookshelf([("Python", 0.61), ("R", 0.2), ("SQL", 0.19)], palette=DAY),
+        wall_clock(14, 30, palette=DAY),
+        window(palette=DAY),
+        window(palette=NIGHT),
+        plant(),
+        lamp(palette=NIGHT),
+        steam(),
+        dust_motes(palette=DAY),
+        fireflies(palette=NIGHT),
+    ):
+        wrap(fragment)
+
+
+def test_dog_shows_pr_number():
+    assert "PR #87" in dog_at_door(87, more_count=0, palette=DAY)
+    assert "+2 waiting" in dog_at_door(87, more_count=2, palette=DAY)
+    assert "deliveries welcome" in dog_at_door(None, more_count=0, palette=DAY)
+
+
+def test_bowl_kibble_scales():
+    full = bowl(30, palette=DAY)
+    empty = bowl(0, palette=DAY)
+    assert full.count("<circle") > empty.count("<circle")
+    assert "23" not in empty
+
+
+def test_bookshelf_spine_count_matches_languages():
+    svg = bookshelf([("Python", 0.5), ("R", 0.5)], palette=DAY)
+    assert svg.count('class="spine"') == 2
+
+
+def test_clock_hands_reflect_time():
+    assert wall_clock(3, 0, palette=DAY) != wall_clock(9, 0, palette=DAY)
