@@ -10,16 +10,25 @@ def busy_state() -> CafeState:
     return CafeState(
         username="michael-denyer",
         cats=[
-            RepoCat(name="pyLocusZoom", stars=120, last_commit_hash="a3f9c21",
-                    last_commit_age_hours=2.0),
-            RepoCat(name="code-review-graph", stars=80, last_commit_hash="7be02dd",
-                    last_commit_age_hours=20.0),
-            RepoCat(name="maid", stars=60, last_commit_hash="f41c9a0",
-                    last_commit_age_hours=72.0),
-            RepoCat(name="memory-mcp", stars=30, last_commit_hash="03d77e1",
-                    last_commit_age_hours=120.0),
-            RepoCat(name="ministack", stars=12, last_commit_hash="c9821fb",
-                    last_commit_age_hours=40 * 24.0),
+            RepoCat(
+                name="pyLocusZoom", stars=120, last_commit_hash="a3f9c21", last_commit_age_hours=2.0
+            ),
+            RepoCat(
+                name="code-review-graph",
+                stars=80,
+                last_commit_hash="7be02dd",
+                last_commit_age_hours=20.0,
+            ),
+            RepoCat(name="maid", stars=60, last_commit_hash="f41c9a0", last_commit_age_hours=72.0),
+            RepoCat(
+                name="memory-mcp", stars=30, last_commit_hash="03d77e1", last_commit_age_hours=120.0
+            ),
+            RepoCat(
+                name="ministack",
+                stars=12,
+                last_commit_hash="c9821fb",
+                last_commit_age_hours=40 * 24.0,
+            ),
         ],
         open_prs=[PrInfo(number=87, repo="maid"), PrInfo(number=91, repo="ministack")],
         streak_days=23,
@@ -36,10 +45,15 @@ def quiet_state() -> CafeState:
     return CafeState(
         username="michael-denyer",
         cats=[
-            RepoCat(name="pyLocusZoom", stars=120, last_commit_hash="a3f9c21",
-                    last_commit_age_hours=30 * 24.0),
-            RepoCat(name="maid", stars=60, last_commit_hash="f41c9a0",
-                    last_commit_age_hours=60 * 24.0),
+            RepoCat(
+                name="pyLocusZoom",
+                stars=120,
+                last_commit_hash="a3f9c21",
+                last_commit_age_hours=30 * 24.0,
+            ),
+            RepoCat(
+                name="maid", stars=60, last_commit_hash="f41c9a0", last_commit_age_hours=60 * 24.0
+            ),
         ],
         open_prs=[],
         streak_days=0,

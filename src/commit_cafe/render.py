@@ -14,7 +14,7 @@ CHASE_X1, CHASE_X2, CHASE_Y = 210, 620, 652
 # Seat pools shared by poses; consumed in order, overflow goes to the floor line.
 SLOT_GROUPS: dict[str, list[tuple[int, int]]] = {
     "shelf": [(950, 196), (1080, 196), (170, 640)],  # ALERT and SIT share these
-    "loaf": [(1000, 470), (210, 400)],                # counter, then windowsill
+    "loaf": [(1000, 470), (210, 400)],  # counter, then windowsill
     "sleep": [(500, 300), (600, 300), (180, 655)],
 }
 GROUP_FOR_POSE = {
@@ -76,8 +76,7 @@ def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
 
 def _room(palette: dict[str, str]) -> str:
     planks = "".join(
-        f'<path d="M0 {FLOOR_Y + 24 + i * 28} H{W}" stroke="{palette["plank"]}" '
-        f'stroke-width="2"/>'
+        f'<path d="M0 {FLOOR_Y + 24 + i * 28} H{W}" stroke="{palette["plank"]}" stroke-width="2"/>'
         for i in range(5)
     ) + "".join(
         f'<path d="M{(i * 173 + (i % 2) * 60) % W} {FLOOR_Y + 10 + (i % 5) * 27} v24" '
@@ -117,13 +116,13 @@ def _furniture(state: CafeState, palette: dict[str, str]) -> str:
         + shelf(420, 300, 240)
         + counter
         + f'<g transform="translate(1040 330)">'
-          f"{sprites.bookshelf(state.top_languages, palette)}</g>"
+        f"{sprites.bookshelf(state.top_languages, palette)}</g>"
         + f'<g transform="translate(1140 162)">{sprites.plant(0.3)}</g>'
         + f'<g transform="translate(480 0)">{sprites.lamp(palette)}</g>'
         + f'<g transform="translate(1100 0)">{sprites.lamp(palette)}</g>'
         + f'<g transform="translate(460 160)">'
-          f"{sprites.wall_clock(state.rendered_at.hour, state.rendered_at.minute, palette)}"
-          f"</g>"
+        f"{sprites.wall_clock(state.rendered_at.hour, state.rendered_at.minute, palette)}"
+        f"</g>"
     )
 
 
@@ -132,8 +131,7 @@ def render(state: CafeState, mode: str) -> str:
     cats_layer, chase_layer = _place(state, palette)
     chalk_lines = [
         f"{state.commits_today} commits today · {state.total_stars} stars",
-        f"est. {state.est_year} · rendered "
-        f"{state.rendered_at.strftime('%Y-%m-%d %H:%M')} UTC",
+        f"est. {state.est_year} · rendered {state.rendered_at.strftime('%Y-%m-%d %H:%M')} UTC",
     ]
     pr = state.open_prs[0].number if state.open_prs else None
     more = max(0, len(state.open_prs) - 1)
@@ -144,13 +142,11 @@ def render(state: CafeState, mode: str) -> str:
         f'<g transform="translate(90 150)">{sprites.fireflies(palette)}</g>',
         f'<g transform="translate(700 18)">{sprites.chalkboard(chalk_lines, palette)}</g>',
         _furniture(state, palette),
-        f'<g transform="translate(765 {FLOOR_Y})">'
-        f"{sprites.dog_at_door(pr, more, palette)}</g>",
+        f'<g transform="translate(765 {FLOOR_Y})">{sprites.dog_at_door(pr, more, palette)}</g>',
         cats_layer,
         chase_layer,
         f'<g transform="translate(130 666)">{sprites.bowl(state.streak_days, palette)}</g>',
-        f'<rect width="{W}" height="{H}" fill="#1b2540" '
-        f'opacity="{palette["room_dim_opacity"]}"/>',
+        f'<rect width="{W}" height="{H}" fill="#1b2540" opacity="{palette["room_dim_opacity"]}"/>',
     ]
     body = "".join(layers)
     return (

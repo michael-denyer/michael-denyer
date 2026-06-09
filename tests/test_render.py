@@ -59,14 +59,27 @@ def test_alert_and_sit_cats_do_not_share_a_seat(busy_state):
     state = busy_state.model_copy(
         update={
             "cats": [
-                RepoCat(name="pyLocusZoom", stars=1, last_commit_hash="aaaaaaa",
-                        last_commit_age_hours=2.0),
-                RepoCat(name="code-review-graph", stars=1, last_commit_hash="bbbbbbb",
-                        last_commit_age_hours=20.0),
-                RepoCat(name="numpy-mkl", stars=1, last_commit_hash="ccccccc",
-                        last_commit_age_hours=48.0),
-                RepoCat(name="jamma", stars=1, last_commit_hash="ddddddd",
-                        last_commit_age_hours=50.0),
+                RepoCat(
+                    name="pyLocusZoom",
+                    stars=1,
+                    last_commit_hash="aaaaaaa",
+                    last_commit_age_hours=2.0,
+                ),
+                RepoCat(
+                    name="code-review-graph",
+                    stars=1,
+                    last_commit_hash="bbbbbbb",
+                    last_commit_age_hours=20.0,
+                ),
+                RepoCat(
+                    name="numpy-mkl",
+                    stars=1,
+                    last_commit_hash="ccccccc",
+                    last_commit_age_hours=48.0,
+                ),
+                RepoCat(
+                    name="jamma", stars=1, last_commit_hash="ddddddd", last_commit_age_hours=50.0
+                ),
             ]
         }
     )
@@ -80,8 +93,9 @@ def test_sleep_overflow_goes_to_floor_line(busy_state):
     from commit_cafe.state import RepoCat
 
     sleepy = [
-        RepoCat(name=f"old-repo-{i}", stars=1, last_commit_hash="abc1234",
-                last_commit_age_hours=1000.0)
+        RepoCat(
+            name=f"old-repo-{i}", stars=1, last_commit_hash="abc1234", last_commit_age_hours=1000.0
+        )
         for i in range(5)
     ]
     state = busy_state.model_copy(update={"cats": sleepy, "open_prs": []})
