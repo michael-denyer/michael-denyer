@@ -47,12 +47,16 @@ def _name_digest(name: str) -> int:
 
 
 def assign_poses(cats: list[RepoCat]) -> list[Pose]:
-    """Map commit recency to a pose per cat (cats arrive ordered by recency).
+    """Map commit recency to a pose per cat.
 
     The single most recent cat under 24h chases the yarn; other sub-24h cats
     sit alert watching it. Under 14 days they sit or loaf (picked
     deterministically from the repo name so the scene is stable between
     renders); anything older sleeps.
+
+    Args:
+        cats: Sorted ascending by last_commit_age_hours (most recent first);
+            the first qualifying cat becomes the chaser.
     """
     poses: list[Pose] = []
     chaser_taken = False
