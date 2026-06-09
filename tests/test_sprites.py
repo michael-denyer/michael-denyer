@@ -88,9 +88,12 @@ def test_dog_shows_pr_number():
 
 def test_bowl_kibble_scales():
     full = bowl(30, palette=DAY)
+    one = bowl(1, palette=DAY)
     empty = bowl(0, palette=DAY)
-    assert full.count("<circle") > empty.count("<circle")
-    assert "23" not in empty
+    assert full.count("<circle") > one.count("<circle") >= 1
+    assert "1 day of kibble" in one
+    assert "30 days of kibble" in full
+    assert "bowl empty" in empty
 
 
 def test_bookshelf_spine_count_matches_languages():
