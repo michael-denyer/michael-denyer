@@ -5,6 +5,7 @@ positioned by the renderer via translate. All animation is SMIL.
 """
 
 import html
+import math
 
 from commit_cafe.palette import Coat
 
@@ -234,3 +235,274 @@ def name_sign(text: str, board: str, trim: str, text_color: str) -> str:
         f'<text x="0" y="18" text-anchor="middle" font-family="Georgia, serif" '
         f'font-size="14" font-weight="500" fill="{text_color}">{html.escape(text)}</text>'
     )
+
+
+DOG_BODY = "#b98a5e"
+DOG_SHADE = "#9c6f44"
+
+
+def dog_at_door(pr_number: int | None, more_count: int, palette: dict[str, str]) -> str:
+    """Door with glass pane; a bouncing dog appears when a PR is open.
+
+    Origin: door bottom-center on the floor line.
+    """
+    door = (
+        f'<rect x="-65" y="-310" width="130" height="310" fill="{palette["door"]}"/>'
+        f'<rect x="-57" y="-302" width="114" height="294" fill="{palette["shelf"]}"/>'
+        f'<rect x="-47" y="-288" width="94" height="130" fill="{palette["door_glass"]}"/>'
+        f'<circle cx="41" cy="-120" r="6" fill="#c9a24a"/>'
+    )
+    if pr_number is None:
+        sign_text = "deliveries welcome"
+        dog = ""
+        extra = ""
+    else:
+        sign_text = f"PR #{pr_number} · let me in?"
+        bounce = (
+            '<animateTransform attributeName="transform" type="translate" '
+            'values="0 0;0 -14;0 0" keyTimes="0;0.5;1" calcMode="spline" '
+            'keySplines="0.3 0 0.4 1;0.6 0 0.7 1" dur="0.9s" repeatCount="indefinite"/>'
+        )
+        wag = (
+            '<animateTransform attributeName="transform" type="rotate" '
+            'values="-20 18 -178;20 18 -178;-20 18 -178" dur="0.45s" repeatCount="indefinite"/>'
+        )
+        dog = (
+            f"<g>{bounce}"
+            f'<path d="M18 -178 L34 -192" stroke="{DOG_SHADE}" stroke-width="6" '
+            f'stroke-linecap="round">{wag}</path>'
+            f'<circle cx="0" cy="-198" r="26" fill="{DOG_BODY}"/>'
+            f'<ellipse cx="-23" cy="-198" rx="9" ry="20" fill="{DOG_BODY}" '
+            f'transform="rotate(20 -23 -198)"/>'
+            f'<ellipse cx="23" cy="-198" rx="9" ry="20" fill="{DOG_BODY}" '
+            f'transform="rotate(-20 23 -198)"/>'
+            f'<ellipse cx="0" cy="-188" rx="13" ry="10" fill="#e8d9b8"/>'
+            f'<circle cx="0" cy="-192" r="4" fill="{LINE}"/>'
+            f'<circle cx="-9" cy="-204" r="2.6" fill="{LINE}"/>'
+            f'<circle cx="9" cy="-204" r="2.6" fill="{LINE}"/>'
+            f'<rect x="-3" y="-184" width="7" height="10" rx="3" fill="{EAR_INNER}"/>'
+            f"</g>"
+            f'<circle cx="-23" cy="-168" r="7" fill="{DOG_SHADE}"/>'
+            f'<circle cx="23" cy="-168" r="7" fill="{DOG_SHADE}"/>'
+        )
+        extra = (
+            f'<text x="0" y="-322" text-anchor="middle" font-family="Georgia, serif" '
+            f'font-size="13" fill="{palette["text"]}">+{more_count} waiting</text>'
+            if more_count > 0
+            else ""
+        )
+    hang = (
+        f'<path d="M-25 -332 V-344 M25 -332 V-344" stroke="{palette["sign_trim"]}" '
+        f'stroke-width="2"/>'
+    )
+    sign = g(name_sign(sign_text, palette["sign_board"], palette["sign_trim"],
+                       palette["sign_text"]), transform="translate(0 -358)")
+    return g(door + dog + hang + sign + extra)
+
+
+def bowl(streak_days: int, palette: dict[str, str]) -> str:
+    kibble_count = min(14, streak_days * 14 // 30) if streak_days > 0 else 0
+    bits = "".join(
+        f'<circle cx="{-24 + (i * 13) % 50}" cy="{-10 + (i * 7) % 9}" r="3.2" '
+        f'fill="{palette["kibble"]}"/>'
+        for i in range(kibble_count)
+    )
+    label = f"{streak_days} days of kibble" if streak_days > 0 else "bowl empty — commit!"
+    return g(
+        f'<ellipse cx="0" cy="0" rx="42" ry="16" fill="{palette["bowl"]}"/>'
+        f'<ellipse cx="0" cy="-6" rx="36" ry="11" fill="{palette["bowl_inner"]}"/>'
+        f"{bits}"
+        f'<text x="0" y="6" text-anchor="middle" font-family="Georgia, serif" '
+        f'font-size="13" font-weight="500" fill="{palette["sign_text"]}">STREAK</text>'
+        f'<text x="0" y="30" text-anchor="middle" font-family="Georgia, serif" '
+        f'font-size="14" fill="{palette["text"]}">{label}</text>'
+    )
+
+
+def chalkboard(lines: list[str], palette: dict[str, str]) -> str:
+    title = (
+        f'<text x="0" y="38" text-anchor="middle" font-family="Georgia, serif" '
+        f'font-size="26" font-weight="500" fill="{palette["chalk_text"]}">THE COMMIT CAFE</text>'
+    )
+    rows = "".join(
+        f'<text x="0" y="{62 + i * 18}" text-anchor="middle" font-family="Georgia, serif" '
+        f'font-size="14" fill="{palette["chalk_text"]}">{line}</text>'
+        for i, line in enumerate(lines)
+    )
+    height = 70 + len(lines) * 18
+    return g(
+        f'<rect x="-160" y="0" width="320" height="{height}" fill="{palette["chalk_board"]}"/>'
+        f'<rect x="-160" y="0" width="320" height="{height}" fill="none" '
+        f'stroke="{palette["window_frame"]}" stroke-width="6"/>'
+        + title
+        + rows
+    )
+
+
+def bookshelf(languages: list[tuple[str, float]], palette: dict[str, str]) -> str:
+    """Book spines sized by language share. Origin: shelf-board top-left."""
+    spine_colors = ["#c75450", "#4e7a4a", "#4a7a9c", "#c9a24a", "#8a5f9c"]
+    total_width = 170.0
+    x = 6.0
+    spines = []
+    for i, (lang, share) in enumerate(languages[:5]):
+        w = max(18.0, total_width * share)
+        h = 52 - (i % 3) * 6
+        color = spine_colors[i % len(spine_colors)]
+        spines.append(
+            f'<g class="spine"><rect x="{x:.1f}" y="{-h}" width="{w:.1f}" height="{h}" '
+            f'fill="{color}" rx="2"/>'
+            f'<text x="{x + w / 2:.1f}" y="{-h / 2 + 4:.0f}" text-anchor="middle" '
+            f'font-family="Georgia, serif" font-size="11" fill="#f5ead2" '
+            f'transform="rotate(-90 {x + w / 2:.1f} {-h / 2:.0f})">{lang}</text></g>'
+        )
+        x += w + 4
+    board = (
+        f'<rect x="0" y="0" width="{x + 2:.1f}" height="12" fill="{palette["shelf"]}"/>'
+        f'<rect x="6" y="12" width="10" height="22" fill="{palette["shelf_bracket"]}"/>'
+        f'<rect x="{x - 14:.1f}" y="12" width="10" height="22" '
+        f'fill="{palette["shelf_bracket"]}"/>'
+    )
+    return g("".join(spines) + board)
+
+
+def wall_clock(hour: int, minute: int, palette: dict[str, str]) -> str:
+    hour_angle = (hour % 12 + minute / 60) * 30
+    minute_angle = minute * 6
+    hx = 14 * math.sin(math.radians(hour_angle))
+    hy = -14 * math.cos(math.radians(hour_angle))
+    mx = 20 * math.sin(math.radians(minute_angle))
+    my = -20 * math.cos(math.radians(minute_angle))
+    return g(
+        f'<circle cx="0" cy="0" r="28" fill="{palette["sign_text"]}" '
+        f'stroke="{palette["window_frame"]}" stroke-width="5"/>'
+        f'<path d="M0 0 L{hx:.1f} {hy:.1f}" stroke="{LINE}" stroke-width="3" '
+        f'stroke-linecap="round"/>'
+        f'<path d="M0 0 L{mx:.1f} {my:.1f}" stroke="{LINE}" stroke-width="2" '
+        f'stroke-linecap="round"/>'
+        f'<circle cx="0" cy="0" r="2.5" fill="{LINE}"/>'
+    )
+
+
+def window(palette: dict[str, str]) -> str:
+    """300x280 window. Origin: top-left of frame. Day shows clouds; night shows
+    stars, moon, and flickering city windows — both variants are emitted and
+    the palette's opacity switches select which is visible."""
+    sky = (
+        f'<rect x="14" y="14" width="272" height="126" fill="{palette["sky_top"]}"/>'
+        f'<rect x="14" y="140" width="272" height="126" fill="{palette["sky_bottom"]}"/>'
+    )
+    clouds = (
+        f'<g opacity="{palette["cloud_opacity"]}">'
+        f'<g><animateTransform attributeName="transform" type="translate" '
+        f'values="-80 0;300 0" dur="34s" repeatCount="indefinite"/>'
+        f'<ellipse cx="60" cy="60" rx="34" ry="12" fill="#f5f2ea"/>'
+        f'<ellipse cx="84" cy="52" rx="22" ry="10" fill="#f5f2ea"/></g>'
+        f'<g><animateTransform attributeName="transform" type="translate" '
+        f'values="320 0;-100 0" dur="52s" repeatCount="indefinite"/>'
+        f'<ellipse cx="40" cy="110" rx="28" ry="10" fill="#efe9dd"/></g></g>'
+    )
+    stars = f'<g opacity="{palette["stars_opacity"]}">' + "".join(
+        f'<circle cx="{30 + (i * 47) % 240}" cy="{28 + (i * 31) % 100}" r="1.4" fill="#dfe6ff">'
+        f'<animate attributeName="opacity" values="0.3;1;0.3" dur="{2.4 + (i % 4) * 0.9:.1f}s" '
+        f'begin="{-(i % 5) * 0.7:.4f}s" repeatCount="indefinite"/></circle>'
+        for i in range(16)
+    ) + (
+        f'</g><circle cx="240" cy="62" r="24" fill="#f0e6cd" '
+        f'opacity="{palette["moon_opacity"]}"/>'
+    )
+    city = (
+        f'<g><rect x="30" y="186" width="50" height="80" fill="{palette["city"]}"/>'
+        f'<rect x="100" y="166" width="40" height="100" fill="{palette["city"]}"/>'
+        f'<rect x="160" y="196" width="60" height="70" fill="{palette["city"]}"/>'
+        f'<rect x="236" y="176" width="40" height="90" fill="{palette["city"]}"/>'
+        + "".join(
+            f'<rect x="{38 + (i * 53) % 220}" y="{196 + (i * 23) % 56}" width="8" height="9" '
+            f'fill="{palette["city_window"]}">'
+            f'<animate attributeName="opacity" values="1;1;0.2;1" keyTimes="0;0.7;0.75;0.8" '
+            f'calcMode="discrete" dur="{5 + i}s" repeatCount="indefinite"/></rect>'
+            for i in range(6)
+        )
+        + "</g>"
+    )
+    frame = (
+        f'<rect x="0" y="0" width="300" height="280" fill="none" '
+        f'stroke="{palette["window_frame"]}" stroke-width="14"/>'
+        f'<rect x="144" y="14" width="10" height="252" fill="{palette["window_frame"]}"/>'
+        f'<rect x="14" y="132" width="272" height="10" fill="{palette["window_frame"]}"/>'
+    )
+    return g(sky + clouds + stars + city + frame)
+
+
+def plant(swing_phase: float = 0.0) -> str:
+    leaves = "".join(
+        f'<ellipse cx="{[-22, -12, 0, 12, 22][i]}" cy="{[-26, -38, -44, -38, -26][i]}" '
+        f'rx="7" ry="17" fill="#4e7a4a" '
+        f'transform="rotate({[-40, -18, 0, 18, 40][i]} {[-22, -12, 0, 12, 22][i]} '
+        f'{[-26, -38, -44, -38, -26][i]})"/>'
+        for i in range(5)
+    )
+    sway = (
+        f'<animateTransform attributeName="transform" type="rotate" '
+        f'values="0 0 0;2.5 0 0;0 0 0;-2 0 0;0 0 0" dur="7s" '
+        f'begin="{-swing_phase * 7:.4f}s" repeatCount="indefinite"/>'
+    )
+    pot = '<path d="M-24 0 L24 0 L16 -28 L-16 -28 Z" fill="#b3593e" transform="scale(1 -1)"/>'
+    return g(f"<g>{sway}{leaves}</g>" + pot)
+
+
+def lamp(palette: dict[str, str]) -> str:
+    """Pendant lamp. Origin: ceiling attachment point."""
+    return g(
+        f'<path d="M0 0 V56" stroke="#5a4632" stroke-width="3"/>'
+        f'<path d="M-26 92 L26 92 L14 58 L-14 58 Z" fill="{palette["lamp_shade"]}"/>'
+        f'<circle cx="0" cy="94" r="7" fill="#ffd9a0"/>'
+        f'<circle cx="0" cy="120" r="56" fill="#ffd9a0" '
+        f'opacity="{palette["lamp_glow_opacity"]}"/>'
+        f'<path d="M-26 92 L26 92 L78 360 L-78 360 Z" fill="#ffd9a0" '
+        f'opacity="{palette["lamp_glow_opacity"]}"/>'
+    )
+
+
+def steam() -> str:
+    puffs = "".join(
+        f'<circle cx="{i * 3 - 3}" cy="0" r="{4 + i}" fill="#f5f2ea" opacity="0">'
+        f'<animate attributeName="opacity" values="0;0.5;0" dur="3.2s" begin="{i * 1.05:.4f}s" '
+        f'repeatCount="indefinite"/>'
+        f'<animateTransform attributeName="transform" type="translate" '
+        f'values="0 0;{4 - i * 4} -34" dur="3.2s" begin="{i * 1.05:.4f}s" '
+        f'repeatCount="indefinite"/></circle>'
+        for i in range(3)
+    )
+    return g(puffs)
+
+
+def dust_motes(palette: dict[str, str]) -> str:
+    """Floating dust in the window sunbeam (day only via beam_opacity)."""
+    motes = "".join(
+        f'<circle cx="{(i * 37) % 180}" cy="{(i * 53) % 240}" r="1.6" fill="#fff8e8">'
+        f'<animateTransform attributeName="transform" type="translate" '
+        f'values="0 0;{8 - (i % 3) * 6} {18 + (i % 4) * 8};0 0" dur="{9 + i}s" '
+        f'repeatCount="indefinite"/>'
+        f'<animate attributeName="opacity" values="0.2;0.8;0.2" dur="{7 + i}s" '
+        f'repeatCount="indefinite"/></circle>'
+        for i in range(8)
+    )
+    beam = (
+        f'<path d="M0 0 L90 0 L260 460 L100 460 Z" fill="#fff3d6" '
+        f'opacity="{palette["beam_opacity"]}"/>'
+    )
+    return g(beam + f'<g opacity="{palette["beam_opacity"]}">{motes}</g>')
+
+
+def fireflies(palette: dict[str, str]) -> str:
+    flies = "".join(
+        f'<circle cx="{30 + i * 60}" cy="{20 + i * 30}" r="2.4" fill="#ffe9a0">'
+        f'<animate attributeName="opacity" values="0;1;0;0" keyTimes="0;0.15;0.4;1" '
+        f'dur="{3.4 + i * 1.3:.1f}s" repeatCount="indefinite"/>'
+        f'<animateTransform attributeName="transform" type="translate" '
+        f'values="0 0;{14 - i * 10} {-12 + i * 8};0 0" dur="{8 + i * 2}s" '
+        f'repeatCount="indefinite"/></circle>'
+        for i in range(2)
+    )
+    return g(f'<g opacity="{palette["firefly_opacity"]}">{flies}</g>')
