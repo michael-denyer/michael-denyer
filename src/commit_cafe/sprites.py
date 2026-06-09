@@ -4,6 +4,8 @@ Sprites draw around a local origin (ground-contact point, x-centered) and are
 positioned by the renderer via translate. All animation is SMIL.
 """
 
+import html
+
 from commit_cafe.palette import Coat
 
 EAR_INNER = "#d98a8a"
@@ -23,7 +25,7 @@ def swish(cx: float, cy: float, dur: float, amp: float, phase: float) -> str:
         f'values="0 {cx} {cy};{amp} {cx} {cy};0 {cx} {cy};{-amp * 0.6} {cx} {cy};0 {cx} {cy}" '
         f'keyTimes="0;0.3;0.55;0.8;1" calcMode="spline" '
         f'keySplines="0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1;0.4 0 0.6 1" '
-        f'dur="{dur}s" begin="{-phase * dur}s" repeatCount="indefinite"/>'
+        f'dur="{dur}s" begin="{-phase * dur:.4f}s" repeatCount="indefinite"/>'
     )
 
 
@@ -33,7 +35,7 @@ def breathe(content: str, cx: float, cy: float, dur: float, amp: float, phase: f
         f'<animateTransform attributeName="transform" type="scale" '
         f'values="1 1;1 {1 + amp};1 1" keyTimes="0;0.5;1" calcMode="spline" '
         f'keySplines="0.4 0 0.6 1;0.4 0 0.6 1" '
-        f'dur="{dur}s" begin="{-phase * dur}s" repeatCount="indefinite"/>'
+        f'dur="{dur}s" begin="{-phase * dur:.4f}s" repeatCount="indefinite"/>'
     )
     return (
         f'<g transform="translate({cx} {cy})"><g>{anim}'
@@ -42,7 +44,7 @@ def breathe(content: str, cx: float, cy: float, dur: float, amp: float, phase: f
 
 
 def _blink(open_eyes: str, closed_eyes: str, dur: float, phase: float) -> str:
-    begin = f"{-phase * dur}s"
+    begin = f"{-phase * dur:.4f}s"
     show_open = (
         f'<animate attributeName="opacity" values="1;1;0;0;1" '
         f'keyTimes="0;0.92;0.93;0.97;0.98" dur="{dur}s" begin="{begin}" '
@@ -65,7 +67,7 @@ def _ear(x: float, y: float, s: float, color: str, tilt: float, flick_phase: flo
         flick = (
             f'<animateTransform attributeName="transform" type="rotate" '
             f'values="0 {x} {y};0 {x} {y};-9 {x} {y};0 {x} {y};0 {x} {y}" '
-            f'keyTimes="0;0.55;0.6;0.65;1" dur="9s" begin="{-flick_phase * 9}s" '
+            f'keyTimes="0;0.55;0.6;0.65;1" dur="9s" begin="{-flick_phase * 9:.4f}s" '
             f'repeatCount="indefinite"/>'
         )
     return g(
@@ -216,9 +218,9 @@ def cat_sleep(coat: Coat, phase: float, eye_glow_opacity: str) -> str:
         f'<text x="-20" y="-44" font-family="Georgia, serif" font-size="{13 + i * 4}" '
         f'fill="{LINE}" opacity="0">'
         f'<animate attributeName="opacity" values="0;0.7;0" keyTimes="0;0.3;1" dur="4s" '
-        f'begin="{i * 1.3 - phase * 4}s" repeatCount="indefinite"/>'
+        f'begin="{i * 1.3 - phase * 4:.4f}s" repeatCount="indefinite"/>'
         f'<animateTransform attributeName="transform" type="translate" values="0 0;6 -26" '
-        f'dur="4s" begin="{i * 1.3 - phase * 4}s" repeatCount="indefinite"/>z</text>'
+        f'dur="4s" begin="{i * 1.3 - phase * 4:.4f}s" repeatCount="indefinite"/>z</text>'
         for i in range(3)
     )
     return g(breathe(body, 0, -14, dur=4.4, amp=0.05, phase=phase) + zs)
@@ -230,5 +232,5 @@ def name_sign(text: str, board: str, trim: str, text_color: str) -> str:
         f'<rect x="{-width / 2}" y="0" width="{width}" height="26" fill="{board}" rx="3"/>'
         f'<rect x="{-width / 2}" y="22" width="{width}" height="4" fill="{trim}" rx="2"/>'
         f'<text x="0" y="18" text-anchor="middle" font-family="Georgia, serif" '
-        f'font-size="14" font-weight="500" fill="{text_color}">{text}</text>'
+        f'font-size="14" font-weight="500" fill="{text_color}">{html.escape(text)}</text>'
     )
