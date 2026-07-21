@@ -29,8 +29,8 @@ OVERFLOW_X0, OVERFLOW_STEP = 1000, 115
 
 
 def _star_scale(stars: int) -> float:
-    """Bigger-starred repos render as slightly bigger cats, capped at ±15%."""
-    return min(1.15, max(0.85, 1.0 + 0.05 * (math.log10(stars + 1) - 1)))
+    """Bigger-starred repos render as slightly bigger cats, capped at 0.92–1.2x."""
+    return min(1.2, max(0.92, 1.06 + 0.05 * (math.log10(stars + 1) - 1)))
 
 
 def _phase(name: str) -> float:
@@ -79,7 +79,8 @@ def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
         }[pose]
         if state.streak_days == 0:
             pose_fn = sprites.cat_alert
-        body = pose_fn(coat, ph, glow)
+        shadow_width = 38 if pose in (Pose.LOAF, Pose.SLEEP) else 31
+        body = sprites.cat_shadow(palette, shadow_width) + pose_fn(coat, ph, glow)
         scale = _star_scale(cat.stars)
         sign_y = y + 14 + (30 if seat_idx % 2 else 0)
         cats_svg.append(f'<g transform="translate({x} {y}) scale({scale:.3f})">{body}</g>')
@@ -96,10 +97,17 @@ def _room(palette: dict[str, str]) -> str:
         f'stroke="{palette["plank"]}" stroke-width="2"/>'
         for i in range(14)
     )
+    panels = "".join(
+        f'<rect x="{x}" y="507" width="138" height="55" rx="3" fill="none" '
+        f'stroke="{palette["wainscot_trim"]}" stroke-width="3" opacity="0.7"/>'
+        for x in range(18, W, 158)
+    )
     return (
         f'<rect width="{W}" height="{FLOOR_Y}" fill="{palette["wall"]}"/>'
         f'<rect y="{FLOOR_Y - 90}" width="{W}" height="90" fill="{palette["wainscot"]}"/>'
         f'<rect y="{FLOOR_Y - 90}" width="{W}" height="5" fill="{palette["wainscot_trim"]}"/>'
+        f"{panels}"
+        f'<rect y="{FLOOR_Y - 7}" width="{W}" height="7" fill="{palette["wainscot_trim"]}"/>'
         f'<rect y="{FLOOR_Y}" width="{W}" height="{H - FLOOR_Y}" fill="{palette["floor"]}"/>'
         f"{planks}"
     )
@@ -116,9 +124,16 @@ def _furniture(state: CafeState, palette: dict[str, str]) -> str:
         )
 
     counter = (
+        f'<rect x="908" y="486" width="324" height="158" rx="5" '
+        f'fill="{palette["shadow"]}" opacity="{palette["shadow_opacity"]}"/>'
         f'<rect x="900" y="470" width="340" height="18" fill="{palette["counter_top"]}"/>'
         f'<rect x="912" y="488" width="316" height="{FLOOR_Y - 488 + 60}" '
         f'fill="{palette["counter"]}"/>'
+        f'<rect x="930" y="508" width="128" height="112" rx="4" fill="none" '
+        f'stroke="{palette["counter_panel"]}" stroke-width="5"/>'
+        f'<rect x="1082" y="508" width="128" height="112" rx="4" fill="none" '
+        f'stroke="{palette["counter_panel"]}" stroke-width="5"/>'
+        f'<g transform="translate(1070 564)">{sprites.counter_badge(palette)}</g>'
         f'<rect x="1158" y="442" width="30" height="26" fill="#f5f0e4"/>'
         f'<path d="M1190 445 a8 8 0 0 1 0 16" stroke="#f5f0e4" stroke-width="3" '
         f'fill="none"/>'
@@ -142,9 +157,15 @@ def _furniture(state: CafeState, palette: dict[str, str]) -> str:
 def render(state: CafeState, mode: str) -> str:
     palette = DAY if mode == "day" else NIGHT
     cats_layer, chase_layer = _place(state, palette)
+    repo_label = "repo cat" if len(state.cats) == 1 else "repo cats"
+    commit_label = "commit" if state.commits_today == 1 else "commits"
+    streak_label = (
+        f"{state.streak_days}-day streak" if state.streak_days else "streak needs a commit"
+    )
     chalk_lines = [
-        f"{state.commits_today} commits today · {state.total_stars} stars",
-        f"est. {state.est_year} · rendered {state.rendered_at.strftime('%Y-%m-%d %H:%M')} UTC",
+        f"{len(state.cats)} {repo_label} in residence · {state.total_stars} stars",
+        f"{state.commits_today} {commit_label} today · {streak_label}",
+        f"serving code since {state.est_year} · {state.rendered_at.strftime('%H:%M')} UTC",
     ]
     pr = state.open_prs[0].number if state.open_prs else None
     more = max(0, len(state.open_prs) - 1)
@@ -156,10 +177,13 @@ def render(state: CafeState, mode: str) -> str:
         f'<g transform="translate(700 18)">{sprites.chalkboard(chalk_lines, palette)}</g>',
         _furniture(state, palette),
         f'<g transform="translate(765 {FLOOR_Y})">{sprites.dog_at_door(pr, more, palette)}</g>',
+        f'<g transform="translate(170 615)">{sprites.rug(palette)}</g>',
         cats_layer,
         chase_layer,
         f'<g transform="translate(130 666)">{sprites.bowl(state.streak_days, palette)}</g>',
         f'<rect width="{W}" height="{H}" fill="#1b2540" opacity="{palette["room_dim_opacity"]}"/>',
+        f'<rect x="2" y="2" width="{W - 4}" height="{H - 4}" fill="none" '
+        f'stroke="{palette["window_frame"]}" stroke-width="4" opacity="0.45"/>',
     ]
     body = "".join(layers)
     return (

@@ -8,9 +8,11 @@ from commit_cafe.sprites import (
     cat_alert,
     cat_chase,
     cat_loaf,
+    cat_shadow,
     cat_sit,
     cat_sleep,
     chalkboard,
+    counter_badge,
     dog_at_door,
     dust_motes,
     fireflies,
@@ -18,6 +20,7 @@ from commit_cafe.sprites import (
     name_sign,
     octocat_portrait,
     plant,
+    rug,
     steam,
     wall_clock,
     window,
@@ -70,12 +73,15 @@ def test_props_are_valid_xml():
         dog_at_door(None, more_count=0, palette=DAY),
         bowl(23, palette=DAY),
         bowl(0, palette=DAY),
+        cat_shadow(DAY),
         chalkboard(["4 commits today", "412 stars", "est. 2015"], palette=DAY),
+        counter_badge(DAY),
         bookshelf([("Python", 0.61), ("R", 0.2), ("SQL", 0.19)], palette=DAY),
         wall_clock(14, 30, palette=DAY),
         window(palette=DAY),
         window(palette=NIGHT),
         plant(),
+        rug(DAY),
         lamp(palette=NIGHT),
         steam(),
         dust_motes(palette=DAY),
@@ -128,3 +134,9 @@ def test_chase_cat_is_valid_and_flips():
 
 def test_octocat_portrait_is_valid():
     wrap(octocat_portrait(DAY))
+
+
+def test_rug_has_woven_detail_and_fringing():
+    svg = rug(DAY)
+    assert svg.count("stroke-linecap") >= 20
+    assert DAY["rug_trim"] in svg
