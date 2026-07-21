@@ -3,9 +3,12 @@ from datetime import UTC, datetime, timedelta
 import pytest
 
 import commit_cafe.collect as collect
-from commit_cafe.collect import _streak, fetch_state
+from commit_cafe.collect import _graphql, _streak, fetch_state
 
 NOW = datetime(2026, 6, 9, 14, 0, tzinfo=UTC)
+
+LIMIT_ERROR = {"errors": [{"type": "RESOURCE_LIMITS_EXCEEDED", "message": "limits exceeded"}]}
+FATAL_ERROR = {"errors": [{"type": "NOT_FOUND", "message": "no such user"}]}
 
 
 def day(offset: int, count: int) -> dict:
@@ -25,6 +28,37 @@ def test_streak_zero_today_does_not_break_yesterdays_run():
 def test_streak_gap_resets():
     days = [day(3, 5), day(2, 0), day(1, 1), day(0, 1)]
     assert _streak(days, NOW.date()) == (2, 1)
+
+
+@pytest.fixture
+def graphql_responses(monkeypatch):
+    """Queue GraphQL payloads for _graphql to consume, with sleeping stubbed out."""
+
+    def queue(*payloads):
+        calls = list(payloads)
+        monkeypatch.setattr(collect, "_post_graphql", lambda *_: calls.pop(0))
+        return calls
+
+    monkeypatch.setattr(collect.time, "sleep", lambda _: None)
+    return queue
+
+
+def test_graphql_retries_transient_resource_limit(graphql_responses):
+    remaining = graphql_responses(LIMIT_ERROR, {"data": {"ok": True}})
+    assert _graphql("q", {}, "tok") == {"data": {"ok": True}}
+    assert remaining == []  # took the retry, not the first response
+
+
+def test_graphql_gives_up_after_repeated_transient_errors(graphql_responses):
+    graphql_responses(*[LIMIT_ERROR] * collect.GRAPHQL_ATTEMPTS)
+    with pytest.raises(RuntimeError, match="RESOURCE_LIMITS_EXCEEDED"):
+        _graphql("q", {}, "tok")
+
+
+def test_graphql_does_not_retry_other_errors(graphql_responses):
+    graphql_responses(FATAL_ERROR)  # a second response would raise IndexError
+    with pytest.raises(RuntimeError, match="NOT_FOUND"):
+        _graphql("q", {}, "tok")
 
 
 @pytest.fixture

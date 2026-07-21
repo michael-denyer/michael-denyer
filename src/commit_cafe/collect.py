@@ -1,5 +1,6 @@
 """Fetch GitHub activity and normalize it into a CafeState."""
 
+import time
 from datetime import UTC, date, datetime
 from typing import Any
 
@@ -10,6 +11,12 @@ from commit_cafe.state import CafeState, PrInfo, RepoCat
 
 API = "https://api.github.com"
 ROSTER_SIZE = 5
+
+# GitHub intermittently rejects the contribution calendar query with this error
+# even though the query is well within the documented node budget. Retrying works.
+TRANSIENT_GRAPHQL_ERRORS = {"RESOURCE_LIMITS_EXCEEDED"}
+GRAPHQL_ATTEMPTS = 3
+GRAPHQL_BACKOFF_SECONDS = 2.0
 
 CONTRIB_QUERY = """
 query($login: String!) {
@@ -32,7 +39,7 @@ def _get(path: str, token: str, params: dict[str, Any] | None = None) -> Any:
     return response.json()
 
 
-def _graphql(query: str, variables: dict[str, Any], token: str) -> dict[str, Any]:
+def _post_graphql(query: str, variables: dict[str, Any], token: str) -> dict[str, Any]:
     response = httpx.post(
         f"{API}/graphql",
         headers=_headers(token),
@@ -40,7 +47,39 @@ def _graphql(query: str, variables: dict[str, Any], token: str) -> dict[str, Any
         timeout=30,
     )
     response.raise_for_status()
-    payload = response.json()
+    return response.json()
+
+
+def _is_transient(errors: list[dict[str, Any]] | None) -> bool:
+    return bool(errors) and all(e.get("type") in TRANSIENT_GRAPHQL_ERRORS for e in errors)
+
+
+def _graphql(query: str, variables: dict[str, Any], token: str) -> dict[str, Any]:
+    """POST a GraphQL query, retrying GitHub's transient resource-limit errors.
+
+    Args:
+        query: GraphQL document.
+        variables: Query variables.
+        token: GitHub token.
+
+    Returns:
+        The decoded response payload.
+
+    Raises:
+        RuntimeError: The response still carries errors after the last attempt.
+    """
+    payload = _post_graphql(query, variables, token)
+    for attempt in range(1, GRAPHQL_ATTEMPTS):
+        if not _is_transient(payload.get("errors")):
+            break
+        logger.warning(
+            "transient GraphQL error on attempt {}/{}, retrying: {}",
+            attempt,
+            GRAPHQL_ATTEMPTS,
+            payload["errors"],
+        )
+        time.sleep(GRAPHQL_BACKOFF_SECONDS * attempt)
+        payload = _post_graphql(query, variables, token)
     if "errors" in payload:
         raise RuntimeError(f"GraphQL errors: {payload['errors']}")
     return payload
