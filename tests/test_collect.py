@@ -1,9 +1,9 @@
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 
 import pytest
 
 import commit_cafe.collect as collect
-from commit_cafe.collect import _graphql, _streak, fetch_state
+from commit_cafe.collect import _fetch_streak, _graphql, _streak, fetch_state
 
 NOW = datetime(2026, 6, 9, 14, 0, tzinfo=UTC)
 
@@ -11,8 +11,12 @@ LIMIT_ERROR = {"errors": [{"type": "RESOURCE_LIMITS_EXCEEDED", "message": "limit
 FATAL_ERROR = {"errors": [{"type": "NOT_FOUND", "message": "no such user"}]}
 
 
+def iso(offset: int) -> str:
+    return (NOW.date() - timedelta(days=offset)).isoformat()
+
+
 def day(offset: int, count: int) -> dict:
-    return {"date": (NOW.date() - timedelta(days=offset)).isoformat(), "contributionCount": count}
+    return {"date": iso(offset), "contributionCount": count}
 
 
 def test_streak_counts_consecutive_days():
@@ -59,6 +63,59 @@ def test_graphql_does_not_retry_other_errors(graphql_responses):
     graphql_responses(FATAL_ERROR)  # a second response would raise IndexError
     with pytest.raises(RuntimeError, match="NOT_FOUND"):
         _graphql("q", {}, "tok")
+
+
+@pytest.fixture
+def calendar(monkeypatch):
+    """Serve any requested calendar window from a {date: count} map, recording calls."""
+
+    def serve(counts: dict[str, int]):
+        windows = []
+
+        def fake_graphql(query, variables, token):
+            start = date.fromisoformat(variables["from"][:10])
+            end = date.fromisoformat(variables["to"][:10])
+            windows.append((start, end))
+            span = (end - start).days + 1
+            days = [
+                {"date": iso_date, "contributionCount": counts.get(iso_date, 0)}
+                for iso_date in ((start + timedelta(days=i)).isoformat() for i in range(span))
+            ]
+            return {
+                "data": {
+                    "user": {
+                        "contributionsCollection": {
+                            "contributionCalendar": {"weeks": [{"contributionDays": days}]}
+                        }
+                    }
+                }
+            }
+
+        monkeypatch.setattr(collect, "_graphql", fake_graphql)
+        return windows
+
+    return serve
+
+
+def test_fetch_streak_reads_one_window_when_the_streak_is_short(calendar):
+    windows = calendar({iso(0): 3, iso(1): 2})
+    assert _fetch_streak("u", "tok", NOW.date()) == (2, 3)
+    assert len(windows) == 1  # a zero at the window's oldest day ends the walk
+
+
+def test_fetch_streak_walks_back_past_the_window_edge(calendar):
+    span = collect.CALENDAR_WINDOW_DAYS + 10
+    windows = calendar({iso(offset): 1 for offset in range(span)})
+    assert _fetch_streak("u", "tok", NOW.date()) == (span, 1)
+    assert len(windows) == 2
+    assert windows[1][1] == windows[0][0] - timedelta(days=1)  # contiguous, no skipped day
+
+
+def test_fetch_streak_stops_at_the_window_budget(calendar):
+    windows = calendar({iso(offset): 1 for offset in range(10_000)})
+    streak, _ = _fetch_streak("u", "tok", NOW.date())
+    assert len(windows) == collect.CALENDAR_WINDOWS
+    assert streak == collect.CALENDAR_WINDOWS * collect.CALENDAR_WINDOW_DAYS
 
 
 @pytest.fixture
@@ -109,7 +166,16 @@ def fake_api(monkeypatch):
                 "user": {
                     "contributionsCollection": {
                         "contributionCalendar": {
-                            "weeks": [{"contributionDays": [real_day(1, 2), real_day(0, 3)]}]
+                            # the leading zero stops the streak walk after one window
+                            "weeks": [
+                                {
+                                    "contributionDays": [
+                                        real_day(2, 0),
+                                        real_day(1, 2),
+                                        real_day(0, 3),
+                                    ]
+                                }
+                            ]
                         }
                     }
                 }

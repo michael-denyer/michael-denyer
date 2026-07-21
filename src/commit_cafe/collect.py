@@ -1,7 +1,7 @@
 """Fetch GitHub activity and normalize it into a CafeState."""
 
 import time
-from datetime import UTC, date, datetime
+from datetime import UTC, date, datetime, timedelta
 from typing import Any
 
 import httpx
@@ -12,16 +12,21 @@ from commit_cafe.state import CafeState, PrInfo, RepoCat
 API = "https://api.github.com"
 ROSTER_SIZE = 5
 
-# GitHub intermittently rejects the contribution calendar query with this error
-# even though the query is well within the documented node budget. Retrying works.
 TRANSIENT_GRAPHQL_ERRORS = {"RESOURCE_LIMITS_EXCEEDED"}
 GRAPHQL_ATTEMPTS = 3
 GRAPHQL_BACKOFF_SECONDS = 2.0
 
+# An unbounded contributionsCollection spans a year, and resolving that many
+# contributionDays costs more than the Actions GITHUB_TOKEN is allowed to spend:
+# GitHub answers RESOURCE_LIMITS_EXCEEDED. Ask for a short window instead and
+# walk further back only while the streak is still running.
+CALENDAR_WINDOW_DAYS = 90
+CALENDAR_WINDOWS = 5
+
 CONTRIB_QUERY = """
-query($login: String!) {
+query($login: String!, $from: DateTime!, $to: DateTime!) {
   user(login: $login) {
-    contributionsCollection {
+    contributionsCollection(from: $from, to: $to) {
       contributionCalendar { weeks { contributionDays { date contributionCount } } }
     }
   }
@@ -107,6 +112,46 @@ def _streak(days: list[dict[str, Any]], today: date) -> tuple[int, int]:
     return streak, today_count
 
 
+def _calendar_window(username: str, token: str, start: date, end: date) -> list[dict[str, Any]]:
+    payload = _graphql(
+        CONTRIB_QUERY,
+        {
+            "login": username,
+            "from": f"{start.isoformat()}T00:00:00Z",
+            "to": f"{end.isoformat()}T23:59:59Z",
+        },
+        token,
+    )
+    weeks = payload["data"]["user"]["contributionsCollection"]["contributionCalendar"]["weeks"]
+    return [day for week in weeks for day in week["contributionDays"]]
+
+
+def _fetch_streak(username: str, token: str, today: date) -> tuple[int, int]:
+    """Compute the contribution streak, reading the calendar a window at a time.
+
+    Stops as soon as a fetched window opens on a day with no contributions: that
+    zero proves the streak ended inside the days already in hand.
+
+    Args:
+        username: GitHub username.
+        token: GitHub personal access token or OAuth token.
+        today: The reference date for "today".
+
+    Returns:
+        Tuple of (streak_days, commits_today).
+    """
+    days: list[dict[str, Any]] = []
+    end = today
+    for _ in range(CALENDAR_WINDOWS):
+        start = end - timedelta(days=CALENDAR_WINDOW_DAYS - 1)
+        window = _calendar_window(username, token, start, end)
+        days.extend(window)
+        if min(window, key=lambda day: day["date"])["contributionCount"] == 0:
+            break
+        end = start - timedelta(days=1)
+    return _streak(days, today)
+
+
 def fetch_state(username: str, token: str) -> CafeState:
     """Fetch GitHub activity for a user and return a CafeState.
 
@@ -156,15 +201,7 @@ def fetch_state(username: str, token: str) -> CafeState:
         for item in sorted(search["items"], key=lambda item: item["created_at"])
     ]
 
-    calendar = _graphql(CONTRIB_QUERY, {"login": username}, token)
-    days = [
-        d
-        for week in calendar["data"]["user"]["contributionsCollection"]["contributionCalendar"][
-            "weeks"
-        ]
-        for d in week["contributionDays"]
-    ]
-    streak_days, commits_today = _streak(days, now.date())
+    streak_days, commits_today = _fetch_streak(username, token, now.date())
 
     user = _get(f"/users/{username}", token)
     state = CafeState(

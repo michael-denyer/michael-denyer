@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img">
+  <title>Michael Denyer — genomics and data engineering</title>
+  <desc>A DNA helix flows into a genomic association plot beside Michael Denyer's name.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101927"/>
+      <stop offset="1" stop-color="#162b3b"/>
+    </linearGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+      <path d="M32 0H0V32" fill="none" stroke="#d8edf3" stroke-opacity=".055"/>
+    </pattern>
+    <clipPath id="frame">
+      <rect width="1200" height="300" rx="20"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#frame)">
+    <rect width="1200" height="300" fill="url(#bg)"/>
+    <rect width="1200" height="300" fill="url(#grid)"/>
+    <circle cx="1112" cy="-24" r="168" fill="#f38b52" opacity=".1"/>
+    <circle cx="1060" cy="308" r="142" fill="#55b8d3" opacity=".08"/>
+
+    <g fill="none" stroke-linecap="round" opacity=".25">
+      <path d="M-24 230C58 150 137 150 219 230S380 310 462 230S623 150 705 230" stroke="#55b8d3" stroke-width="5"/>
+      <path d="M-24 230C58 310 137 310 219 230S380 150 462 230S623 310 705 230" stroke="#f38b52" stroke-width="5"/>
+      <g stroke="#a7becb" stroke-width="2">
+        <path d="M18 196v68M70 171v118M122 164v132M174 181v98M226 222v16M278 181v98M330 164v132M382 171v118M434 196v68M486 241v-22M538 275v-90M590 295V165M642 283V177M694 247v-34"/>
+      </g>
+    </g>
+
+    <g transform="translate(70 62)">
+      <rect width="11" height="104" rx="5.5" fill="#f38b52"/>
+      <text x="30" y="48" fill="#f2f7f9" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="55" font-weight="750" letter-spacing="-1.5">Michael Denyer</text>
+      <text x="32" y="83" fill="#b4c8d2" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="21" font-weight="500" letter-spacing=".2">Scientific Python · Genomics · Data engineering</text>
+      <g transform="translate(31 111)">
+        <rect width="358" height="38" rx="19" fill="#e9f2f5"/>
+        <circle cx="21" cy="19" r="5" fill="#f06a3c"/>
+        <text x="37" y="25" fill="#162b3b" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="14" font-weight="700" letter-spacing=".5">TURNING VARIANTS INTO VISUALS</text>
+      </g>
+    </g>
+
+    <g transform="translate(756 45)">
+      <text x="0" y="12" fill="#94acb8" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" letter-spacing="1.4">SIGNAL / GENOME</text>
+      <path d="M0 208H382" stroke="#9ab0bb" stroke-width="2" opacity=".6"/>
+      <path d="M0 28V208" stroke="#9ab0bb" stroke-width="2" opacity=".35"/>
+      <path d="M0 165H382M0 121H382M0 77H382" stroke="#9ab0bb" stroke-width="1" stroke-dasharray="3 8" opacity=".2"/>
+      <g fill="#55b8d3" opacity=".88">
+        <circle cx="14" cy="187" r="4"/><circle cx="30" cy="180" r="4"/><circle cx="46" cy="190" r="4"/><circle cx="62" cy="174" r="4"/>
+        <circle cx="78" cy="184" r="4"/><circle cx="94" cy="167" r="4"/><circle cx="110" cy="179" r="4"/><circle cx="126" cy="159" r="4"/>
+        <circle cx="142" cy="176" r="4"/><circle cx="158" cy="154" r="4"/><circle cx="174" cy="169" r="4"/><circle cx="190" cy="183" r="4"/>
+        <circle cx="206" cy="172" r="4"/><circle cx="222" cy="162" r="4"/><circle cx="238" cy="185" r="4"/><circle cx="254" cy="168" r="4"/>
+        <circle cx="270" cy="178" r="4"/><circle cx="286" cy="188" r="4"/><circle cx="302" cy="170" r="4"/><circle cx="318" cy="181" r="4"/>
+        <circle cx="334" cy="160" r="4"/><circle cx="350" cy="176" r="4"/><circle cx="366" cy="184" r="4"/>
+      </g>
+      <g fill="#f38b52">
+        <circle cx="100" cy="145" r="4.5"/><circle cx="108" cy="124" r="4.5"/><circle cx="116" cy="94" r="5"/>
+        <circle cx="124" cy="56" r="5.5"/><circle cx="132" cy="22" r="6.5"/>
+      </g>
+      <path d="M132 22V208" stroke="#f38b52" stroke-width="1.5" stroke-dasharray="4 7" opacity=".4"/>
+      <g fill="#94acb8" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10">
+        <text x="6" y="225">1</text><text x="92" y="225">6</text><text x="180" y="225">11</text><text x="272" y="225">17</text><text x="358" y="225">22</text>
+      </g>
+    </g>
+  </g>
+</svg>
