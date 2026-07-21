@@ -120,3 +120,14 @@ def test_starrier_cats_render_bigger(busy_state):
 def test_broken_streak_turns_every_head(quiet_state):
     svg = render(quiet_state, "day")
     assert ">z<" not in svg  # nobody sleeps through a broken streak
+
+
+def test_chalkboard_summarizes_live_cafe_state(busy_state):
+    svg = render(busy_state, "day")
+    assert "5 repo cats in residence" in svg
+    assert "4 commits today · 23-day streak" in svg
+    assert "serving code since 2015 · 14:30 UTC" in svg
+
+
+def test_chalkboard_calls_out_a_broken_streak(quiet_state):
+    assert "0 commits today · streak needs a commit" in render(quiet_state, "day")

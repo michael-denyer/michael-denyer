@@ -235,6 +235,14 @@ def name_sign(text: str, board: str, trim: str, text_color: str) -> str:
     )
 
 
+def cat_shadow(palette: dict[str, str], width: float = 34) -> str:
+    """Soft contact shadow drawn beneath a stationary cat."""
+    return (
+        f'<ellipse cx="0" cy="-1" rx="{width}" ry="6" fill="{palette["shadow"]}" '
+        f'opacity="{palette["shadow_opacity"]}"/>'
+    )
+
+
 DOG_BODY = "#b98a5e"
 DOG_SHADE = "#9c6f44"
 
@@ -322,19 +330,65 @@ def bowl(streak_days: int, palette: dict[str, str]) -> str:
 
 def chalkboard(lines: list[str], palette: dict[str, str]) -> str:
     title = (
-        f'<text x="0" y="38" text-anchor="middle" font-family="Georgia, serif" '
-        f'font-size="26" font-weight="500" fill="{palette["chalk_text"]}">THE COMMIT CAFE</text>'
+        f'<text x="0" y="36" text-anchor="middle" font-family="Georgia, serif" '
+        f'font-size="26" font-weight="500" fill="{palette["chalk_text"]}">THE COMMIT CAFÉ</text>'
     )
     rows = "".join(
-        f'<text x="0" y="{62 + i * 18}" text-anchor="middle" font-family="Georgia, serif" '
+        f'<text x="0" y="{66 + i * 18}" text-anchor="middle" font-family="Georgia, serif" '
         f'font-size="14" fill="{palette["chalk_text"]}">{html.escape(line)}</text>'
         for i, line in enumerate(lines)
     )
-    height = 70 + len(lines) * 18
+    height = 76 + len(lines) * 18
     return g(
         f'<rect x="-160" y="0" width="320" height="{height}" fill="{palette["chalk_board"]}"/>'
         f'<rect x="-160" y="0" width="320" height="{height}" fill="none" '
-        f'stroke="{palette["window_frame"]}" stroke-width="6"/>' + title + rows
+        f'stroke="{palette["window_frame"]}" stroke-width="6"/>'
+        f'<path d="M-118 48 H118" stroke="{palette["chalk_text"]}" stroke-width="1" '
+        f'opacity="0.35" stroke-dasharray="2 5"/>'
+        f'<circle cx="-137" cy="22" r="3" fill="#c75450"/>'
+        f'<circle cx="137" cy="22" r="3" fill="#4e7a4a"/>' + title + rows
+    )
+
+
+def rug(palette: dict[str, str]) -> str:
+    """Woven rug that gives the chase animation a clear stage."""
+    fringe = "".join(
+        f'<path d="M{x} 82 v10" stroke="{palette["rug_trim"]}" stroke-width="3" '
+        f'stroke-linecap="round"/>'
+        for x in range(28, 493, 22)
+    )
+    weave = "".join(
+        f'<path d="M52 {y} Q130 {y - 12} 208 {y} T364 {y} T468 {y}" '
+        f'stroke="{palette["rug_pattern"]}" stroke-width="3" fill="none" opacity="0.75"/>'
+        for y in (27, 43, 59)
+    )
+    return g(
+        f'<rect x="0" y="0" width="520" height="84" rx="42" fill="{palette["rug"]}"/>'
+        f'<rect x="11" y="10" width="498" height="64" rx="32" fill="none" '
+        f'stroke="{palette["rug_trim"]}" stroke-width="4" opacity="0.9"/>'
+        f'<path d="M260 11 V73" stroke="{palette["rug_trim"]}" stroke-width="2" '
+        f'opacity="0.35" stroke-dasharray="4 8"/>'
+        f"{weave}{fringe}"
+    )
+
+
+def counter_badge(palette: dict[str, str]) -> str:
+    """Round coffee-cup emblem for the otherwise blank counter front."""
+    cup = (
+        f'<path d="M-15 -7 H13 V10 Q13 19 4 19 H-6 Q-15 19 -15 10 Z" '
+        f'fill="{palette["sign_text"]}"/>'
+        f'<path d="M13 -2 H19 Q27 -2 27 6 Q27 14 18 14 H13" fill="none" '
+        f'stroke="{palette["sign_text"]}" stroke-width="5"/>'
+        f'<path d="M-8 -14 C-14 -22 -2 -24 -7 -32 M3 -14 C-3 -22 9 -24 4 -32" '
+        f'fill="none" stroke="{palette["rug_trim"]}" stroke-width="3" '
+        f'stroke-linecap="round"/>'
+    )
+    return g(
+        f'<circle cx="0" cy="0" r="43" fill="{palette["counter_panel"]}" '
+        f'stroke="{palette["counter_top"]}" stroke-width="5"/>'
+        f'<circle cx="0" cy="0" r="34" fill="none" stroke="{palette["rug_trim"]}" '
+        f'stroke-width="2" stroke-dasharray="3 5" opacity="0.75"/>'
+        f"{cup}"
     )
 
 
@@ -577,6 +631,7 @@ def cat_chase(coat: Coat, chase: Chase, eye_glow_opacity: str, scale: float = 1.
         )
         return g(
             f"<g>{stride}"
+            f'<ellipse cx="0" cy="0" rx="31" ry="5" fill="{LINE}" opacity="0.18"/>'
             f'<path d="M{-22 * direction} -16 Q{-38 * direction} -22 {-34 * direction} -40" '
             f'stroke="{coat.body}" stroke-width="7" fill="none" stroke-linecap="round"/>'
             f'<ellipse cx="0" cy="-16" rx="26" ry="15" fill="{coat.body}"/>'

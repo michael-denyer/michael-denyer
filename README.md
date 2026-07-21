@@ -24,7 +24,7 @@ on making difficult technical work easier to understand.
     <td width="50%" valign="top">
       <p align="center">
         <a href="https://github.com/michael-denyer/jamma">
-          <img src="https://raw.githubusercontent.com/michael-denyer/jamma/master/logos/JAMMA_Large_Logo_v2.png" width="260" alt="JAMMA">
+          <img src="https://raw.githubusercontent.com/michael-denyer/jamma/master/logos/JAMMA_Large_Logo_v2.png" width="320" alt="JAMMA">
         </a>
       </p>
       <p><strong><a href="https://github.com/michael-denyer/jamma">JAMMA</a></strong> is a modern Python and C reimplementation of GEMMA for large-scale GWAS. It keeps GEMMA's familiar CLI and file formats while adding memory-safety checks and delivering up to 30× faster LOCO analysis.</p>
@@ -33,7 +33,7 @@ on making difficult technical work easier to understand.
     <td width="50%" valign="top">
       <p align="center">
         <a href="https://github.com/michael-denyer/pyLocusZoom">
-          <img src="https://raw.githubusercontent.com/michael-denyer/pyLocusZoom/main/logo.svg" width="260" alt="pyLocusZoom">
+          <img src="https://raw.githubusercontent.com/michael-denyer/pyLocusZoom/main/logo.svg" width="190" alt="pyLocusZoom">
         </a>
       </p>
       <p><strong><a href="https://github.com/michael-denyer/pyLocusZoom">pyLocusZoom</a></strong> turns GWAS results into publication-ready and interactive figures: regional association plots, gene tracks, fine-mapping, PheWAS, LD heatmaps, forest plots, and more.</p>
@@ -112,21 +112,16 @@ language intelligence.
       <a href="https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3Amichael-denyer">View contributions →</a>
     </td>
     <td width="50%" valign="top">
-      <strong><a href="https://github.com/bioconda/bioconda-recipes">bioconda/bioconda-recipes</a></strong><br>
-      <sub>Added and maintained the pyLocusZoom package recipe for the Bioconda ecosystem.</sub><br>
-      <a href="https://github.com/bioconda/bioconda-recipes/pull/62201">View contribution →</a>
+      <strong><a href="https://github.com/tirth8205/code-review-graph">tirth8205/code-review-graph</a></strong><br>
+      <sub>Contributions spanning R and notebook parsing, plus module-scope call-graph correctness, for a persistent code knowledge graph.</sub><br>
+      <a href="https://github.com/tirth8205/code-review-graph/pulls?q=is%3Apr+author%3Amichael-denyer">View contributions →</a>
     </td>
   </tr>
   <tr>
-    <td width="50%" valign="top">
+    <td colspan="2" valign="top">
       <strong><a href="https://github.com/satchellhong/qqman">satchellhong/qqman</a></strong><br>
       <sub>Modernised the Python package for current Python 3.10+ environments.</sub><br>
       <a href="https://github.com/satchellhong/qqman/pull/3">View contribution →</a>
-    </td>
-    <td width="50%" valign="top">
-      <strong><a href="https://github.com/databricks/delta-live-tables-notebooks">databricks/delta-live-tables-notebooks</a></strong><br>
-      <sub>Updated public Delta Live Tables examples across retail, loan-risk, and Wikipedia workloads.</sub><br>
-      <a href="https://github.com/databricks/delta-live-tables-notebooks/pulls?q=is%3Apr+author%3Amichael-denyer">View contributions →</a>
     </td>
   </tr>
 </table>
