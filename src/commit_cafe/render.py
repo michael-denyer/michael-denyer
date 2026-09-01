@@ -10,9 +10,9 @@ from commit_cafe.state import CafeState, Pose, assign_poses
 
 W, H = 1280, 720
 FLOOR_Y = 580
-RUG_X, RUG_Y = 350, 570
-CHASE_X1, CHASE_X2, CHASE_Y = 410, 800, 642
-CHASE_SIGN_Y = 684
+RUG_X, RUG_Y = 310, 544
+CHASE_X1, CHASE_X2, CHASE_Y = 380, 820, 626
+CHASE_SIGN_Y = 674
 STREAK_X, STREAK_Y = 1100, 678
 
 # Seat pools shared by poses. The floor strip belongs to the activity chase,
@@ -150,9 +150,9 @@ def _furniture(state: CafeState, palette: dict[str, str]) -> str:
         + f'<g transform="translate(1020 330)">'
         f"{sprites.bookshelf(state.top_languages[:4], palette)}</g>"
         + f'<g transform="translate(1140 162)">{sprites.plant(0.3)}</g>'
-        + f'<g transform="translate(480 0)">{sprites.lamp(palette)}</g>'
+        + f'<g transform="translate(330 0)">{sprites.lamp(palette)}</g>'
         + f'<g transform="translate(1100 0)">{sprites.lamp(palette)}</g>'
-        + f'<g transform="translate(460 160)">'
+        + f'<g transform="translate(375 180)">'
         f"{sprites.wall_clock(state.rendered_at.hour, state.rendered_at.minute, palette)}"
         f"</g>" + f'<g transform="translate(545 185)">{sprites.octocat_portrait(palette)}</g>'
     )
@@ -178,9 +178,10 @@ def render(state: CafeState, mode: str) -> str:
         f'<g transform="translate(60 120)">{sprites.window(palette)}</g>',
         f'<g transform="translate(74 134)">{sprites.dust_motes(palette)}</g>',
         f'<g transform="translate(90 150)">{sprites.fireflies(palette)}</g>',
-        f'<g transform="translate(700 18)">{sprites.chalkboard(chalk_lines, palette)}</g>',
+        f'<g transform="translate(640 18)">{sprites.chalkboard(chalk_lines, palette)}</g>',
         _furniture(state, palette),
         f'<g transform="translate(765 {FLOOR_Y})">{sprites.dog_at_door(pr, more, palette)}</g>',
+        f'<g transform="translate({RUG_X} {RUG_Y})">{sprites.activity_stage(palette)}</g>',
         f'<g transform="translate({RUG_X} {RUG_Y})">{sprites.rug(palette)}</g>',
         cats_layer,
         chase_layer,
