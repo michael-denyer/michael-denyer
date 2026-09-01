@@ -3,6 +3,7 @@ from defusedxml import ElementTree as ET
 from commit_cafe.choreography import plan_chase
 from commit_cafe.palette import DAY, NIGHT, coat_for
 from commit_cafe.sprites import (
+    activity_stage,
     bookshelf,
     bowl,
     cat_alert,
@@ -74,6 +75,7 @@ def test_props_are_valid_xml():
         bowl(23, palette=DAY),
         bowl(0, palette=DAY),
         cat_shadow(DAY),
+        activity_stage(DAY),
         chalkboard(["4 commits today", "412 stars", "est. 2015"], palette=DAY),
         counter_badge(DAY),
         bookshelf([("Python", 0.61), ("R", 0.2), ("SQL", 0.19)], palette=DAY),

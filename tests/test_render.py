@@ -106,9 +106,10 @@ def test_sleep_overflow_stays_out_of_the_activity_stage(busy_state):
 
 def test_activity_stage_has_dedicated_floor_space(busy_state):
     svg = render(busy_state, "day")
-    assert "translate(350 570)" in svg  # centered rug
-    assert "translate(605 684)" in svg  # chase-repo label beneath the rug
+    assert "translate(310 544)" in svg  # centered runway
+    assert "translate(600 674)" in svg  # chase-repo label beneath the rug
     assert "translate(1100 678)" in svg  # streak bowl clear of the chase
+    assert "LIVE ACTIVITY" in svg
     assert "translate(170 640)" not in svg
     assert "translate(180 655)" not in svg
 
