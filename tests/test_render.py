@@ -84,12 +84,12 @@ def test_alert_and_sit_cats_do_not_share_a_seat(busy_state):
         }
     )
     svg = render(state, "day")
-    pattern = r'<g transform="translate\((\d+) (196|640|300|400|470|655|660)\)">'
+    pattern = r'<g transform="translate\((\d+) (196|300|400|465|470)\)">'
     body_anchors = re.findall(pattern, svg)
     assert len(body_anchors) == len(set(body_anchors))
 
 
-def test_sleep_overflow_goes_to_floor_line(busy_state):
+def test_sleep_overflow_stays_out_of_the_activity_stage(busy_state):
     from commit_cafe.state import RepoCat
 
     sleepy = [
@@ -100,8 +100,17 @@ def test_sleep_overflow_goes_to_floor_line(busy_state):
     ]
     state = busy_state.model_copy(update={"cats": sleepy, "open_prs": []})
     svg = render(state, "day")
-    assert "translate(1000 660)" in svg
-    assert "translate(1115 660)" in svg
+    assert "translate(350 465)" in svg
+    assert "translate(470 465)" in svg
+
+
+def test_activity_stage_has_dedicated_floor_space(busy_state):
+    svg = render(busy_state, "day")
+    assert "translate(350 570)" in svg  # centered rug
+    assert "translate(605 684)" in svg  # chase-repo label beneath the rug
+    assert "translate(1100 678)" in svg  # streak bowl clear of the chase
+    assert "translate(170 640)" not in svg
+    assert "translate(180 655)" not in svg
 
 
 def test_golden_day(busy_state):
