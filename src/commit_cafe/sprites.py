@@ -330,23 +330,25 @@ def bowl(streak_days: int, palette: dict[str, str]) -> str:
 
 def chalkboard(lines: list[str], palette: dict[str, str]) -> str:
     title = (
-        f'<text x="0" y="36" text-anchor="middle" font-family="Georgia, serif" '
-        f'font-size="26" font-weight="500" fill="{palette["chalk_text"]}">THE COMMIT CAFÉ</text>'
+        f'<text x="0" y="42" text-anchor="middle" font-family="Georgia, serif" '
+        f'font-size="32" font-weight="500" letter-spacing="2" fill="{palette["chalk_text"]}">'
+        f'THE COMMIT CAFÉ</text>'
     )
     rows = "".join(
-        f'<text x="0" y="{66 + i * 18}" text-anchor="middle" font-family="Georgia, serif" '
-        f'font-size="14" fill="{palette["chalk_text"]}">{html.escape(line)}</text>'
+        f'<text x="0" y="{76 + i * 19}" text-anchor="middle" font-family="Georgia, serif" '
+        f'font-size="15" fill="{palette["chalk_text"]}">{html.escape(line)}</text>'
         for i, line in enumerate(lines)
     )
-    height = 76 + len(lines) * 18
+    height = 92 + len(lines) * 19
     return g(
-        f'<rect x="-160" y="0" width="320" height="{height}" fill="{palette["chalk_board"]}"/>'
-        f'<rect x="-160" y="0" width="320" height="{height}" fill="none" '
-        f'stroke="{palette["window_frame"]}" stroke-width="6"/>'
-        f'<path d="M-118 48 H118" stroke="{palette["chalk_text"]}" stroke-width="1" '
+        f'<rect x="-230" y="0" width="460" height="{height}" rx="8" '
+        f'fill="{palette["chalk_board"]}"/>'
+        f'<rect x="-230" y="0" width="460" height="{height}" rx="8" fill="none" '
+        f'stroke="{palette["rug_trim"]}" stroke-width="6"/>'
+        f'<path d="M-178 56 H178" stroke="{palette["chalk_text"]}" stroke-width="1" '
         f'opacity="0.35" stroke-dasharray="2 5"/>'
-        f'<circle cx="-137" cy="22" r="3" fill="#c75450"/>'
-        f'<circle cx="137" cy="22" r="3" fill="#4e7a4a"/>' + title + rows
+        f'<circle cx="-202" cy="26" r="4" fill="#c75450"/>'
+        f'<circle cx="202" cy="26" r="4" fill="#4e7a4a"/>' + title + rows
     )
 
 
@@ -355,20 +357,32 @@ def rug(palette: dict[str, str]) -> str:
     fringe = "".join(
         f'<path d="M{x} 82 v10" stroke="{palette["rug_trim"]}" stroke-width="3" '
         f'stroke-linecap="round"/>'
-        for x in range(28, 493, 22)
+        for x in range(30, 573, 24)
     )
     weave = "".join(
-        f'<path d="M52 {y} Q130 {y - 12} 208 {y} T364 {y} T468 {y}" '
+        f'<path d="M60 {y} Q150 {y - 14} 240 {y} T420 {y} T540 {y}" '
         f'stroke="{palette["rug_pattern"]}" stroke-width="3" fill="none" opacity="0.75"/>'
-        for y in (27, 43, 59)
+        for y in (34, 54, 74)
     )
     return g(
-        f'<rect x="0" y="0" width="520" height="84" rx="42" fill="{palette["rug"]}"/>'
-        f'<rect x="11" y="10" width="498" height="64" rx="32" fill="none" '
+        f'<rect x="0" y="0" width="600" height="110" rx="55" fill="{palette["rug"]}"/>'
+        f'<rect x="11" y="10" width="578" height="90" rx="45" fill="none" '
         f'stroke="{palette["rug_trim"]}" stroke-width="4" opacity="0.9"/>'
-        f'<path d="M260 11 V73" stroke="{palette["rug_trim"]}" stroke-width="2" '
+        f'<path d="M300 11 V99" stroke="{palette["rug_trim"]}" stroke-width="2" '
         f'opacity="0.35" stroke-dasharray="4 8"/>'
         f"{weave}{fringe}"
+    )
+
+
+def activity_stage(palette: dict[str, str]) -> str:
+    """Shadow and status badge that give the running cat a clear focal stage."""
+    return g(
+        f'<ellipse cx="300" cy="78" rx="324" ry="76" fill="{palette["shadow"]}" opacity="0.16"/>'
+        f'<rect x="224" y="-30" width="152" height="24" rx="12" fill="{palette["chalk_board"]}"/>'
+        f'<circle cx="242" cy="-18" r="4" fill="#c75450"/>'
+        f'<text x="310" y="-13" text-anchor="middle" font-family="Georgia, serif" '
+        f'font-size="13" font-weight="600" letter-spacing="1.5" fill="{palette["chalk_text"]}">'
+        f'LIVE ACTIVITY</text>'
     )
 
 
