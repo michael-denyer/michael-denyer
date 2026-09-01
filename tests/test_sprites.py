@@ -54,6 +54,7 @@ def test_sleeping_cat_has_zzz():
 def test_name_sign_contains_text():
     sign = name_sign("pyLocusZoom", board="#8a5f3c", trim="#6e4a2e", text_color="#fff")
     assert "pyLocusZoom" in sign
+    assert 'font-size="18"' in sign
 
 
 def test_name_sign_escapes_markup():
@@ -120,11 +121,18 @@ def test_clock_hands_reflect_time():
 CHASE = plan_chase(x_start=210, x_end=620, floor_y=652)
 
 
-def test_yarn_ball_is_valid_and_labeled():
+def test_yarn_ball_is_valid_and_keeps_hash_as_metadata():
     svg = yarn_ball("a3f9c21", CHASE, palette=DAY)
     wrap(svg)
-    assert "a3f9c21" in svg
+    assert 'data-commit="a3f9c21"' in svg
+    assert ">a3f9c21<" not in svg
     assert "animateMotion" in svg
+
+
+def test_yarn_ball_escapes_hash_metadata():
+    svg = yarn_ball('a"&<', CHASE, palette=DAY)
+    wrap(svg)
+    assert 'data-commit="a&quot;&amp;&lt;"' in svg
 
 
 def test_chase_cat_is_valid_and_flips():
