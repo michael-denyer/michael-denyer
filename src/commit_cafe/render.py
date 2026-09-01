@@ -10,13 +10,17 @@ from commit_cafe.state import CafeState, Pose, assign_poses
 
 W, H = 1280, 720
 FLOOR_Y = 580
-CHASE_X1, CHASE_X2, CHASE_Y = 210, 620, 652
+RUG_X, RUG_Y = 350, 570
+CHASE_X1, CHASE_X2, CHASE_Y = 410, 800, 642
+CHASE_SIGN_Y = 684
+STREAK_X, STREAK_Y = 1100, 678
 
-# Seat pools shared by poses; consumed in order, overflow goes to the floor line.
+# Seat pools shared by poses. The floor strip belongs to the activity chase,
+# its label, and the streak bowl; stationary cats stay in the room above it.
 SLOT_GROUPS: dict[str, list[tuple[int, int]]] = {
-    "shelf": [(950, 196), (1080, 196), (170, 640)],  # ALERT and SIT share these
+    "shelf": [(950, 196), (1080, 196)],  # ALERT and SIT share these
     "loaf": [(1000, 470), (210, 400)],  # counter, then windowsill
-    "sleep": [(500, 300), (600, 300), (180, 655)],
+    "sleep": [(500, 300), (600, 300), (210, 465)],
 }
 GROUP_FOR_POSE = {
     Pose.ALERT: "shelf",
@@ -24,8 +28,8 @@ GROUP_FOR_POSE = {
     Pose.LOAF: "loaf",
     Pose.SLEEP: "sleep",
 }
-OVERFLOW_Y = 660
-OVERFLOW_X0, OVERFLOW_STEP = 1000, 115
+OVERFLOW_Y = 465
+OVERFLOW_X0, OVERFLOW_STEP = 350, 120
 
 
 def _star_scale(stars: int) -> float:
@@ -57,7 +61,7 @@ def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
             chase_svg.append(sprites.yarn_ball(cat.last_commit_hash, chase, palette))
             chase_svg.append(sprites.cat_chase(coat, chase, glow, scale=_star_scale(cat.stars)))
             chase_svg.append(
-                f'<g transform="translate({(CHASE_X1 + CHASE_X2) // 2} {CHASE_Y + 26})">'
+                f'<g transform="translate({(CHASE_X1 + CHASE_X2) // 2} {CHASE_SIGN_Y})">'
                 f"{_sign(cat.name, palette)}</g>"
             )
             continue
@@ -177,10 +181,13 @@ def render(state: CafeState, mode: str) -> str:
         f'<g transform="translate(700 18)">{sprites.chalkboard(chalk_lines, palette)}</g>',
         _furniture(state, palette),
         f'<g transform="translate(765 {FLOOR_Y})">{sprites.dog_at_door(pr, more, palette)}</g>',
-        f'<g transform="translate(170 615)">{sprites.rug(palette)}</g>',
+        f'<g transform="translate({RUG_X} {RUG_Y})">{sprites.rug(palette)}</g>',
         cats_layer,
         chase_layer,
-        f'<g transform="translate(130 666)">{sprites.bowl(state.streak_days, palette)}</g>',
+        (
+            f'<g transform="translate({STREAK_X} {STREAK_Y})">'
+            f"{sprites.bowl(state.streak_days, palette)}</g>"
+        ),
         f'<rect width="{W}" height="{H}" fill="#1b2540" opacity="{palette["room_dim_opacity"]}"/>',
         f'<rect x="2" y="2" width="{W - 4}" height="{H - 4}" fill="none" '
         f'stroke="{palette["window_frame"]}" stroke-width="4" opacity="0.45"/>',
