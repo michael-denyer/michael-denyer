@@ -15,26 +15,20 @@ CHASE_X1, CHASE_X2, CHASE_Y = 380, 820, 626
 CHASE_SIGN_Y = 674
 STREAK_X, STREAK_Y = 1100, 678
 
-# Seat pools shared by poses. The floor strip belongs to the activity chase,
-# its label, and the streak bowl; stationary cats stay in the room above it.
-SLOT_GROUPS: dict[str, list[tuple[int, int]]] = {
-    "shelf": [(950, 196), (1080, 196)],  # ALERT and SIT share these
-    "loaf": [(1000, 470), (210, 400)],  # counter, then windowsill
-    "sleep": [(500, 300), (600, 300), (210, 465)],
-}
-GROUP_FOR_POSE = {
-    Pose.ALERT: "shelf",
-    Pose.SIT: "shelf",
-    Pose.LOAF: "loaf",
-    Pose.SLEEP: "sleep",
-}
-OVERFLOW_Y = 465
-OVERFLOW_X0, OVERFLOW_STEP = 350, 120
+# Every stationary cat gets its own display zone. Keeping placement independent
+# of pose prevents long repository labels from competing for the same wall area.
+STATIONARY_SLOTS = [
+    (950, 196),
+    (1110, 196),
+    (540, 300),
+    (210, 400),
+    (1030, 470),
+]
 
 
 def _star_scale(stars: int) -> float:
-    """Bigger-starred repos render as slightly bigger cats, capped at 0.92–1.2x."""
-    return min(1.2, max(0.92, 1.06 + 0.05 * (math.log10(stars + 1) - 1)))
+    """Bigger-starred repos render as slightly bigger cats, capped at 1.05–1.3x."""
+    return min(1.3, max(1.05, 1.14 + 0.05 * (math.log10(stars + 1) - 1)))
 
 
 def _phase(name: str) -> float:
@@ -49,8 +43,7 @@ def _sign(name: str, palette: dict[str, str]) -> str:
 
 def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
     """Return (cats_layer, chase_layer). Chase layer uses absolute paths."""
-    taken: dict[str, int] = {grp: 0 for grp in SLOT_GROUPS}
-    overflow = 0
+    stationary_index = 0
     cats_svg: list[str] = []
     chase_svg: list[str] = []
     glow = palette["eye_glow_opacity"]
@@ -65,16 +58,8 @@ def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
                 f"{_sign(cat.name, palette)}</g>"
             )
             continue
-        grp = GROUP_FOR_POSE[pose]
-        slots = SLOT_GROUPS[grp]
-        if taken[grp] < len(slots):
-            seat_idx = taken[grp]
-            x, y = slots[seat_idx]
-            taken[grp] += 1
-        else:
-            seat_idx = overflow
-            x, y = OVERFLOW_X0 + overflow * OVERFLOW_STEP, OVERFLOW_Y
-            overflow += 1
+        x, y = STATIONARY_SLOTS[stationary_index]
+        stationary_index += 1
         pose_fn = {
             Pose.ALERT: sprites.cat_alert,
             Pose.SIT: sprites.cat_sit,
@@ -86,7 +71,7 @@ def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
         shadow_width = 38 if pose in (Pose.LOAF, Pose.SLEEP) else 31
         body = sprites.cat_shadow(palette, shadow_width) + pose_fn(coat, ph, glow)
         scale = _star_scale(cat.stars)
-        sign_y = y + 14 + (30 if seat_idx % 2 else 0)
+        sign_y = y + 18
         cats_svg.append(f'<g transform="translate({x} {y}) scale({scale:.3f})">{body}</g>')
         cats_svg.append(f'<g transform="translate({x} {sign_y})">{_sign(cat.name, palette)}</g>')
     return "".join(cats_svg), "".join(chase_svg)
@@ -152,9 +137,9 @@ def _furniture(state: CafeState, palette: dict[str, str]) -> str:
         + f'<g transform="translate(1140 162)">{sprites.plant(0.3)}</g>'
         + f'<g transform="translate(330 0)">{sprites.lamp(palette)}</g>'
         + f'<g transform="translate(1100 0)">{sprites.lamp(palette)}</g>'
-        + f'<g transform="translate(375 180)">'
+        + f'<g transform="translate(375 225)">'
         f"{sprites.wall_clock(state.rendered_at.hour, state.rendered_at.minute, palette)}"
-        f"</g>" + f'<g transform="translate(545 185)">{sprites.octocat_portrait(palette)}</g>'
+        f"</g>"
     )
 
 
@@ -178,7 +163,7 @@ def render(state: CafeState, mode: str) -> str:
         f'<g transform="translate(60 120)">{sprites.window(palette)}</g>',
         f'<g transform="translate(74 134)">{sprites.dust_motes(palette)}</g>',
         f'<g transform="translate(90 150)">{sprites.fireflies(palette)}</g>',
-        f'<g transform="translate(640 18)">{sprites.chalkboard(chalk_lines, palette)}</g>',
+        f'<g transform="translate(640 12)">{sprites.chalkboard(chalk_lines, palette)}</g>',
         _furniture(state, palette),
         f'<g transform="translate(765 {FLOOR_Y})">{sprites.dog_at_door(pr, more, palette)}</g>',
         f'<g transform="translate({RUG_X} {RUG_Y})">{sprites.activity_stage(palette)}</g>',

@@ -27,7 +27,9 @@ def test_every_cat_gets_a_sign(busy_state):
 
 
 def test_chaser_yarn_carries_hash(busy_state):
-    assert "a3f9c21" in render(busy_state, "day")
+    svg = render(busy_state, "day")
+    assert 'data-commit="a3f9c21"' in svg
+    assert ">a3f9c21<" not in svg
 
 
 def test_pr_dog_present_when_open_prs(busy_state, quiet_state):
@@ -49,7 +51,7 @@ def test_under_250kb(busy_state):
         assert len(render(busy_state, mode).encode()) < 250_000
 
 
-def test_alert_and_sit_cats_do_not_share_a_seat(busy_state):
+def test_stationary_cats_use_unique_display_zones(busy_state):
     import re
 
     from commit_cafe.state import RepoCat
@@ -84,12 +86,14 @@ def test_alert_and_sit_cats_do_not_share_a_seat(busy_state):
         }
     )
     svg = render(state, "day")
-    pattern = r'<g transform="translate\((\d+) (196|300|400|465|470)\)">'
+    pattern = r'<g transform="translate\((\d+) (196|300|400|470)\) scale\('
     body_anchors = re.findall(pattern, svg)
+    assert len(body_anchors) == len(state.cats) - 1
     assert len(body_anchors) == len(set(body_anchors))
 
 
-def test_sleep_overflow_stays_out_of_the_activity_stage(busy_state):
+def test_five_stationary_cats_fill_display_zones(busy_state):
+    from commit_cafe.render import STATIONARY_SLOTS
     from commit_cafe.state import RepoCat
 
     sleepy = [
@@ -100,8 +104,8 @@ def test_sleep_overflow_stays_out_of_the_activity_stage(busy_state):
     ]
     state = busy_state.model_copy(update={"cats": sleepy, "open_prs": []})
     svg = render(state, "day")
-    assert "translate(350 465)" in svg
-    assert "translate(470 465)" in svg
+    for x, y in STATIONARY_SLOTS:
+        assert f'translate({x} {y}) scale(' in svg
 
 
 def test_activity_stage_has_dedicated_floor_space(busy_state):
