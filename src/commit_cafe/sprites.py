@@ -226,12 +226,12 @@ def cat_sleep(coat: Coat, phase: float, eye_glow_opacity: str) -> str:
 
 
 def name_sign(text: str, board: str, trim: str, text_color: str) -> str:
-    width = 10 * len(text) + 22
+    width = 12 * len(text) + 30
     return g(
-        f'<rect x="{-width / 2}" y="0" width="{width}" height="26" fill="{board}" rx="3"/>'
-        f'<rect x="{-width / 2}" y="22" width="{width}" height="4" fill="{trim}" rx="2"/>'
-        f'<text x="0" y="18" text-anchor="middle" font-family="Georgia, serif" '
-        f'font-size="14" font-weight="500" fill="{text_color}">{html.escape(text)}</text>'
+        f'<rect x="{-width / 2}" y="0" width="{width}" height="34" fill="{board}" rx="5"/>'
+        f'<rect x="{-width / 2}" y="29" width="{width}" height="5" fill="{trim}" rx="2"/>'
+        f'<text x="0" y="23" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" '
+        f'font-size="18" font-weight="600" fill="{text_color}">{html.escape(text)}</text>'
     )
 
 
@@ -292,8 +292,9 @@ def dog_at_door(pr_number: int | None, more_count: int, palette: dict[str, str])
             f'<circle cx="23" cy="-168" r="7" fill="{DOG_SHADE}"/>'
         )
         extra = (
-            f'<text x="0" y="-322" text-anchor="middle" font-family="Georgia, serif" '
-            f'font-size="13" fill="{palette["text"]}">+{more_count} waiting</text>'
+            f'<text x="0" y="-310" text-anchor="middle" '
+            f'font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" '
+            f'fill="{palette["window_frame"]}">+{more_count} waiting</text>'
             if more_count > 0
             else ""
         )
@@ -303,7 +304,7 @@ def dog_at_door(pr_number: int | None, more_count: int, palette: dict[str, str])
     )
     sign = g(
         name_sign(sign_text, palette["sign_board"], palette["sign_trim"], palette["sign_text"]),
-        transform="translate(0 -358)",
+        transform="translate(0 -364)",
     )
     return g(door + dog + hang + sign + extra)
 
@@ -318,37 +319,38 @@ def bowl(streak_days: int, palette: dict[str, str]) -> str:
     unit = "day" if streak_days == 1 else "days"
     label = f"{streak_days} {unit} of kibble" if streak_days > 0 else "bowl empty — commit!"
     return g(
-        f'<ellipse cx="0" cy="0" rx="42" ry="16" fill="{palette["bowl"]}"/>'
-        f'<ellipse cx="0" cy="-6" rx="36" ry="11" fill="{palette["bowl_inner"]}"/>'
+        f'<ellipse cx="0" cy="0" rx="54" ry="20" fill="{palette["bowl"]}"/>'
+        f'<ellipse cx="0" cy="-7" rx="47" ry="14" fill="{palette["bowl_inner"]}"/>'
         f"{bits}"
-        f'<text x="0" y="6" text-anchor="middle" font-family="Georgia, serif" '
-        f'font-size="13" font-weight="500" fill="{palette["sign_text"]}">STREAK</text>'
-        f'<text x="0" y="30" text-anchor="middle" font-family="Georgia, serif" '
-        f'font-size="14" fill="{palette["text"]}">{label}</text>'
+        f'<text x="0" y="6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" '
+        f'font-size="15" font-weight="700" fill="{palette["sign_text"]}">STREAK</text>'
+        f'<text x="0" y="36" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" '
+        f'font-size="18" font-weight="600" fill="{palette["text"]}">{label}</text>'
     )
 
 
 def chalkboard(lines: list[str], palette: dict[str, str]) -> str:
     title = (
-        f'<text x="0" y="42" text-anchor="middle" font-family="Georgia, serif" '
-        f'font-size="32" font-weight="500" letter-spacing="2" fill="{palette["chalk_text"]}">'
+        f'<text x="0" y="48" text-anchor="middle" font-family="Georgia, serif" '
+        f'font-size="36" font-weight="600" letter-spacing="2" fill="{palette["chalk_text"]}">'
         f'THE COMMIT CAFÉ</text>'
     )
     rows = "".join(
-        f'<text x="0" y="{76 + i * 19}" text-anchor="middle" font-family="Georgia, serif" '
-        f'font-size="15" fill="{palette["chalk_text"]}">{html.escape(line)}</text>'
+        f'<text x="0" y="{86 + i * 26}" text-anchor="middle" '
+        f'font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" '
+        f'fill="{palette["chalk_text"]}">{html.escape(line)}</text>'
         for i, line in enumerate(lines)
     )
-    height = 92 + len(lines) * 19
+    height = 104 + len(lines) * 26
     return g(
-        f'<rect x="-230" y="0" width="460" height="{height}" rx="8" '
+        f'<rect x="-240" y="0" width="480" height="{height}" rx="10" '
         f'fill="{palette["chalk_board"]}"/>'
-        f'<rect x="-230" y="0" width="460" height="{height}" rx="8" fill="none" '
+        f'<rect x="-240" y="0" width="480" height="{height}" rx="10" fill="none" '
         f'stroke="{palette["rug_trim"]}" stroke-width="6"/>'
-        f'<path d="M-178 56 H178" stroke="{palette["chalk_text"]}" stroke-width="1" '
+        f'<path d="M-200 64 H200" stroke="{palette["chalk_text"]}" stroke-width="2" '
         f'opacity="0.35" stroke-dasharray="2 5"/>'
-        f'<circle cx="-202" cy="26" r="4" fill="#c75450"/>'
-        f'<circle cx="202" cy="26" r="4" fill="#4e7a4a"/>' + title + rows
+        f'<circle cx="-212" cy="29" r="5" fill="#c75450"/>'
+        f'<circle cx="212" cy="29" r="5" fill="#4e7a4a"/>' + title + rows
     )
 
 
@@ -378,10 +380,11 @@ def activity_stage(palette: dict[str, str]) -> str:
     """Shadow and status badge that give the running cat a clear focal stage."""
     return g(
         f'<ellipse cx="300" cy="78" rx="324" ry="76" fill="{palette["shadow"]}" opacity="0.16"/>'
-        f'<rect x="224" y="-30" width="152" height="24" rx="12" fill="{palette["chalk_board"]}"/>'
-        f'<circle cx="242" cy="-18" r="4" fill="#c75450"/>'
-        f'<text x="310" y="-13" text-anchor="middle" font-family="Georgia, serif" '
-        f'font-size="13" font-weight="600" letter-spacing="1.5" fill="{palette["chalk_text"]}">'
+        f'<rect x="204" y="-38" width="192" height="30" rx="15" fill="{palette["chalk_board"]}"/>'
+        f'<circle cx="226" cy="-23" r="5" fill="#c75450"/>'
+        f'<text x="312" y="-17" text-anchor="middle" '
+        f'font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" '
+        f'letter-spacing="1.5" fill="{palette["chalk_text"]}">'
         f'LIVE ACTIVITY</text>'
     )
 
@@ -580,7 +583,7 @@ def fireflies(palette: dict[str, str]) -> str:
 
 
 def yarn_ball(commit_hash: str, chase: Chase, palette: dict[str, str]) -> str:
-    """Ball + trailing loose strand + hash label, moving along the chase path.
+    """Ball carrying commit metadata, moving along the chase path.
 
     The path is absolute, so this group is NOT translated by the renderer.
     """
@@ -603,9 +606,7 @@ def yarn_ball(commit_hash: str, chase: Chase, palette: dict[str, str]) -> str:
         for i in range(3)
     )
     ball = (
-        f"<g>{motion}"
-        f'<text x="0" y="-26" text-anchor="middle" font-family="monospace" font-size="14" '
-        f'font-weight="500" fill="{palette["text"]}">{commit_hash}</text>'
+        f'<g data-commit="{html.escape(commit_hash)}">{motion}'
         f"<g>{roll}{squash}"
         f'<circle cx="0" cy="0" r="13" fill="#ED93B1"/>{strands}</g>'
         f"</g>"
