@@ -132,8 +132,8 @@ language intelligence.
   <p><strong>Meanwhile, at the Commit Café…</strong></p>
   <p><sub>Repositories become cats, recent commits become yarn, open pull requests wait at the door, and the contribution streak fills the food bowl.</sub></p>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/cafe-night.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/cafe-day.svg">
-    <img src="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/cafe-day.svg" width="100%" alt="The Commit Café: animated cats represent repository activity, a dog represents open pull requests, and a bowl represents the contribution streak">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/cafe-night.svg?v=12">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/cafe-day.svg?v=12">
+    <img src="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/cafe-day.svg?v=12" width="100%" alt="The Commit Café: animated cats represent repository activity, a dog represents open pull requests, and a bowl represents the contribution streak">
   </picture>
 </div>
