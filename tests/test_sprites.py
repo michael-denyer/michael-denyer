@@ -94,9 +94,25 @@ def test_props_are_valid_xml():
 
 
 def test_dog_shows_pr_number():
-    assert "PR #87" in dog_at_door(87, more_count=0, palette=DAY)
-    assert "+2 waiting" in dog_at_door(87, more_count=2, palette=DAY)
+    dog = dog_at_door(87, more_count=2, palette=DAY)
+    assert "PR #87" in dog
+    assert "+2 waiting" in dog
+    assert 'translate(0 -306)' in dog
     assert "deliveries welcome" in dog_at_door(None, more_count=0, palette=DAY)
+
+
+def test_extra_pr_count_has_separate_high_contrast_badge():
+    dog = dog_at_door(87, more_count=2, palette=DAY)
+    assert '<g transform="translate(0 -260)">' in dog
+    assert '<rect x="-82" y="0" width="164" height="28"' in dog
+    assert f'fill="{DAY["chalk_board"]}"' in dog
+    assert f'fill="{DAY["chalk_text"]}">+2 waiting</text>' in dog
+
+
+def test_activity_badge_sits_inside_rug():
+    svg = activity_stage(DAY)
+    assert '<rect x="24" y="14" width="194" height="34"' in svg
+    assert 'y="-38"' not in svg
 
 
 def test_bowl_kibble_scales():
