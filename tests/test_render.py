@@ -3,8 +3,31 @@ from pathlib import Path
 from defusedxml import ElementTree as ET
 
 from commit_cafe.render import STATIONARY_SLOTS, render
+from commit_cafe.state import CafeState, RepoCat
 
 GOLDEN = Path(__file__).parent / "golden"
+
+
+def _top_shelf_pair(busy_state: CafeState) -> CafeState:
+    return busy_state.model_copy(
+        update={
+            "cats": [
+                RepoCat(
+                    name="michael-denyer",
+                    stars=1,
+                    last_commit_hash="aaaaaaa",
+                    last_commit_age_hours=1000.0,
+                ),
+                RepoCat(
+                    name="pyLocusZoom",
+                    stars=1,
+                    last_commit_hash="bbbbbbb",
+                    last_commit_age_hours=1000.0,
+                ),
+            ],
+            "open_prs": [],
+        }
+    )
 
 
 def test_renders_valid_svg_both_modes(busy_state):
@@ -52,8 +75,6 @@ def test_under_250kb(busy_state):
 
 
 def test_stationary_cats_use_unique_display_zones(busy_state):
-    from commit_cafe.state import RepoCat
-
     # pyLocusZoom (2h) -> CHASE; code-review-graph (20h) -> ALERT;
     # numpy-mkl (48h) -> SIT (digest%2==0); jamma (50h) -> SIT (digest%2==0)
     state = busy_state.model_copy(
@@ -85,17 +106,13 @@ def test_stationary_cats_use_unique_display_zones(busy_state):
     )
     svg = render(state, "day")
     body_anchors = [
-        (x, y)
-        for x, y in STATIONARY_SLOTS
-        if f'<g transform="translate({x} {y}) scale(' in svg
+        (x, y) for x, y in STATIONARY_SLOTS if f'<g transform="translate({x} {y}) scale(' in svg
     ]
     assert len(body_anchors) == len(state.cats) - 1
     assert len(body_anchors) == len(set(body_anchors))
 
 
 def test_five_stationary_cats_fill_display_zones(busy_state):
-    from commit_cafe.state import RepoCat
-
     sleepy = [
         RepoCat(
             name=f"old-repo-{i}", stars=1, last_commit_hash="abc1234", last_commit_age_hours=1000.0
@@ -105,7 +122,60 @@ def test_five_stationary_cats_fill_display_zones(busy_state):
     state = busy_state.model_copy(update={"cats": sleepy, "open_prs": []})
     svg = render(state, "day")
     for x, y in STATIONARY_SLOTS:
-        assert f'translate({x} {y}) scale(' in svg
+        assert f"translate({x} {y}) scale(" in svg
+
+
+def test_visible_repositories_get_distinct_coats(busy_state):
+    state = _top_shelf_pair(busy_state)
+    root = ET.fromstring(render(state, "day"))
+    coat_colors = []
+    for x, y in STATIONARY_SLOTS[:2]:
+        transform_prefix = f"translate({x} {y}) scale("
+        cat_group = next(
+            element
+            for element in root.iter()
+            if element.attrib.get("transform", "").startswith(transform_prefix)
+        )
+        coat_colors.append(
+            {
+                element.attrib["fill"]
+                for element in cat_group.iter()
+                if element.attrib.get("fill", "").startswith("#")
+            }
+        )
+
+    assert coat_colors[0] != coat_colors[1]
+
+
+def test_top_shelf_nameplates_do_not_overlap(busy_state):
+    state = _top_shelf_pair(busy_state)
+    root = ET.fromstring(render(state, "day"))
+
+    boxes = []
+    for name in ("michael-denyer", "pyLocusZoom"):
+        sign_group = next(
+            element
+            for element in root.iter()
+            if element.attrib.get("transform", "").startswith("translate(")
+            and any(descendant.text == name for descendant in element.iter())
+        )
+        x, y = map(float, sign_group.attrib["transform"][10:-1].split())
+        board = next(
+            descendant for descendant in sign_group.iter() if descendant.tag.endswith("rect")
+        )
+        boxes.append(
+            (
+                x + float(board.attrib["x"]),
+                y + float(board.attrib["y"]),
+                float(board.attrib["width"]),
+                float(board.attrib["height"]),
+            )
+        )
+
+    left, right = boxes
+    horizontal_overlap = left[0] < right[0] + right[2] and right[0] < left[0] + left[2]
+    vertical_overlap = left[1] < right[1] + right[3] and right[1] < left[1] + left[3]
+    assert not (horizontal_overlap and vertical_overlap)
 
 
 def test_activity_stage_has_dedicated_floor_space(busy_state):

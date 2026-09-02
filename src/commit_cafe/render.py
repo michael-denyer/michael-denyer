@@ -5,7 +5,7 @@ import math
 
 from commit_cafe import sprites
 from commit_cafe.choreography import plan_chase
-from commit_cafe.palette import DAY, NIGHT, coat_for
+from commit_cafe.palette import DAY, NIGHT, coats_for
 from commit_cafe.state import CafeState, Pose, assign_poses
 
 W, H = 1280, 720
@@ -18,8 +18,8 @@ STREAK_X, STREAK_Y = 1100, 678
 # Every stationary cat gets its own display zone. Keeping placement independent
 # of pose prevents long repository labels from competing for the same wall area.
 STATIONARY_SLOTS = [
-    (960, 210),
-    (1120, 210),
+    (930, 210),
+    (1145, 210),
     (540, 330),
     (210, 420),
     (1030, 470),
@@ -37,9 +37,7 @@ def _phase(name: str) -> float:
 
 def _sign(name: str, palette: dict[str, str]) -> str:
     board = palette["chalk_board"] if _phase(name) >= 0.5 else palette["sign_board"]
-    return sprites.name_sign(
-        name, board, palette["rug_trim"], palette["sign_text"]
-    )
+    return sprites.name_sign(name, board, palette["rug_trim"], palette["sign_text"])
 
 
 def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
@@ -48,8 +46,9 @@ def _place(state: CafeState, palette: dict[str, str]) -> tuple[str, str]:
     cats_svg: list[str] = []
     chase_svg: list[str] = []
     glow = palette["eye_glow_opacity"]
-    for cat, pose in zip(state.cats, assign_poses(state.cats), strict=True):
-        coat, ph = coat_for(cat.name), _phase(cat.name)
+    coats = coats_for([cat.name for cat in state.cats])
+    for cat, pose, coat in zip(state.cats, assign_poses(state.cats), coats, strict=True):
+        ph = _phase(cat.name)
         if pose is Pose.CHASE:
             chase = plan_chase(CHASE_X1, CHASE_X2, CHASE_Y)
             chase_svg.append(sprites.yarn_ball(cat.last_commit_hash, chase, palette))
@@ -153,8 +152,7 @@ def _string_lights(palette: dict[str, str]) -> str:
         )
     return (
         f'<path d="M20 20 Q190 66 350 20 M930 20 Q1090 66 1260 20" '
-        f'stroke="{palette["window_frame"]}" stroke-width="3" fill="none"/>'
-        + "".join(bulbs)
+        f'stroke="{palette["window_frame"]}" stroke-width="3" fill="none"/>' + "".join(bulbs)
     )
 
 
@@ -197,12 +195,11 @@ def _furniture(state: CafeState, palette: dict[str, str]) -> str:
         f'<g transform="translate(1173 436)">{sprites.steam()}</g>'
     )
     return (
-        shelf(880, 210, 330)
+        shelf(820, 210, 425)
         + shelf(420, 330, 240)
         + counter
         + f'<g transform="translate(1020 330)">'
         f"{sprites.bookshelf(state.top_languages[:4], palette)}</g>"
-        + f'<g transform="translate(1140 176)">{sprites.plant(0.3)}</g>'
         + f'<g transform="translate(330 0)">{sprites.lamp(palette)}</g>'
         + f'<g transform="translate(1100 0)">{sprites.lamp(palette)}</g>'
         + f'<g transform="translate(375 245)">'
