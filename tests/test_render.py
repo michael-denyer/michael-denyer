@@ -2,7 +2,7 @@ from pathlib import Path
 
 from defusedxml import ElementTree as ET
 
-from commit_cafe.render import render
+from commit_cafe.render import STATIONARY_SLOTS, render
 
 GOLDEN = Path(__file__).parent / "golden"
 
@@ -52,8 +52,6 @@ def test_under_250kb(busy_state):
 
 
 def test_stationary_cats_use_unique_display_zones(busy_state):
-    import re
-
     from commit_cafe.state import RepoCat
 
     # pyLocusZoom (2h) -> CHASE; code-review-graph (20h) -> ALERT;
@@ -86,14 +84,16 @@ def test_stationary_cats_use_unique_display_zones(busy_state):
         }
     )
     svg = render(state, "day")
-    pattern = r'<g transform="translate\((\d+) (196|300|400|470)\) scale\('
-    body_anchors = re.findall(pattern, svg)
+    body_anchors = [
+        (x, y)
+        for x, y in STATIONARY_SLOTS
+        if f'<g transform="translate({x} {y}) scale(' in svg
+    ]
     assert len(body_anchors) == len(state.cats) - 1
     assert len(body_anchors) == len(set(body_anchors))
 
 
 def test_five_stationary_cats_fill_display_zones(busy_state):
-    from commit_cafe.render import STATIONARY_SLOTS
     from commit_cafe.state import RepoCat
 
     sleepy = [
@@ -114,6 +114,7 @@ def test_activity_stage_has_dedicated_floor_space(busy_state):
     assert "translate(600 674)" in svg  # chase-repo label beneath the rug
     assert "translate(1100 678)" in svg  # streak bowl clear of the chase
     assert "LIVE ACTIVITY" in svg
+    assert '<rect x="24" y="14" width="194" height="34"' in svg
     assert "translate(170 640)" not in svg
     assert "translate(180 655)" not in svg
 
@@ -139,9 +140,12 @@ def test_broken_streak_turns_every_head(quiet_state):
 def test_chalkboard_summarizes_live_cafe_state(busy_state):
     svg = render(busy_state, "day")
     assert "5 repo cats in residence" in svg
-    assert "4 commits today · 23-day streak" in svg
-    assert "serving code since 2015 · 14:30 UTC" in svg
+    assert "4 commits today" in svg
+    assert "23-day streak" not in svg
+    assert "serving code since" not in svg
 
 
-def test_chalkboard_calls_out_a_broken_streak(quiet_state):
-    assert "0 commits today · streak needs a commit" in render(quiet_state, "day")
+def test_chalkboard_does_not_duplicate_broken_streak(quiet_state):
+    svg = render(quiet_state, "day")
+    assert "0 commits today" in svg
+    assert "streak needs a commit" not in svg

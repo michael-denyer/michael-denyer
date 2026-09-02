@@ -228,8 +228,10 @@ def cat_sleep(coat: Coat, phase: float, eye_glow_opacity: str) -> str:
 def name_sign(text: str, board: str, trim: str, text_color: str) -> str:
     width = 12 * len(text) + 30
     return g(
-        f'<rect x="{-width / 2}" y="0" width="{width}" height="34" fill="{board}" rx="5"/>'
-        f'<rect x="{-width / 2}" y="29" width="{width}" height="5" fill="{trim}" rx="2"/>'
+        f'<rect x="{-width / 2}" y="0" width="{width}" height="36" fill="{board}" rx="8" '
+        f'stroke="{trim}" stroke-width="2" filter="url(#small-shadow)"/>'
+        f'<path d="M{-width / 2 + 10} 6 H{width / 2 - 10}" stroke="#fff" '
+        f'stroke-width="1" opacity="0.16"/>'
         f'<text x="0" y="23" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" '
         f'font-size="18" font-weight="600" fill="{text_color}">{html.escape(text)}</text>'
     )
@@ -292,19 +294,23 @@ def dog_at_door(pr_number: int | None, more_count: int, palette: dict[str, str])
             f'<circle cx="23" cy="-168" r="7" fill="{DOG_SHADE}"/>'
         )
         extra = (
-            f'<text x="0" y="-310" text-anchor="middle" '
-            f'font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" '
-            f'fill="{palette["window_frame"]}">+{more_count} waiting</text>'
+            f'<g transform="translate(0 -260)">'
+            f'<rect x="-82" y="0" width="164" height="28" rx="14" '
+            f'fill="{palette["chalk_board"]}" stroke="{palette["rug_trim"]}" stroke-width="2"/>'
+            f'<text x="0" y="20" text-anchor="middle" '
+            f'font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" '
+            f'fill="{palette["chalk_text"]}">+{more_count} waiting</text>'
+            f"</g>"
             if more_count > 0
             else ""
         )
     hang = (
-        f'<path d="M-25 -332 V-344 M25 -332 V-344" stroke="{palette["sign_trim"]}" '
+        f'<path d="M-25 -306 V-320 M25 -306 V-320" stroke="{palette["sign_trim"]}" '
         f'stroke-width="2"/>'
     )
     sign = g(
         name_sign(sign_text, palette["sign_board"], palette["sign_trim"], palette["sign_text"]),
-        transform="translate(0 -364)",
+        transform="translate(0 -306)",
     )
     return g(door + dog + hang + sign + extra)
 
@@ -325,7 +331,7 @@ def bowl(streak_days: int, palette: dict[str, str]) -> str:
         f'<text x="0" y="6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" '
         f'font-size="15" font-weight="700" fill="{palette["sign_text"]}">STREAK</text>'
         f'<text x="0" y="36" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" '
-        f'font-size="18" font-weight="600" fill="{palette["text"]}">{label}</text>'
+        f'font-size="18" font-weight="600" fill="{palette["sign_text"]}">{label}</text>'
     )
 
 
@@ -341,10 +347,10 @@ def chalkboard(lines: list[str], palette: dict[str, str]) -> str:
         f'fill="{palette["chalk_text"]}">{html.escape(line)}</text>'
         for i, line in enumerate(lines)
     )
-    height = 104 + len(lines) * 26
+    height = 86 + len(lines) * 26
     return g(
-        f'<rect x="-240" y="0" width="480" height="{height}" rx="10" '
-        f'fill="{palette["chalk_board"]}"/>'
+        f'<rect x="-240" y="0" width="480" height="{height}" rx="14" '
+        f'fill="url(#chalk-gradient)" filter="url(#soft-shadow)"/>'
         f'<rect x="-240" y="0" width="480" height="{height}" rx="10" fill="none" '
         f'stroke="{palette["rug_trim"]}" stroke-width="6"/>'
         f'<path d="M-200 64 H200" stroke="{palette["chalk_text"]}" stroke-width="2" '
@@ -367,7 +373,9 @@ def rug(palette: dict[str, str]) -> str:
         for y in (34, 54, 74)
     )
     return g(
-        f'<rect x="0" y="0" width="600" height="110" rx="55" fill="{palette["rug"]}"/>'
+        f'<ellipse cx="300" cy="78" rx="324" ry="76" fill="{palette["shadow"]}" opacity="0.18"/>'
+        f'<rect x="0" y="0" width="600" height="110" rx="55" fill="url(#rug-gradient)" '
+        f'filter="url(#soft-shadow)"/>'
         f'<rect x="11" y="10" width="578" height="90" rx="45" fill="none" '
         f'stroke="{palette["rug_trim"]}" stroke-width="4" opacity="0.9"/>'
         f'<path d="M300 11 V99" stroke="{palette["rug_trim"]}" stroke-width="2" '
@@ -377,12 +385,12 @@ def rug(palette: dict[str, str]) -> str:
 
 
 def activity_stage(palette: dict[str, str]) -> str:
-    """Shadow and status badge that give the running cat a clear focal stage."""
+    """Status badge integrated into the upper-left corner of the activity rug."""
     return g(
-        f'<ellipse cx="300" cy="78" rx="324" ry="76" fill="{palette["shadow"]}" opacity="0.16"/>'
-        f'<rect x="204" y="-38" width="192" height="30" rx="15" fill="{palette["chalk_board"]}"/>'
-        f'<circle cx="226" cy="-23" r="5" fill="#c75450"/>'
-        f'<text x="312" y="-17" text-anchor="middle" '
+        f'<rect x="24" y="14" width="194" height="34" rx="17" fill="{palette["chalk_board"]}" '
+        f'stroke="{palette["rug_trim"]}" stroke-width="2"/>'
+        f'<circle cx="48" cy="31" r="6" fill="#ef6b66"/>'
+        f'<text x="133" y="37" text-anchor="middle" '
         f'font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700" '
         f'letter-spacing="1.5" fill="{palette["chalk_text"]}">'
         f'LIVE ACTIVITY</text>'
