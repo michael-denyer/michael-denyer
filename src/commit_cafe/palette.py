@@ -33,6 +33,24 @@ def coat_for(name: str) -> Coat:
     return base.model_copy(update={"eye": _EYES[_digest(name, b"eye") % len(_EYES)]})
 
 
+def coats_for(names: list[str]) -> list[Coat]:
+    """Assign distinct deterministic coats across one visible cafe scene."""
+    used_indices: set[int] = set()
+    coats: list[Coat] = []
+    for name in names:
+        preferred = _digest(name) % len(_COATS)
+        index = preferred
+        for offset in range(len(_COATS)):
+            candidate = (preferred + offset) % len(_COATS)
+            if candidate not in used_indices:
+                index = candidate
+                break
+        used_indices.add(index)
+        base = _COATS[index]
+        coats.append(base.model_copy(update={"eye": _EYES[_digest(name, b"eye") % len(_EYES)]}))
+    return coats
+
+
 DAY = {
     "wall": "#f4dfb8",
     "wainscot": "#d3a66f",
