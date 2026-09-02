@@ -18,10 +18,10 @@ STREAK_X, STREAK_Y = 1100, 678
 # Every stationary cat gets its own display zone. Keeping placement independent
 # of pose prevents long repository labels from competing for the same wall area.
 STATIONARY_SLOTS = [
-    (950, 196),
-    (1110, 196),
-    (540, 300),
-    (210, 400),
+    (960, 210),
+    (1120, 210),
+    (540, 330),
+    (210, 420),
     (1030, 470),
 ]
 
@@ -36,8 +36,9 @@ def _phase(name: str) -> float:
 
 
 def _sign(name: str, palette: dict[str, str]) -> str:
+    board = palette["chalk_board"] if _phase(name) >= 0.5 else palette["sign_board"]
     return sprites.name_sign(
-        name, palette["sign_board"], palette["sign_trim"], palette["sign_text"]
+        name, board, palette["rug_trim"], palette["sign_text"]
     )
 
 
@@ -92,13 +93,80 @@ def _room(palette: dict[str, str]) -> str:
         for x in range(18, W, 158)
     )
     return (
-        f'<rect width="{W}" height="{FLOOR_Y}" fill="{palette["wall"]}"/>'
+        f'<rect width="{W}" height="{FLOOR_Y}" fill="url(#wall-gradient)"/>'
         f'<rect y="{FLOOR_Y - 90}" width="{W}" height="90" fill="{palette["wainscot"]}"/>'
         f'<rect y="{FLOOR_Y - 90}" width="{W}" height="5" fill="{palette["wainscot_trim"]}"/>'
         f"{panels}"
         f'<rect y="{FLOOR_Y - 7}" width="{W}" height="7" fill="{palette["wainscot_trim"]}"/>'
-        f'<rect y="{FLOOR_Y}" width="{W}" height="{H - FLOOR_Y}" fill="{palette["floor"]}"/>'
+        f'<rect y="{FLOOR_Y}" width="{W}" height="{H - FLOOR_Y}" fill="url(#floor-gradient)"/>'
         f"{planks}"
+    )
+
+
+def _scene_defs(palette: dict[str, str]) -> str:
+    return (
+        "<defs>"
+        '<linearGradient id="wall-gradient" x1="0" y1="0" x2="0" y2="1">'
+        f'<stop offset="0" stop-color="{palette["wall"]}"/>'
+        f'<stop offset="1" stop-color="{palette["wainscot"]}" stop-opacity="0.78"/>'
+        "</linearGradient>"
+        '<linearGradient id="floor-gradient" x1="0" y1="0" x2="0" y2="1">'
+        f'<stop offset="0" stop-color="{palette["floor"]}"/>'
+        f'<stop offset="1" stop-color="{palette["plank"]}"/>'
+        "</linearGradient>"
+        '<linearGradient id="chalk-gradient" x1="0" y1="0" x2="1" y2="1">'
+        f'<stop offset="0" stop-color="{palette["chalk_board"]}"/>'
+        '<stop offset="1" stop-color="#071f2b"/>'
+        "</linearGradient>"
+        '<linearGradient id="rug-gradient" x1="0" y1="0" x2="1" y2="1">'
+        f'<stop offset="0" stop-color="{palette["rug"]}"/>'
+        f'<stop offset="1" stop-color="{palette["rug_pattern"]}"/>'
+        "</linearGradient>"
+        '<filter id="soft-shadow" x="-30%" y="-30%" width="160%" height="180%">'
+        '<feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#21140d" '
+        'flood-opacity="0.28"/>'
+        "</filter>"
+        '<filter id="small-shadow" x="-20%" y="-30%" width="140%" height="170%">'
+        '<feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#21140d" '
+        'flood-opacity="0.32"/>'
+        "</filter>"
+        "</defs>"
+    )
+
+
+def _string_lights(palette: dict[str, str]) -> str:
+    bulbs = []
+    for x, y, color in (
+        (58, 31, "#ef6b66"),
+        (118, 39, palette["rug_trim"]),
+        (180, 43, "#6fc6b5"),
+        (244, 40, "#ef6b66"),
+        (306, 32, palette["rug_trim"]),
+        (972, 32, "#6fc6b5"),
+        (1036, 40, "#ef6b66"),
+        (1100, 43, palette["rug_trim"]),
+        (1162, 39, "#6fc6b5"),
+        (1222, 31, "#ef6b66"),
+    ):
+        bulbs.append(
+            f'<circle cx="{x}" cy="{y}" r="5" fill="{color}" filter="url(#small-shadow)"/>'
+        )
+    return (
+        f'<path d="M20 20 Q190 66 350 20 M930 20 Q1090 66 1260 20" '
+        f'stroke="{palette["window_frame"]}" stroke-width="3" fill="none"/>'
+        + "".join(bulbs)
+    )
+
+
+def _window_sign(palette: dict[str, str]) -> str:
+    return (
+        f'<rect x="0" y="0" width="92" height="42" rx="10" '
+        f'fill="{palette["chalk_board"]}" stroke="{palette["rug_trim"]}" stroke-width="3" '
+        f'filter="url(#small-shadow)"/>'
+        f'<circle cx="15" cy="21" r="5" fill="#6fc6b5"/>'
+        f'<text x="55" y="28" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" '
+        f'font-size="18" font-weight="800" letter-spacing="1.5" '
+        f'fill="{palette["chalk_text"]}">OPEN</text>'
     )
 
 
@@ -129,15 +197,15 @@ def _furniture(state: CafeState, palette: dict[str, str]) -> str:
         f'<g transform="translate(1173 436)">{sprites.steam()}</g>'
     )
     return (
-        shelf(880, 196, 330)
-        + shelf(420, 300, 240)
+        shelf(880, 210, 330)
+        + shelf(420, 330, 240)
         + counter
         + f'<g transform="translate(1020 330)">'
         f"{sprites.bookshelf(state.top_languages[:4], palette)}</g>"
-        + f'<g transform="translate(1140 162)">{sprites.plant(0.3)}</g>'
+        + f'<g transform="translate(1140 176)">{sprites.plant(0.3)}</g>'
         + f'<g transform="translate(330 0)">{sprites.lamp(palette)}</g>'
         + f'<g transform="translate(1100 0)">{sprites.lamp(palette)}</g>'
-        + f'<g transform="translate(375 225)">'
+        + f'<g transform="translate(375 245)">'
         f"{sprites.wall_clock(state.rendered_at.hour, state.rendered_at.minute, palette)}"
         f"</g>"
     )
@@ -148,26 +216,25 @@ def render(state: CafeState, mode: str) -> str:
     cats_layer, chase_layer = _place(state, palette)
     repo_label = "repo cat" if len(state.cats) == 1 else "repo cats"
     commit_label = "commit" if state.commits_today == 1 else "commits"
-    streak_label = (
-        f"{state.streak_days}-day streak" if state.streak_days else "streak needs a commit"
-    )
     chalk_lines = [
         f"{len(state.cats)} {repo_label} in residence · {state.total_stars} stars",
-        f"{state.commits_today} {commit_label} today · {streak_label}",
-        f"serving code since {state.est_year} · {state.rendered_at.strftime('%H:%M')} UTC",
+        f"{state.commits_today} {commit_label} today",
     ]
     pr = state.open_prs[0].number if state.open_prs else None
     more = max(0, len(state.open_prs) - 1)
     layers = [
+        _scene_defs(palette),
         _room(palette),
+        _string_lights(palette),
         f'<g transform="translate(60 120)">{sprites.window(palette)}</g>',
         f'<g transform="translate(74 134)">{sprites.dust_motes(palette)}</g>',
         f'<g transform="translate(90 150)">{sprites.fireflies(palette)}</g>',
-        f'<g transform="translate(640 12)">{sprites.chalkboard(chalk_lines, palette)}</g>',
+        f'<g transform="translate(92 164)">{_window_sign(palette)}</g>',
+        f'<g transform="translate(620 12)">{sprites.chalkboard(chalk_lines, palette)}</g>',
         _furniture(state, palette),
         f'<g transform="translate(765 {FLOOR_Y})">{sprites.dog_at_door(pr, more, palette)}</g>',
-        f'<g transform="translate({RUG_X} {RUG_Y})">{sprites.activity_stage(palette)}</g>',
         f'<g transform="translate({RUG_X} {RUG_Y})">{sprites.rug(palette)}</g>',
+        f'<g transform="translate({RUG_X} {RUG_Y})">{sprites.activity_stage(palette)}</g>',
         cats_layer,
         chase_layer,
         (
