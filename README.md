@@ -25,7 +25,7 @@ I build bioinformatics and AI tools for the jobs that eat your afternoon: slow a
       <h3><a href="https://github.com/michael-denyer/jamma"><img src="https://raw.githubusercontent.com/michael-denyer/jamma/master/logos/JAMMA_Large_Logo_v2.png" height="64" align="middle" alt="">&nbsp;&nbsp;&nbsp;JAMMA</a></h3>
       <p>Get more GWAS done with the compute you have. JAMMA accelerates kinship and association testing with native C kernels, processes genotypes in chunks to control memory use, and reuses eigendecompositions across phenotypes. Keep familiar GEMMA commands or use the Python API.</p>
       <p><a href="https://pypi.org/project/jamma/">PyPI</a> · <a href="https://github.com/michael-denyer/jamma#performance">Benchmarks</a> · <a href="https://github.com/michael-denyer/jamma-lean-proofs">Lean 4 proofs</a></p>
-      <p><sub>For large JAMMA analyses, my <a href="https://github.com/michael-denyer/numpy-mkl">numpy-mkl fork</a> builds NumPy and SciPy wheels with Intel MKL, including 64-bit NumPy indexing to get large matrices past the 32-bit BLAS limits.</sub></p>
+      <p><sub>My <a href="https://github.com/michael-denyer/numpy-mkl">numpy-mkl fork</a> builds Intel MKL NumPy and SciPy wheels with 64-bit NumPy indexing for much larger GWAS.</sub></p>
     </td>
   </tr>
   <tr>
