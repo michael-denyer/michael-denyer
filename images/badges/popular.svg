@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="76" height="20" viewBox="0 0 76 20" role="img">
+  <title>Popular</title>
+  <rect x=".5" y=".5" width="75" height="19" rx="9.5" fill="#14283d" stroke="#f38b52"/>
+  <path d="m12 4 1.8 3.6 4 .6-2.9 2.8.7 4-3.6-1.9-3.6 1.9.7-4-2.9-2.8 4-.6Z" fill="#f38b52"/>
+  <text x="23" y="13.5" fill="#ffc18a" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="11" font-weight="600">Popular</text>
+</svg>
