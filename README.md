@@ -1,8 +1,8 @@
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="images/profile-banner-night.svg">
-    <source media="(prefers-color-scheme: light)" srcset="images/profile-banner-day.svg">
-    <img src="images/profile-banner-day.svg" width="100%" alt="Michael Denyer, scientific Python, genomics, data engineering, and AI">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/profile-banner-night.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/profile-banner-day.svg">
+    <img src="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/profile-banner-day.svg" width="100%" alt="Michael Denyer, scientific Python, genomics, data engineering, AI, and total repository stars">
   </picture>
 </p>
 
@@ -60,22 +60,38 @@ I write software for bioinformatics, data engineering, and AI-assisted developme
 <table width="100%">
   <tr>
     <td width="50%" valign="top">
-      <h3><a href="https://github.com/michael-denyer/pstack-claude">pstack</a></h3>
-      <p>Agent workflows for writing, reviewing, and debugging code, adapted from Lauren Tan's pstack. Supports Claude Code, Codex, OpenCode, Gemini CLI, and Prime Agent.</p>
+      <h3><img src="images/icons/workflow.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/pstack-claude">pstack</a></h3>
+      <p>Workflows for writing, reviewing, and debugging code, adapted from Lauren Tan's pstack.</p>
+      <p><sub>Claude Code · Codex · OpenCode · Gemini CLI · Prime Agent</sub></p>
     </td>
     <td width="50%" valign="top">
-      <h3><a href="https://github.com/michael-denyer/memory-mcp">Memory MCP</a></h3>
-      <p>Stores and retrieves context for AI assistants using a hot cache, semantic search, and a knowledge graph. It also finds recurring patterns.</p>
+      <h3><img src="images/icons/memory.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/memory-mcp">Memory MCP</a></h3>
+      <p>Stores and retrieves context for AI assistants and finds recurring patterns.</p>
+      <p><sub>Hot cache · Semantic search · Knowledge graph</sub></p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3><img src="images/icons/code.svg" width="28" height="28" alt=""> Language servers</h3>
+      <p>Claude Code plugins for Python, Terraform, and Markdown.</p>
+      <p><a href="https://github.com/michael-denyer/pyrefly-lsp-cc-plugin">Pyrefly</a> · <a href="https://github.com/michael-denyer/terraform-lsp-cc-plugin">Terraform</a> · <a href="https://github.com/michael-denyer/marksman-lsp-cc-plugin">Marksman</a></p>
+    </td>
+    <td width="50%" valign="top">
+      <h3><img src="images/icons/chip.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/bonsai-agent">bonsai-agent</a></h3>
+      <p>Runs Claude Code tasks on a local Bonsai 2 27B model through MLX on Apple Silicon.</p>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <h3><img src="images/icons/message.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/signal-output-style">Signal</a></h3>
+      <p>A Claude Code output style for concise answers and numbers with units and sources.</p>
+    </td>
+    <td width="50%" valign="top">
+      <h3><img src="images/icons/history.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/claude-mem-lean">claude-mem-lean</a></h3>
+      <p>My fork of Claude-Mem, which preserves agent context across sessions.</p>
     </td>
   </tr>
 </table>
-
-| Tool | What it does |
-| :--- | :--- |
-| [Pyrefly](https://github.com/michael-denyer/pyrefly-lsp-cc-plugin) · [Terraform](https://github.com/michael-denyer/terraform-lsp-cc-plugin) · [Marksman](https://github.com/michael-denyer/marksman-lsp-cc-plugin) | Claude Code language-server plugins for Python, Terraform, and Markdown. |
-| [bonsai-agent](https://github.com/michael-denyer/bonsai-agent) | Runs Claude Code tasks on a local Bonsai 2 27B model through MLX on Apple Silicon. |
-| [Signal](https://github.com/michael-denyer/signal-output-style) | A Claude Code output style for concise answers and numbers with units and sources. |
-| [claude-mem-lean](https://github.com/michael-denyer/claude-mem-lean) | My fork of Claude-Mem, which preserves agent context across sessions. |
 
 ## Other apps
 
