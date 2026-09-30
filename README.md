@@ -21,25 +21,38 @@ I build bioinformatics and AI tools for the jobs that eat your afternoon: slow a
 
 <table width="100%">
   <tr>
-    <td>
-      <h3><a href="https://github.com/michael-denyer/jamma"><img src="https://raw.githubusercontent.com/michael-denyer/jamma/master/logos/JAMMA_Large_Logo_v2.png" height="64" align="middle" alt="">&nbsp;&nbsp;&nbsp;JAMMA</a></h3>
+    <td width="20%" align="center" valign="middle">
+      <a href="https://github.com/michael-denyer/jamma"><img src="https://raw.githubusercontent.com/michael-denyer/jamma/master/logos/JAMMA_Large_Logo_v2.png" width="100%" alt="JAMMA"></a>
+    </td>
+    <td width="80%" valign="top">
+      <h3><a href="https://github.com/michael-denyer/jamma">JAMMA</a></h3>
       <p>Get more GWAS done with the compute you have. JAMMA accelerates kinship and association testing with native C kernels, processes genotypes in chunks to control memory use, and reuses eigendecompositions across phenotypes. Keep familiar GEMMA commands or use the Python API.</p>
       <p><a href="https://pypi.org/project/jamma/">PyPI</a> · <a href="https://github.com/michael-denyer/jamma#performance">Benchmarks</a> · <a href="https://github.com/michael-denyer/jamma-lean-proofs">Lean 4 proofs</a></p>
       <p><sub>My <a href="https://github.com/michael-denyer/numpy-mkl">numpy-mkl fork</a> builds Intel MKL NumPy and SciPy wheels with 64-bit NumPy indexing for much larger GWAS.</sub></p>
     </td>
   </tr>
   <tr>
-    <td>
-      <h3><a href="https://github.com/michael-denyer/fast-beagle-5.5"><img src="https://raw.githubusercontent.com/michael-denyer/fast-beagle-5.5/main/docs/logo.jpg" height="64" align="middle" alt="">&nbsp;&nbsp;&nbsp;Fast Beagle</a></h3>
+    <td width="20%" align="center" valign="middle">
+      <a href="https://github.com/michael-denyer/fast-beagle-5.5"><img src="https://raw.githubusercontent.com/michael-denyer/fast-beagle-5.5/main/docs/logo.jpg" width="75%" alt="Fast Beagle"></a>
+    </td>
+    <td width="80%" valign="top">
+      <h3><a href="https://github.com/michael-denyer/fast-beagle-5.5">Fast Beagle</a></h3>
       <p>Phase and impute larger cohorts with less waiting and less RAM. These C ports of Beagle 5.4 and 5.5 preserve each Java release's VCF output byte for byte at the same thread count, and add BGEN output. The 5.5 benchmarks show 1.5× to over 3× faster runs, with memory use reduced by up to 3.5×.</p>
       <p><a href="https://github.com/michael-denyer/fast-beagle-5.5">Beagle 5.5 edition</a> · <a href="https://github.com/michael-denyer/fast-beagle-5.4">Beagle 5.4 edition</a> · <a href="https://github.com/michael-denyer/fast-beagle-5.5/blob/main/docs/perf-baseline.md">Benchmarks</a></p>
     </td>
   </tr>
   <tr>
-    <td>
-      <h3><a href="https://github.com/michael-denyer/pyLocusZoom"><img src="https://raw.githubusercontent.com/michael-denyer/pyLocusZoom/main/logo.svg" height="64" align="middle" alt="">&nbsp;&nbsp;&nbsp;pyLocusZoom</a></h3>
+    <td width="20%" align="center" valign="middle">
+      <a href="https://github.com/michael-denyer/pyLocusZoom"><img src="https://raw.githubusercontent.com/michael-denyer/pyLocusZoom/main/logo.svg" width="85%" alt="pyLocusZoom"></a>
+    </td>
+    <td width="80%" valign="top">
+      <h3><a href="https://github.com/michael-denyer/pyLocusZoom">pyLocusZoom</a></h3>
       <p>Give your GWAS hits some context. Turn result tables into publication-ready figures or interactive plots, with LD, genes, and fine-mapping evidence alongside the association signal. Works with Pandas or PySpark, with built-in dog and cat references and support for other species.</p>
       <p><a href="https://pypi.org/project/pylocuszoom/">PyPI</a> · <a href="https://github.com/michael-denyer/pyLocusZoom#gallery">Plot gallery</a></p>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
       <p><a href="https://github.com/michael-denyer/pyLocusZoom"><img src="images/manhattan_qq_sidebyside.png" width="100%" alt="Manhattan and QQ plots produced with pyLocusZoom"></a></p>
       <p><sub>Manhattan and QQ plots produced with pyLocusZoom.</sub></p>
     </td>
