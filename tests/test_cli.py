@@ -50,8 +50,8 @@ def test_cli_banner_uses_total_stars_not_just_displayed_cats(tmp_path, total_sta
         root = ElementTree.fromstring(svg)
         count = root.find(".//*[@id='total-stars']")
         assert count is not None
-        assert count.text == f"{total_stars:,} total stars"
-        assert f"{total_stars:,} total stars" in root.find("{http://www.w3.org/2000/svg}desc").text
+        assert count.text == f"{total_stars:,} repo stars"
+        assert f"{total_stars:,} repo stars" in root.find("{http://www.w3.org/2000/svg}desc").text
         assert "<!--total-stars-->" not in svg
         assert (out / f"cafe-{mode}.svg").exists()
 

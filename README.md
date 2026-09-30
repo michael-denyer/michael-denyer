@@ -2,7 +2,7 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/profile-banner-night.svg">
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/profile-banner-day.svg">
-    <img src="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/profile-banner-day.svg" width="100%" alt="Michael Denyer, scientific Python, genomics, data engineering, AI, and total repository stars">
+    <img src="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/profile-banner-day.svg" width="100%" alt="Michael Denyer, scientific Python, genomics, data engineering, AI, and repository stars">
   </picture>
 </p>
 
@@ -60,7 +60,7 @@ I write software for bioinformatics, data engineering, and AI-assisted developme
 <table width="100%">
   <tr>
     <td width="50%" valign="top">
-      <h3><img src="images/icons/workflow.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/pstack-claude">pstack</a></h3>
+      <h3><img src="images/icons/workflow.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/pstack-claude">pstack</a> <img src="images/badges/popular.svg" width="76" height="20" alt="Popular"></h3>
       <p>Workflows for writing, reviewing, and debugging code, adapted from Lauren Tan's pstack.</p>
       <p><sub>Claude Code · Codex · OpenCode · Gemini CLI · Prime Agent</sub></p>
     </td>
