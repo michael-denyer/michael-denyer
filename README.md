@@ -6,7 +6,7 @@
   </picture>
 </p>
 
-I build bioinformatics and AI tools for the jobs that eat your afternoon: slow analyses, unfamiliar codebases, and agents that need the same explanation again. Mostly Python and C, with occasional detours into cats and cosmic destruction.
+I build bioinformatics and AI tools for the jobs that eat your afternoon: slow analyses, unfamiliar codebases, and agents that need the same explanation again. Mostly Python and C, with occasional detours into [cats](https://michael-denyer.github.io/) and [cosmic destruction](https://michael-denyer.github.io/everything-must-go/).
 
 ![Python](https://img.shields.io/badge/Python-1f6f8b?style=flat-square&logo=python&logoColor=white)
 ![Rust](https://img.shields.io/badge/Rust-17324d?style=flat-square&logo=rust&logoColor=white)
