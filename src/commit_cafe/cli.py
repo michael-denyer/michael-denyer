@@ -8,6 +8,7 @@ from pathlib import Path
 from defusedxml import ElementTree
 from loguru import logger
 
+from commit_cafe.banner import render_banner
 from commit_cafe.render import render
 from commit_cafe.state import CafeState
 
@@ -19,6 +20,7 @@ def main(argv: list[str] | None = None) -> int:
     rend.add_argument("--state", type=Path, help="CafeState JSON file (skips API fetch)")
     rend.add_argument("--username", help="GitHub username to fetch (requires GITHUB_TOKEN)")
     rend.add_argument("--out", type=Path, default=Path("dist"))
+    rend.add_argument("--banner-templates", type=Path, help="directory with profile banner SVGs")
     args = parser.parse_args(argv)
 
     if args.state:
@@ -37,11 +39,16 @@ def main(argv: list[str] | None = None) -> int:
 
     args.out.mkdir(parents=True, exist_ok=True)
     for mode in ("day", "night"):
-        svg = render(state, mode)
-        ElementTree.fromstring(svg)  # invalid XML must fail the run, not ship
-        path = args.out / f"cafe-{mode}.svg"
-        path.write_text(svg)
-        logger.info("wrote {} ({} bytes)", path, path.stat().st_size)
+        images = {f"cafe-{mode}.svg": render(state, mode)}
+        if args.banner_templates:
+            name = f"profile-banner-{mode}.svg"
+            template = (args.banner_templates / name).read_text()
+            images[name] = render_banner(template, state.total_stars)
+        for name, svg in images.items():
+            ElementTree.fromstring(svg)  # invalid XML must fail the run, not ship
+            path = args.out / name
+            path.write_text(svg)
+            logger.info("wrote {} ({} bytes)", path, path.stat().st_size)
     return 0
 
 
