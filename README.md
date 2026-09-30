@@ -23,7 +23,7 @@ I write software for bioinformatics, data engineering, and AI-assisted developme
   <tr>
     <td>
       <a href="https://github.com/michael-denyer/jamma">
-        <img src="https://raw.githubusercontent.com/michael-denyer/jamma/master/logos/JAMMA_Large_Logo_v2.png" width="150" align="right" alt="JAMMA">
+        <img src="https://raw.githubusercontent.com/michael-denyer/jamma/master/logos/JAMMA_Large_Logo_v2.png" width="120" align="right" alt="JAMMA">
       </a>
       <h3><a href="https://github.com/michael-denyer/jamma">JAMMA</a></h3>
       <p>A Python and C implementation of GEMMA for large-scale GWAS. It uses GEMMA's CLI and file formats and adds memory-safety checks. LOCO benchmarks show speedups of up to 30×.</p>
@@ -34,7 +34,7 @@ I write software for bioinformatics, data engineering, and AI-assisted developme
   <tr>
     <td>
       <a href="https://github.com/michael-denyer/fast-beagle-5.5">
-        <img src="https://raw.githubusercontent.com/michael-denyer/fast-beagle-5.5/main/docs/logo.jpg" width="100" align="right" alt="Fast Beagle, a beagle with a DNA helix">
+        <img src="https://raw.githubusercontent.com/michael-denyer/fast-beagle-5.5/main/docs/logo.jpg" width="120" align="right" alt="Fast Beagle, a beagle with a DNA helix">
       </a>
       <h3><a href="https://github.com/michael-denyer/fast-beagle-5.5">Fast Beagle</a></h3>
       <p>C ports of Beagle 5.4 and 5.5 for genotype phasing and imputation. They reduce runtime and memory use and add BGEN output. Each edition produces the same VCF bytes as its matching Java release at the same thread count.</p>
@@ -44,7 +44,7 @@ I write software for bioinformatics, data engineering, and AI-assisted developme
   <tr>
     <td>
       <a href="https://github.com/michael-denyer/pyLocusZoom">
-        <img src="https://raw.githubusercontent.com/michael-denyer/pyLocusZoom/main/logo.svg" width="100" align="right" alt="pyLocusZoom">
+        <img src="https://raw.githubusercontent.com/michael-denyer/pyLocusZoom/main/logo.svg" width="120" align="right" alt="pyLocusZoom">
       </a>
       <h3><a href="https://github.com/michael-denyer/pyLocusZoom">pyLocusZoom</a></h3>
       <p>Draws static and interactive GWAS plots in Python, including regional associations, gene tracks, fine-mapping, PheWAS, LD heatmaps, and forest plots.</p>
@@ -104,7 +104,6 @@ I write software for bioinformatics, data engineering, and AI-assisted developme
 | [colibri](https://github.com/JustVugg/colibri) | ARM kernel performance, profiling, portability, and memory-management fixes. [Pull requests](https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3Amichael-denyer). |
 | [code-review-graph](https://github.com/tirth8205/code-review-graph) | R and notebook parsing, plus module-scope call-graph correctness. [Pull requests](https://github.com/tirth8205/code-review-graph/pulls?q=is%3Apr+author%3Amichael-denyer). |
 | [qqman](https://github.com/satchellhong/qqman) | Modernised the Python package for Python 3.10+. [Pull request](https://github.com/satchellhong/qqman/pull/3). |
-| [Bioconda](https://github.com/bioconda/bioconda-recipes) | Recipes for pyLocusZoom and Fast Beagle. [Pull requests](https://github.com/bioconda/bioconda-recipes/pulls?q=is%3Apr+author%3Amichael-denyer) · [My fork](https://github.com/michael-denyer/bioconda-recipes). |
 
 ---
 
