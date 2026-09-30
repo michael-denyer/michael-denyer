@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img">
   <title>Michael Denyer, scientific Python, genomics, data engineering, and AI</title>
-  <desc>Profile banner with a DNA helix, a genomic association plot, and <!--total-stars-->total stars across public non-fork repositories.</desc>
+  <desc>Profile banner with a DNA helix, a genomic association plot, and <!--total-stars-->repo stars across public non-fork repositories.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#101927"/>
@@ -40,7 +40,7 @@
       <g transform="translate(299 111)">
         <rect width="246" height="38" rx="19" fill="#233d4d" stroke="#55b8d3" stroke-opacity=".35"/>
         <path d="m22 9 3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1Z" fill="#f38b52"/>
-        <text id="total-stars" x="43" y="25" fill="#b4c8d2" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="14" font-weight="600"><!--total-stars-->total stars</text>
+        <text id="total-stars" x="43" y="25" fill="#b4c8d2" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="14" font-weight="600"><!--total-stars-->repo stars</text>
       </g>
     </g>
 
