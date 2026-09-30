@@ -6,7 +6,7 @@
   </picture>
 </p>
 
-I write software for bioinformatics, data engineering, and AI-assisted development, mostly in Python and C.
+I build bioinformatics and AI tools for the jobs that eat your afternoon: slow analyses, unfamiliar codebases, and agents that need the same explanation again. Mostly Python and C, with occasional detours into cats and cosmic destruction.
 
 ![Python](https://img.shields.io/badge/Python-1f6f8b?style=flat-square&logo=python&logoColor=white)
 ![Rust](https://img.shields.io/badge/Rust-17324d?style=flat-square&logo=rust&logoColor=white)
@@ -26,9 +26,9 @@ I write software for bioinformatics, data engineering, and AI-assisted developme
         <img src="https://raw.githubusercontent.com/michael-denyer/jamma/master/logos/JAMMA_Large_Logo_v2.png" width="120" align="right" alt="JAMMA">
       </a>
       <h3><a href="https://github.com/michael-denyer/jamma">JAMMA</a></h3>
-      <p>A Python and C implementation of GEMMA for large-scale GWAS. It uses GEMMA's CLI and file formats and adds memory-safety checks. LOCO benchmarks show speedups of up to 30×.</p>
+      <p>Get more GWAS done with the compute you have. JAMMA accelerates kinship and association testing with native C kernels, processes genotypes in chunks to control memory use, and reuses eigendecompositions across phenotypes. Keep familiar GEMMA commands or use the Python API.</p>
       <p><a href="https://pypi.org/project/jamma/">PyPI</a> · <a href="https://github.com/michael-denyer/jamma#performance">Benchmarks</a> · <a href="https://github.com/michael-denyer/jamma-lean-proofs">Lean 4 proofs</a></p>
-      <p><sub>For large JAMMA analyses, my <a href="https://github.com/michael-denyer/numpy-mkl">numpy-mkl fork</a> builds NumPy and SciPy wheels with Intel MKL and 64-bit NumPy indexing.</sub></p>
+      <p><sub>For large JAMMA analyses, my <a href="https://github.com/michael-denyer/numpy-mkl">numpy-mkl fork</a> builds NumPy and SciPy wheels with Intel MKL, including 64-bit NumPy indexing to get large matrices past the 32-bit BLAS limits.</sub></p>
     </td>
   </tr>
   <tr>
@@ -37,8 +37,8 @@ I write software for bioinformatics, data engineering, and AI-assisted developme
         <img src="https://raw.githubusercontent.com/michael-denyer/fast-beagle-5.5/main/docs/logo.jpg" width="120" align="right" alt="Fast Beagle, a beagle with a DNA helix">
       </a>
       <h3><a href="https://github.com/michael-denyer/fast-beagle-5.5">Fast Beagle</a></h3>
-      <p>C ports of Beagle 5.4 and 5.5 for genotype phasing and imputation. They reduce runtime and memory use and add BGEN output. Each edition produces the same VCF bytes as its matching Java release at the same thread count.</p>
-      <p><a href="https://github.com/michael-denyer/fast-beagle-5.5">Beagle 5.5 edition</a> · <a href="https://github.com/michael-denyer/fast-beagle-5.4">Beagle 5.4 edition</a></p>
+      <p>Phase and impute larger cohorts with less waiting and less RAM. These C ports of Beagle 5.4 and 5.5 preserve each Java release's VCF output byte for byte at the same thread count, and add BGEN output. The 5.5 benchmarks show 1.5× to over 3× faster runs, with memory use reduced by up to 3.5×.</p>
+      <p><a href="https://github.com/michael-denyer/fast-beagle-5.5">Beagle 5.5 edition</a> · <a href="https://github.com/michael-denyer/fast-beagle-5.4">Beagle 5.4 edition</a> · <a href="https://github.com/michael-denyer/fast-beagle-5.5/blob/main/docs/perf-baseline.md">Benchmarks</a></p>
     </td>
   </tr>
   <tr>
@@ -47,8 +47,8 @@ I write software for bioinformatics, data engineering, and AI-assisted developme
         <img src="https://raw.githubusercontent.com/michael-denyer/pyLocusZoom/main/logo.svg" width="120" align="right" alt="pyLocusZoom">
       </a>
       <h3><a href="https://github.com/michael-denyer/pyLocusZoom">pyLocusZoom</a></h3>
-      <p>Draws static and interactive GWAS plots in Python, including regional associations, gene tracks, fine-mapping, PheWAS, LD heatmaps, and forest plots.</p>
-      <p><a href="https://pypi.org/project/pylocuszoom/">PyPI</a> · <a href="https://github.com/michael-denyer/pyLocusZoom#features">Features</a></p>
+      <p>Give your GWAS hits some context. Turn result tables into publication-ready figures or interactive plots, with LD, genes, and fine-mapping evidence alongside the association signal. Works with Pandas or PySpark, with built-in dog and cat references and support for other species.</p>
+      <p><a href="https://pypi.org/project/pylocuszoom/">PyPI</a> · <a href="https://github.com/michael-denyer/pyLocusZoom#gallery">Plot gallery</a></p>
       <p><a href="https://github.com/michael-denyer/pyLocusZoom"><img src="images/manhattan_qq_sidebyside.png" width="100%" alt="Manhattan and QQ plots produced with pyLocusZoom"></a></p>
       <p><sub>Manhattan and QQ plots produced with pyLocusZoom.</sub></p>
     </td>
@@ -61,34 +61,34 @@ I write software for bioinformatics, data engineering, and AI-assisted developme
   <tr>
     <td width="50%" valign="top">
       <h3><img src="images/icons/workflow.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/pstack-claude">pstack</a> <img src="images/badges/popular.svg" width="76" height="20" alt="Popular"></h3>
-      <p>Workflows for writing, reviewing, and debugging code, adapted from Lauren Tan's pstack.</p>
+      <p>Make your coding agent earn its "done". Pstack gives it workflows to reproduce bugs, challenge designs, review changes, and verify the result. My port of Lauren Tan's pstack brings that discipline to the agents below.</p>
       <p><sub>Claude Code · Codex · OpenCode · Gemini CLI · Prime Agent</sub></p>
     </td>
     <td width="50%" valign="top">
       <h3><img src="images/icons/memory.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/memory-mcp">Memory MCP</a></h3>
-      <p>Stores and retrieves context for AI assistants and finds recurring patterns.</p>
+      <p>Your assistant should remember why you made that decision. Memory MCP carries project knowledge between sessions, puts frequently used facts straight into Claude Code's context, and retrieves the rest by meaning.</p>
       <p><sub>Hot cache · Semantic search · Knowledge graph</sub></p>
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
       <h3><img src="images/icons/code.svg" width="28" height="28" alt=""> Language servers</h3>
-      <p>Claude Code plugins for Python, Terraform, and Markdown.</p>
+      <p>Help Claude Code follow definitions and references across Python, Terraform, and linked Markdown docs. Pyrefly also provides fast Python type checking, giving the agent more to work with when fixing errors.</p>
       <p><a href="https://github.com/michael-denyer/pyrefly-lsp-cc-plugin">Pyrefly</a> · <a href="https://github.com/michael-denyer/terraform-lsp-cc-plugin">Terraform</a> · <a href="https://github.com/michael-denyer/marksman-lsp-cc-plugin">Marksman</a></p>
     </td>
     <td width="50%" valign="top">
       <h3><img src="images/icons/chip.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/bonsai-agent">bonsai-agent</a></h3>
-      <p>Runs Claude Code tasks on a local Bonsai 2 27B model through MLX on Apple Silicon.</p>
+      <p>Give Claude Code a local helper. Delegate tasks to a Bonsai 2 27B model running on your Apple Silicon Mac through MLX. The server starts on demand and shuts down when idle, so you don't have to babysit it.</p>
     </td>
   </tr>
   <tr>
     <td width="50%" valign="top">
       <h3><img src="images/icons/message.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/signal-output-style">Signal</a></h3>
-      <p>A Claude Code output style for concise answers and numbers with units and sources.</p>
+      <p>Claude has plenty to say. Signal helps it get to the point, with answers first, explanations sized to the question, and numbers backed by units and sources. A small output style for Claude Code.</p>
     </td>
     <td width="50%" valign="top">
       <h3><img src="images/icons/history.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/claude-mem-lean">claude-mem-lean</a></h3>
-      <p>My fork of Claude-Mem, which preserves agent context across sessions.</p>
+      <p>Pick up where the last session left off. My Claude-Mem fork captures tool activity and compresses it into summaries, so Claude can recover what happened without rereading the whole conversation.</p>
     </td>
   </tr>
 </table>
@@ -100,32 +100,32 @@ I write software for bioinformatics, data engineering, and AI-assisted developme
     <td width="50%" valign="top">
       <h3><a href="https://github.com/michael-denyer/black-box-unlock">Black Box Unlock</a></h3>
       <p align="center"><a href="https://github.com/michael-denyer/black-box-unlock"><img src="https://raw.githubusercontent.com/michael-denyer/black-box-unlock/main/assets/logo.png" height="150" alt="Black Box Unlock"></a></p>
-      <p>Helps prioritise reviews and refactors using code hotspots, coupling, ownership, CI failures, and bug history.</p>
+      <p>Investigate your codebase like a crime scene. Black Box Unlock combines change history, hidden coupling, ownership, and CI failures to help you choose what to review or refactor first. Use it from the CLI or give coding agents direct access through MCP.</p>
     </td>
     <td width="50%" valign="top">
       <h3><a href="https://github.com/michael-denyer/everything-must-go">Everything Must Go</a></h3>
       <p align="center"><a href="https://michael-denyer.github.io/everything-must-go/"><img src="https://raw.githubusercontent.com/michael-denyer/everything-must-go/main/public/og.jpg" height="150" alt="A black hole consuming a procedurally generated cosmos"></a></p>
-      <p>A WebGL animation of a black hole consuming a generated universe. The twelve-minute sequence repeats.</p>
-      <p><a href="https://michael-denyer.github.io/everything-must-go/">Open animation</a></p>
+      <p>An interactive WebGL apocalypse. A spinning black hole consumes a procedural cosmos over twelve minutes, then a new universe takes its place. Stir the gas, feed the black hole, or just watch it all go.</p>
+      <p><a href="https://michael-denyer.github.io/everything-must-go/">Feed the black hole</a></p>
     </td>
   </tr>
 </table>
 
-[The Aether Works](https://github.com/michael-denyer/michael-denyer.github.io) is my personal site, an animated steampunk workshop with cats and gauges that show GitHub activity. [Open site](https://michael-denyer.github.io/).
+[The Aether Works](https://github.com/michael-denyer/michael-denyer.github.io) is my personal site, disguised as a steampunk workshop. There are cats, animated machinery, and gauges fed by GitHub activity. [Step inside](https://michael-denyer.github.io/).
 
 ## Open-source contributions
 
 | Project | Contributions |
 | :--- | :--- |
-| [colibri](https://github.com/JustVugg/colibri) | ARM kernel performance, profiling, portability, and memory-management fixes. [Pull requests](https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3Amichael-denyer). |
-| [code-review-graph](https://github.com/tirth8205/code-review-graph) | R and notebook parsing, plus module-scope call-graph correctness. [Pull requests](https://github.com/tirth8205/code-review-graph/pulls?q=is%3Apr+author%3Amichael-denyer). |
+| [colibri](https://github.com/JustVugg/colibri) | Helping a tiny C inference engine run better on ARM, with kernel, profiling, portability, and memory-management fixes. [Pull requests](https://github.com/JustVugg/colibri/pulls?q=is%3Apr+author%3Amichael-denyer). |
+| [code-review-graph](https://github.com/tirth8205/code-review-graph) | Teaching a code knowledge graph to read R and notebooks, and fixing how it tracks calls at module scope. [Pull requests](https://github.com/tirth8205/code-review-graph/pulls?q=is%3Apr+author%3Amichael-denyer). |
 | [qqman](https://github.com/satchellhong/qqman) | Modernised the Python package for Python 3.10+. [Pull request](https://github.com/satchellhong/qqman/pull/3). |
 
 ---
 
 <div align="center">
-  <h3>Commit Café</h3>
-  <p><sub>Cats represent repositories, yarn represents recent commits, the dog tracks open pull requests, and the food bowl shows the contribution streak.</sub></p>
+  <h3>Meanwhile, at the Commit Café...</h3>
+  <p><sub>Repositories become cats, recent commits become yarn, open pull requests wait at the door, and the contribution streak fills the food bowl.</sub></p>
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/cafe-night.svg?v=12">
     <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/michael-denyer/michael-denyer/output/cafe-day.svg?v=12">
