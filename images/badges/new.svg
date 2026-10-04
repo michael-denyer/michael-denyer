@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="20" viewBox="0 0 56 20" role="img">
+  <title>New</title>
+  <rect x=".5" y=".5" width="55" height="19" rx="9.5" fill="#14283d" stroke="#55b8d3"/>
+  <path d="m12 4 1.2 3.3 3.3 1.2-3.3 1.2L12 13l-1.2-3.3-3.3-1.2 3.3-1.2Z" fill="#55b8d3"/>
+  <text x="23" y="13.5" fill="#9fdcee" font-family="system-ui,-apple-system,Segoe UI,sans-serif" font-size="11" font-weight="600">New</text>
+</svg>

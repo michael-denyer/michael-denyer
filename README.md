@@ -36,7 +36,7 @@ I build bioinformatics and AI tools for the jobs that eat your afternoon: slow a
       <a href="https://github.com/michael-denyer/fast-beagle-5.5"><img src="https://raw.githubusercontent.com/michael-denyer/fast-beagle-5.5/main/docs/logo.jpg" width="75%" alt="Fast Beagle"></a>
     </td>
     <td width="80%" valign="top">
-      <h3><a href="https://github.com/michael-denyer/fast-beagle-5.5">Fast Beagle</a></h3>
+      <h3><a href="https://github.com/michael-denyer/fast-beagle-5.5">Fast Beagle</a> <img src="images/badges/new.svg" width="56" height="20" alt="New"></h3>
       <p>Phase and impute larger cohorts with less waiting and less RAM. These C ports of Beagle 5.4 and 5.5 preserve each Java release's VCF output byte for byte at the same thread count, and add BGEN output. The 5.5 benchmarks show 1.5× to over 3× faster runs, with memory use reduced by up to 3.5×.</p>
       <p><a href="https://github.com/michael-denyer/fast-beagle-5.5">Beagle 5.5 edition</a> · <a href="https://github.com/michael-denyer/fast-beagle-5.4">Beagle 5.4 edition</a> · <a href="https://github.com/michael-denyer/fast-beagle-5.5/blob/main/docs/perf-baseline.md">Benchmarks</a></p>
     </td>
@@ -64,35 +64,36 @@ I build bioinformatics and AI tools for the jobs that eat your afternoon: slow a
 <table width="100%">
   <tr>
     <td width="50%" valign="top">
-      <h3><img src="images/icons/workflow.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/pstack-claude">pstack</a> <img src="images/badges/popular.svg" width="76" height="20" alt="Popular"></h3>
+      <h3><img src="images/icons/workflow.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/pstack-claude">pstack</a> <img src="images/badges/trending.svg" width="82" height="20" alt="Trending"></h3>
       <p>Make your coding agent earn its "done". Pstack gives it workflows to reproduce bugs, challenge designs, review changes, and verify the result. My port of Lauren Tan's pstack brings that discipline to the agents below.</p>
       <p><sub>Claude Code · Codex · OpenCode · Gemini CLI · Prime Agent</sub></p>
     </td>
+    <td width="50%" valign="top">
+      <h3><img src="images/icons/proof.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/agent-formal-verify">agent-formal-verify</a> <img src="images/badges/new.svg" width="56" height="20" alt="New"></h3>
+      <p>Catch the concurrency bugs your tests can't reproduce. Agent-formal-verify gives your coding agent TLA+ model checking for thread protocols and Lean 4 proofs for sequential invariants, with explicit tool setup. Counterexamples map back to source locations, and the models stay in CI.</p>
+      <p><sub>TLA+ · TLC · Lean 4</sub></p>
+    </td>
+  </tr>
+  <tr>
     <td width="50%" valign="top">
       <h3><img src="images/icons/memory.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/memory-mcp">Memory MCP</a></h3>
       <p>Your assistant should remember why you made that decision. Memory MCP carries project knowledge between sessions, puts frequently used facts straight into Claude Code's context, and retrieves the rest by meaning.</p>
       <p><sub>Hot cache · Semantic search · Knowledge graph</sub></p>
     </td>
-  </tr>
-  <tr>
     <td width="50%" valign="top">
       <h3><img src="images/icons/code.svg" width="28" height="28" alt=""> Language servers</h3>
       <p>Help Claude Code follow definitions and references across Python, Terraform, and linked Markdown docs. Pyrefly also provides fast Python type checking, giving the agent more to work with when fixing errors.</p>
       <p><a href="https://github.com/michael-denyer/pyrefly-lsp-cc-plugin">Pyrefly</a> · <a href="https://github.com/michael-denyer/terraform-lsp-cc-plugin">Terraform</a> · <a href="https://github.com/michael-denyer/marksman-lsp-cc-plugin">Marksman</a></p>
     </td>
+  </tr>
+  <tr>
     <td width="50%" valign="top">
       <h3><img src="images/icons/chip.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/bonsai-agent">bonsai-agent</a></h3>
       <p>Give Claude Code a local helper. Delegate tasks to a Bonsai 2 27B model running on your Apple Silicon Mac through MLX. The server starts on demand and shuts down when idle, so you don't have to babysit it.</p>
     </td>
-  </tr>
-  <tr>
     <td width="50%" valign="top">
       <h3><img src="images/icons/message.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/signal-output-style">Signal</a></h3>
       <p>Claude has plenty to say. Signal helps it get to the point, with answers first, explanations sized to the question, and numbers backed by units and sources. A small output style for Claude Code.</p>
-    </td>
-    <td width="50%" valign="top">
-      <h3><img src="images/icons/history.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/claude-mem-lean">claude-mem-lean</a></h3>
-      <p>Pick up where the last session left off. My Claude-Mem fork captures tool activity and compresses it into summaries, so Claude can recover what happened without rereading the whole conversation.</p>
     </td>
   </tr>
 </table>
