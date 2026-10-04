@@ -96,12 +96,6 @@ I build bioinformatics and AI tools for the jobs that eat your afternoon: slow a
       <p>Claude has plenty to say. Signal helps it get to the point, with answers first, explanations sized to the question, and numbers backed by units and sources. A small output style for Claude Code.</p>
     </td>
   </tr>
-  <tr>
-    <td width="50%" valign="top">
-      <h3><img src="images/icons/history.svg" width="28" height="28" alt=""> <a href="https://github.com/michael-denyer/claude-mem-lean">claude-mem-lean</a></h3>
-      <p>Pick up where the last session left off. My Claude-Mem fork captures tool activity and compresses it into summaries, so Claude can recover what happened without rereading the whole conversation.</p>
-    </td>
-  </tr>
 </table>
 
 ## Other apps
