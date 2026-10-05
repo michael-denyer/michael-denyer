@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img">
+  <title>Workflow</title>
+  <rect x="1" y="1" width="46" height="46" rx="12" fill="#163744"/>
+  <rect x="11" y="25" width="26" height="5" rx="2.5" fill="#fff1cf"/>
+  <rect x="11" y="32.5" width="26" height="5" rx="2.5" fill="#fff1cf"/>
+  <path d="m16.5 15 5.5 5.5 9.5-9.5" fill="none" stroke="#f0b94a" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img">
+  <title>Memory</title>
+  <rect x="1" y="1" width="46" height="46" rx="12" fill="#163744"/>
+  <g fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M13 35V14l11 11 11-11v21" stroke="#fff1cf"/>
+  </g>
+  <circle cx="24" cy="25" r="4.5" fill="#f0b94a"/>
+</svg>
