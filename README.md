@@ -63,54 +63,36 @@ I build bioinformatics and AI tools for the jobs that eat your afternoon: slow a
 
 <table width="100%">
   <tr>
-    <td width="10%" valign="top" align="center">
-      <picture><source media="(prefers-color-scheme: dark)" srcset="images/icons/pstack-dark.svg"><img src="images/icons/pstack.svg" width="64" height="64" alt=""></picture>
-    </td>
-    <td width="40%" valign="top">
-      <h3><a href="https://github.com/michael-denyer/pstack-claude">pstack</a> <img src="images/badges/trending.svg" width="82" height="20" alt="Trending"></h3>
+    <td width="50%" valign="top">
+      <h3><img src="images/icons/pstack.svg" width="64" height="64" align="middle" alt="">&nbsp; <a href="https://github.com/michael-denyer/pstack-claude">pstack</a> <img src="images/badges/trending.svg" width="82" height="20" alt="Trending"></h3>
       <p>Make your coding agent earn its "done". Pstack gives it workflows to reproduce bugs, challenge designs, review changes, and verify the result. My port of Lauren Tan's pstack brings that discipline to the agents below.</p>
       <p><sub>Claude Code · Codex · OpenCode · Gemini CLI · Prime Agent</sub></p>
     </td>
-    <td width="10%" valign="top" align="center">
-      <picture><source media="(prefers-color-scheme: dark)" srcset="images/icons/formal-verify-dark.svg"><img src="images/icons/formal-verify.svg" width="64" height="64" alt=""></picture>
-    </td>
-    <td width="40%" valign="top">
-      <h3><a href="https://github.com/michael-denyer/agent-formal-verify">agent-formal-verify</a> <img src="images/badges/new.svg" width="56" height="20" alt="New"></h3>
+    <td width="50%" valign="top">
+      <h3><img src="images/icons/formal-verify.svg" width="64" height="64" align="middle" alt="">&nbsp; <a href="https://github.com/michael-denyer/agent-formal-verify">agent-formal-verify</a> <img src="images/badges/new.svg" width="56" height="20" alt="New"></h3>
       <p>Catch the concurrency bugs your tests can't reproduce. Agent-formal-verify gives your coding agent TLA+ model checking for thread protocols and Lean 4 proofs for sequential invariants, with explicit tool setup. Counterexamples map back to source locations, and the models stay in CI.</p>
       <p><sub>TLA+ · TLC · Lean 4</sub></p>
     </td>
   </tr>
   <tr>
-    <td width="10%" valign="top" align="center">
-      <picture><source media="(prefers-color-scheme: dark)" srcset="images/icons/memory-mcp-dark.svg"><img src="images/icons/memory-mcp.svg" width="64" height="64" alt=""></picture>
-    </td>
-    <td width="40%" valign="top">
-      <h3><a href="https://github.com/michael-denyer/memory-mcp">Memory MCP</a></h3>
+    <td width="50%" valign="top">
+      <h3><img src="images/icons/memory-mcp.svg" width="64" height="64" align="middle" alt="">&nbsp; <a href="https://github.com/michael-denyer/memory-mcp">Memory MCP</a></h3>
       <p>Your assistant should remember why you made that decision. Memory MCP carries project knowledge between sessions, puts frequently used facts straight into Claude Code's context, and retrieves the rest by meaning.</p>
       <p><sub>Hot cache · Semantic search · Knowledge graph</sub></p>
     </td>
-    <td width="10%" valign="top" align="center">
-      <picture><source media="(prefers-color-scheme: dark)" srcset="images/icons/language-servers-dark.svg"><img src="images/icons/language-servers.svg" width="64" height="64" alt=""></picture>
-    </td>
-    <td width="40%" valign="top">
-      <h3>Language servers</h3>
+    <td width="50%" valign="top">
+      <h3><img src="images/icons/language-servers.svg" width="64" height="64" align="middle" alt="">&nbsp; Language servers</h3>
       <p>Help Claude Code follow definitions and references across Python, Terraform, and linked Markdown docs. Pyrefly also provides fast Python type checking, giving the agent more to work with when fixing errors.</p>
       <p><a href="https://github.com/michael-denyer/pyrefly-lsp-cc-plugin">Pyrefly</a> · <a href="https://github.com/michael-denyer/terraform-lsp-cc-plugin">Terraform</a> · <a href="https://github.com/michael-denyer/marksman-lsp-cc-plugin">Marksman</a></p>
     </td>
   </tr>
   <tr>
-    <td width="10%" valign="top" align="center">
-      <picture><source media="(prefers-color-scheme: dark)" srcset="images/icons/bonsai-agent-dark.svg"><img src="images/icons/bonsai-agent.svg" width="64" height="64" alt=""></picture>
-    </td>
-    <td width="40%" valign="top">
-      <h3><a href="https://github.com/michael-denyer/bonsai-agent">bonsai-agent</a></h3>
+    <td width="50%" valign="top">
+      <h3><img src="images/icons/bonsai-agent.svg" width="64" height="64" align="middle" alt="">&nbsp; <a href="https://github.com/michael-denyer/bonsai-agent">bonsai-agent</a></h3>
       <p>Give Claude Code a local helper. Delegate tasks to a Bonsai 2 27B model running on your Apple Silicon Mac through MLX. The server starts on demand and shuts down when idle, so you don't have to babysit it.</p>
     </td>
-    <td width="10%" valign="top" align="center">
-      <picture><source media="(prefers-color-scheme: dark)" srcset="images/icons/signal-dark.svg"><img src="images/icons/signal.svg" width="64" height="64" alt=""></picture>
-    </td>
-    <td width="40%" valign="top">
-      <h3><a href="https://github.com/michael-denyer/signal-output-style">Signal</a></h3>
+    <td width="50%" valign="top">
+      <h3><img src="images/icons/signal.svg" width="64" height="64" align="middle" alt="">&nbsp; <a href="https://github.com/michael-denyer/signal-output-style">Signal</a></h3>
       <p>Claude has plenty to say. Signal helps it get to the point, with answers first, explanations sized to the question, and numbers backed by units and sources. A small output style for Claude Code.</p>
     </td>
   </tr>
