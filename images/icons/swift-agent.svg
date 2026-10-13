@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img">
+  <title>Swift Agent</title>
+  <rect x="1" y="1" width="46" height="46" rx="12" fill="#b86b24"/>
+  <path d="M8 10c10 2 17 6 22 12 2-3 5-3 7-1l4 2-5 2c-4 5-9 7-15 7l-8 6 3-8-9 1 14-6C14 22 10 16 8 10Z" fill="#fbf3e4"/>
+  <circle cx="34.5" cy="22" r="1" fill="#14171c"/>
+</svg>

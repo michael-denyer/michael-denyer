@@ -88,8 +88,8 @@ I build bioinformatics and AI tools for the jobs that eat your afternoon: slow a
   </tr>
   <tr>
     <td width="50%" valign="top">
-      <h3><img src="images/icons/bonsai-agent.svg" width="64" height="64" align="middle" alt="">&nbsp; <a href="https://github.com/michael-denyer/bonsai-agent">bonsai-agent</a></h3>
-      <p>Give Claude Code a local helper. Delegate tasks to a Bonsai 2 27B model running on your Apple Silicon Mac through MLX. The server starts on demand and shuts down when idle, so you don't have to babysit it.</p>
+      <h3><img src="images/icons/swift-agent.svg" width="64" height="64" align="middle" alt="">&nbsp; <a href="https://github.com/michael-denyer/swift-agent">Swift Agent</a></h3>
+      <p>Give Claude Code a local helper. Run Swift 1.5, Swift Bonsai 2, or another compatible ukisai model on your Apple Silicon Mac through splash. The original Bonsai 2 agent is also available through MLX. Servers start on demand.</p>
     </td>
     <td width="50%" valign="top">
       <h3><img src="images/icons/signal.svg" width="64" height="64" align="middle" alt="">&nbsp; <a href="https://github.com/michael-denyer/signal-output-style">Signal</a></h3>
